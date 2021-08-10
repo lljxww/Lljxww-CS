@@ -4,10 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.0</Version>
+    <Version>1.1</Version>
     <Authors>liangjw</Authors>
     <Description>基础帮助类</Description>
-    <PackageReleaseNotes>添加ApiResult类</PackageReleaseNotes>
+    <PackageReleaseNotes>添加一些扩展方法</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
