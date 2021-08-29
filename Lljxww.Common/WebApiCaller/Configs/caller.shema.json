@@ -1,0 +1,96 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://liangjw.cn/schema/webapicaller.schema.json",
+  "title": "WebApiCaller Configuration",
+  "description": "用于描述配置WebApiCaller目标端点、方法、参数类型等",
+  "type": "object",
+  "properties": {
+    "Authorizations": {
+      "description": "自定义的授权类型。部分类型在WebApiCaller中已经实现，未实现的类型可以通过实现IAuthorizate接口来自定义",
+      "type": "array",
+      "properties": {
+        "Name": {
+          "description": "授权名",
+          "type": "string"
+        },
+        "AuthorizationInfo": {
+          "description": "自定义授权信息参数。不同的授权类型自行读取操作",
+          "type": "string"
+        }
+      }
+    },
+    "ServiceItems": {
+      "description": "服务项",
+      "type": "array",
+      "properties": {
+        "ApiName": {
+          "description": "同一个服务的Api名",
+          "type": "string"
+        },
+        "AuthorizationType": {
+          "description": "授权类型。此服务的Api将使用此类型授权来操作",
+          "type": "string"
+        },
+        "BaseUrl": {
+          "description": "Api基地址",
+          "type": "string",
+          "format": "uri"
+        },
+        "ApiItems": {
+          "description": "同一个服务的不同端点",
+          "type": "array",
+          "properties": {
+            "Method": {
+              "description": "端点名",
+              "type": "string"
+            },
+            "Url": {
+              "description": "端点地址。使用时，系统将自动拼接Api基地址与此地址",
+              "type": "string"
+            },
+            "HTTPMethod": {
+              "description": "请求的HTTP Method",
+              "type": "string"
+            },
+            "ParamType": {
+              "description": "参数类型。支持path、query和body",
+              "type": "string"
+            },
+            "Description": {
+              "description": "对此端点的描述",
+              "type": "string"
+            },
+            "NeedCache": {
+              "description": "是否需要缓存",
+              "type": "string"
+            },
+            "CacheTime": {
+              "description": "如果需要缓存此方法，则这里配置缓存时长，单位为“分”",
+              "type": "string"
+            }
+          },
+          "required": [
+            "Method",
+            "Url",
+            "HTTPMethod",
+            "ParamType"
+          ],
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "ApiName",
+        "AuthorizationType",
+        "BaseUrl",
+        "ApiItems"
+      ],
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "Authorizations",
+    "ServiceItems"
+  ]
+}

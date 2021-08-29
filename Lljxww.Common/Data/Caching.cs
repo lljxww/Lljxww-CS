@@ -18,7 +18,7 @@ namespace Lljxww.Common.Data
         /// <summary>
         /// 对象锁
         /// </summary>
-        private static readonly object objlock = new();
+        private static readonly object Objlock = new();
 
         /// <summary>
         /// 从缓存中读取数据, 如果数据不存在与缓存中, 则使用给定的方法查询数据, 并保存到缓存中.
@@ -34,7 +34,7 @@ namespace Lljxww.Common.Data
             T? value = Get<T>(key);
             if (value == null)
             {
-                lock (objlock)
+                lock (Objlock)
                 {
                     value = Get<T>(key);
                     if (value == null)
@@ -65,7 +65,7 @@ namespace Lljxww.Common.Data
             T? result = default;
             if (resultList == default || !resultList.Any(predicate))
             {
-                lock (objlock)
+                lock (Objlock)
                 {
                     resultList = Get<IList<T>>(key);
                     if (resultList == default || !resultList.Any(predicate))
@@ -110,7 +110,7 @@ namespace Lljxww.Common.Data
             IList<T>? resultList = Get<IList<T>>(key);
             if (resultList == default || !resultList.Any(predicate))
             {
-                lock (objlock)
+                lock (Objlock)
                 {
                     resultList = Get<IList<T>>(key);
                     if (resultList == default || !resultList.Any(predicate))

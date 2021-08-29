@@ -1,0 +1,20 @@
+﻿{
+  "$schema": "http://liangjw.cn/schema/webapicaller.schema.json",
+  "Authorizations": [],
+  "ServiceItems": [
+    {
+      "ApiName": "github",
+      "AuthorizationType": "",
+      "BaseUrl": "https://api.github.com/",
+      "ApiItems": [
+        {
+          "Method": "GetUserInfo",
+          "Url": "users/{username}",
+          "HTTPMethod": "GET",
+          "ParamType": "path",
+          "Description": "从github的REST Api查询用户信息"
+        }
+      ]
+    }
+  ]
+}
