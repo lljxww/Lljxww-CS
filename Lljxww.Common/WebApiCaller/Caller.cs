@@ -11,10 +11,12 @@ namespace Lljxww.Common.WebApiCaller
 {
     public partial class Caller
     {
-        public async Task<ApiResult?> InvokeAsync(string apiNameAndMethodName, object requestParam = null!, RequestOption? requestOption = null!)
+        public async Task<ApiResult?> InvokeAsync(string apiNameAndMethodName, object requestParam = null, RequestOption? requestOption = null)
         {
             // 创建请求对象
             CallerContext context = CallerContext.Build(apiNameAndMethodName, _apiCallerConfig, requestParam);
+
+            requestOption ??= new RequestOption();
 
             // 添加自定义AuthorizeInfo
             if (!string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo))
