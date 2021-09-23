@@ -49,7 +49,7 @@ namespace Lljxww.Common
             return services;
         }
 
-        public static IServiceCollection ConfigureDistributeLock(this IServiceCollection services, string redisConnectionString)
+        public static IServiceCollection ConfigureDistributedLock(this IServiceCollection services, string redisConnectionString)
         {
             if (!services.Any(s => s.ServiceType == typeof(CSRedisClient)))
             {
