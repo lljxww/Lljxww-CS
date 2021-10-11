@@ -4,10 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.2.3</Version>
+    <Version>1.2.4</Version>
     <Authors>liangjw</Authors>
     <Description>基础帮助类</Description>
-    <PackageReleaseNotes>添加DbSet扩展方法</PackageReleaseNotes>
+    <PackageReleaseNotes>完善AttributeHelper</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
