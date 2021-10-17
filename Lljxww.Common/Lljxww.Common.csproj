@@ -4,10 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.2.4</Version>
+    <Version>1.2.5</Version>
     <Authors>liangjw</Authors>
     <Description>基础帮助类</Description>
-    <PackageReleaseNotes>完善AttributeHelper</PackageReleaseNotes>
+    <PackageReleaseNotes>添加特性的扩展类，可直接从属性或字段使用扩展方法读取指定特性</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
