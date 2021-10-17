@@ -9,29 +9,19 @@ namespace Lljxww.Common.Attributes
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        /// <typeparam name="TTarget"></typeparam>
+        /// <param name="name"></param>
         /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TTarget"></typeparam>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static TTarget? GetInfo<TTarget, TSource>(this TSource source, AttributeTargets target) where TTarget : Attribute
+        public static TTarget? GetInfo<TSource, TTarget>(this TSource source, AttributeTargets target, string name) where TTarget : Attribute
         {
-            var type = typeof(TSource);
-
-            switch (target)
+            return target switch
             {
-                case AttributeTargets.Field:
-                {
-                    return AttributeHelper.GetFieldAttribute<TSource, TTarget>(type.Name);
-                }
-                case AttributeTargets.Property:
-                {
-                    return AttributeHelper.GetPropAttribute<TSource, TTarget>(type.Name);
-                }
-                default:
-                {
-                    throw new NotImplementedException();
-                }
-            }
+                AttributeTargets.Field => AttributeHelper.GetFieldAttribute<TSource, TTarget>(name),
+                AttributeTargets.Property => AttributeHelper.GetPropAttribute<TSource, TTarget>(name),
+                _ => throw new NotImplementedException()
+            };
         }
     }
 }
