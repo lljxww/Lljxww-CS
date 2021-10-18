@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lljxww.Common.Time
+namespace Lljxww.Common.Utilities.Time
 {
     /// <summary>
     /// 时间戳工具

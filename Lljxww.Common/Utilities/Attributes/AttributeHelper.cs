@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Lljxww.Common.Attributes
+namespace Lljxww.Common.Utilities.Attributes
 {
     public class AttributeHelper
     {
@@ -38,10 +38,10 @@ namespace Lljxww.Common.Attributes
 
             return results;
         }
-        
+
         public static TTarget? GetFieldAttribute<TSource, TTarget>(string propertyName) where TTarget : Attribute
         {
-            var prop = typeof(TSource).GetField(propertyName);
+            FieldInfo? prop = typeof(TSource).GetField(propertyName);
             TTarget? attr = prop?.GetCustomAttribute<TTarget>(false);
 
             if (attr is null)
@@ -56,11 +56,11 @@ namespace Lljxww.Common.Attributes
 
         public static IEnumerable<TTarget> GetFieldAttributies<TSource, TTarget>() where TTarget : Attribute
         {
-            var props = typeof(TSource).GetFields();
+            FieldInfo[]? props = typeof(TSource).GetFields();
 
             IList<TTarget> results = new List<TTarget>();
 
-            foreach (var prop in props)
+            foreach (FieldInfo? prop in props)
             {
                 TTarget? attr = prop.GetCustomAttribute<TTarget>(false);
                 if (attr is not null)

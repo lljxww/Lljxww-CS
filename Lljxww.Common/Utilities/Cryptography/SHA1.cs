@@ -1,11 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Lljxww.Common.Cryptography
+namespace Lljxww.Common.Utilities.Cryptography
 {
     public class SHA1
     {
-        public string Get(string source)
+        public static string Get(string source)
         {
             using SHA1CryptoServiceProvider? sha = new();
             byte[]? bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(source));

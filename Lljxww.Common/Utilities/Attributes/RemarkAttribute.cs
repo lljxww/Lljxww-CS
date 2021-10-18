@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lljxww.Common.Attributes
+namespace Lljxww.Common.Utilities.Attributes
 {
     /// <summary>
     /// 标记
@@ -11,11 +11,11 @@ namespace Lljxww.Common.Attributes
         /// <summary>
         /// 附带信息
         /// </summary>
-        public string Info { get; set; }
+        public string? Info { get; set; }
 
         /// <summary>
         /// 自定义信息
         /// </summary>
-        public object CustomData { get; set; }
+        public object? CustomData { get; set; }
     }
 }

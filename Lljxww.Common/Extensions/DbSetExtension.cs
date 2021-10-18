@@ -1,9 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 
 namespace Lljxww.Common.Extensions
 {
@@ -12,7 +12,7 @@ namespace Lljxww.Common.Extensions
         public static void Delete<T>(this DbSet<T> dbSet, Expression<Func<T, bool>> func) where T : class
         {
             IEnumerable<T> contents = dbSet.Where(func);
-            
+
             if (!contents.Any())
             {
                 return;

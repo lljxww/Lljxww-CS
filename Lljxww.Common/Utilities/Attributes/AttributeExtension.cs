@@ -1,6 +1,6 @@
 using System;
 
-namespace Lljxww.Common.Attributes
+namespace Lljxww.Common.Utilities.Attributes
 {
     public static class AttributeExtension
     {

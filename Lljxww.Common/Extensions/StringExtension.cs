@@ -53,13 +53,13 @@ namespace Lljxww.Common.Extensions
 
             string address = "11x22x35x44x53x12x23x36x45x54x13x31x37x46x61x14x32x41x50x62x15x33x42x51x63x21x34x43x52x64x65x71x81x82x91";
 
-            if (address.IndexOf(Id.Remove(2)) == -1)
+            if (!address.Contains(Id.Remove(2), StringComparison.CurrentCulture))
             {
                 return false;//省份验证
             }
 
             string birth = Id.Substring(6, 6).Insert(4, "-").Insert(2, "-");
-            if (DateTime.TryParse(birth, out DateTime time) == false)
+            if (DateTime.TryParse(birth, out _) == false)
             {
                 return false;//生日验证
             }
@@ -69,20 +69,20 @@ namespace Lljxww.Common.Extensions
 
         private static bool CheckIDCard18(string Id)
         {
-            if (long.TryParse(Id.Remove(17), out long n) == false || n < Math.Pow(10, 16) || long.TryParse(Id.Replace('x', '0').Replace('X', '0'), out n) == false)
+            if (long.TryParse(Id.Remove(17), out long n) == false || n < Math.Pow(10, 16) || long.TryParse(Id.Replace('x', '0').Replace('X', '0'), out _) == false)
             {
                 return false;//数字验证
             }
 
             string address = "11x22x35x44x53x12x23x36x45x54x13x31x37x46x61x14x32x41x50x62x15x33x42x51x63x21x34x43x52x64x65x71x81x82x91";
 
-            if (address.IndexOf(Id.Remove(2)) == -1)
+            if (!address.Contains(Id.Remove(2), StringComparison.CurrentCulture))
             {
                 return false;//省份验证
             }
 
             string birth = Id.Substring(6, 8).Insert(6, "-").Insert(4, "-");
-            if (DateTime.TryParse(birth, out DateTime time) == false)
+            if (DateTime.TryParse(birth, out _) == false)
             {
                 return false;//生日验证
             }

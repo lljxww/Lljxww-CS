@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lljxww.Common.Data
+namespace Lljxww.Common.Utilities.Cache
 {
     public class Caching
     {

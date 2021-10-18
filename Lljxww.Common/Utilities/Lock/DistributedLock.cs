@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace Lljxww.Common.Lock
+namespace Lljxww.Common.Utilities.Lock
 {
     public class DistributedLock
     {

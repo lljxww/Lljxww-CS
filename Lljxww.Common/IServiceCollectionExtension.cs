@@ -1,5 +1,5 @@
 ﻿using CSRedis;
-using Lljxww.Common.Lock;
+using Lljxww.Common.Utilities.Lock;
 using Lljxww.Common.WebApiCaller;
 using Lljxww.Common.WebApiCaller.Models.Config;
 using Microsoft.Extensions.Caching.Distributed;

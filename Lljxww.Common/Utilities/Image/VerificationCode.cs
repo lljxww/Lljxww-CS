@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Lljxww.Common.Image
+namespace Lljxww.Common.Utilities.Image
 {
     public class VerificationCode
     {
