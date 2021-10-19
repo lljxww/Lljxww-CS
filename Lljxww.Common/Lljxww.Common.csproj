@@ -4,10 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.3</Version>
+    <Version>1.3.1</Version>
     <Authors>liangjw</Authors>
     <Description>自己总结抽象的常用代码合集</Description>
-    <PackageReleaseNotes>整理项目命名空间</PackageReleaseNotes>
+    <PackageReleaseNotes>修复SHA1算法乱码的问题</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
