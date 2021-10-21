@@ -1,13 +1,11 @@
 ﻿using CSRedis;
-using Lljxww.Common.Utilities.Lock;
+using Lljxww.Common.Utilities.Cache;
 using Lljxww.Common.WebApiCaller;
 using Lljxww.Common.WebApiCaller.Models.Config;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
 
 namespace Lljxww.Common
 {
@@ -35,30 +33,14 @@ namespace Lljxww.Common
 
         #endregion
 
-        #region DistributedLock
+        #region Cache
 
-        public static IServiceCollection ConfigureDistributedLock(this IServiceCollection services)
+        public static IServiceCollection ConfigureCache(this IServiceCollection services, string redisConnectionString)
         {
-            if (!services.Any(s => s.ServiceType == typeof(CSRedisClient)))
-            {
-                throw new InvalidOperationException("使用DistirbutedLock前, 需注册CSRedis的实例");
-            }
-
-            services.AddSingleton<DistributedLock>();
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureDistributedLock(this IServiceCollection services, string redisConnectionString)
-        {
-            if (!services.Any(s => s.ServiceType == typeof(CSRedisClient)))
-            {
-                CSRedisClient csredis = new(redisConnectionString);
-                RedisHelper.Initialization(csredis);
-                services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
-            }
-
-            services.AddSingleton<DistributedLock>();
+            CSRedisClient csredis = new(redisConnectionString);
+            RedisHelper.Initialization(csredis);
+            services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
+            services.AddSingleton<Caching>();
 
             return services;
         }
