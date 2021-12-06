@@ -21,7 +21,7 @@ namespace Lljxww.Common.Extensions
             dbSet.RemoveRange(contents);
         }
 
-        public static void Update<T>(this DbSet<T?> dbSet, Expression<Func<T>> values, Expression<Func<T?, bool>> match) where T : class
+        public static void Update<T>(this DbSet<T> dbSet, Expression<Func<T>> values, Expression<Func<T?, bool>> match) where T : class
         {
             T? instance = dbSet.SingleOrDefault(match);
 

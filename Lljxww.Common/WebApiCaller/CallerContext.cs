@@ -217,7 +217,7 @@ namespace Lljxww.Common.WebApiCaller
                         {
                             if (context.ParamDic != null)
                             {
-                                context.HttpContent = new FormUrlEncodedContent(context.ParamDic);
+                                context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
                             }
                         }
 
