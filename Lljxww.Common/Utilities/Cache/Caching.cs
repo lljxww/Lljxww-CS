@@ -43,7 +43,10 @@ namespace Lljxww.Common.Utilities.Cache
                     {
                         //设置数据
                         value = howToGetValueFunc.Invoke();
-                        Set(key, value, expire);
+                        if (value != null)
+                        {
+                            Set(key, value, expire);
+                        }
                     }
                 }
             }
@@ -237,6 +240,70 @@ namespace Lljxww.Common.Utilities.Cache
                 }
 
                 return (true, action.Invoke());
+            }
+            finally
+            {
+                redisLock?.Unlock();
+            }
+        }
+
+        /// <summary>
+        /// 使用分布式锁,尽量保证action是单例执行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="action"></param>
+        /// <param name="onLockFunc"></param>
+        public void Invoke<T>(string key, Action action, Action? onLockFunc = null)
+        {
+            bool success = Invoke(key, action);
+
+            if (success)
+            {
+                return;
+            }
+
+            if (onLockFunc == null)
+            {
+                for (int i = 0; i < RETRY_TIMES; i++)
+                {
+                    success = Invoke(key, action);
+
+                    if (success)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Thread.Sleep(1000 * LOCK_SECONDS / RETRY_TIMES);
+                        continue;
+                    }
+                }
+
+                return;
+            }
+            else
+            {
+                onLockFunc?.Invoke();
+            }
+        }
+
+        private bool Invoke(string key, Action action)
+        {
+            CSRedisClientLock? redisLock = RedisHelper.Lock(key, LOCK_SECONDS);
+
+            try
+            {
+                // 未取得锁
+                if (redisLock == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    action.Invoke();
+                    return true;
+                }
             }
             finally
             {

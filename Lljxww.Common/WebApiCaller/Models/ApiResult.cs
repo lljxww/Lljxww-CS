@@ -152,7 +152,7 @@ namespace Lljxww.Common.WebApiCaller.Models
             {
                 try
                 {
-                    JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken result);
+                    JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken? result);
                     return result != null ? result.ToString() : string.Empty;
                 }
                 catch (NullReferenceException)
@@ -160,7 +160,7 @@ namespace Lljxww.Common.WebApiCaller.Models
                     JsonObject = JObject.Parse(rawStr);
                     try
                     {
-                        JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken result);
+                        JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken? result);
                         return result != null ? result.ToString() : string.Empty;
                     }
                     catch

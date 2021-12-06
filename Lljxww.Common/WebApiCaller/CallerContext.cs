@@ -63,7 +63,7 @@ namespace Lljxww.Common.WebApiCaller
         /// <summary>
         /// 请求参数
         /// </summary>
-        public object OriginParam { get; private set; }
+        public object? OriginParam { get; private set; }
 
         /// <summary>
         /// 请求参数(转换为字典类型后)
@@ -130,7 +130,7 @@ namespace Lljxww.Common.WebApiCaller
         /// <param name="config">配置对象</param>
         /// <param name="param">参数对象</param>
         /// <returns></returns>
-        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object param)
+        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param)
         {
             CallerContext context = new()
             {
@@ -167,7 +167,7 @@ namespace Lljxww.Common.WebApiCaller
             // 缓存
             if (context.NeedCache)
             {
-                using SHA1 sha = new SHA1CryptoServiceProvider();
+                using SHA1 sha = SHA1.Create();
                 byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(($"{apiNameAndMethodName}+{(param == null ? "" : JsonConvert.SerializeObject(param))}").ToLower()));
                 context.CacheKey = $"WebApiCaller:{BitConverter.ToString(result).Replace("-", "").ToLower()}";
             }
@@ -180,7 +180,7 @@ namespace Lljxww.Common.WebApiCaller
                     {
                         if (context.ParamDic?.Count > 0)
                         {
-                            if (!context.FinalUrl.Contains("?"))
+                            if (!context.FinalUrl.Contains('?'))
                             {
                                 context.FinalUrl += "?";
                             }
@@ -196,9 +196,12 @@ namespace Lljxww.Common.WebApiCaller
                     }
                 case "path":
                     {
-                        foreach (KeyValuePair<string, string> keyvaluepair in context.ParamDic)
+                        if (context.ParamDic != null)
                         {
-                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyvaluepair.Key}}}", keyvaluepair.Value);
+                            foreach (KeyValuePair<string, string> keyvaluepair in context.ParamDic)
+                            {
+                                context.FinalUrl = context.FinalUrl.Replace($"{{{keyvaluepair.Key}}}", keyvaluepair.Value);
+                            }
                         }
 
                         break;
@@ -212,7 +215,10 @@ namespace Lljxww.Common.WebApiCaller
                         }
                         else
                         {
-                            context.HttpContent = new FormUrlEncodedContent(context.ParamDic);
+                            if (context.ParamDic != null)
+                            {
+                                context.HttpContent = new FormUrlEncodedContent(context.ParamDic);
+                            }
                         }
 
                         break;

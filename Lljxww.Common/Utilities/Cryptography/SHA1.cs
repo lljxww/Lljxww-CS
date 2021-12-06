@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Lljxww.Common.Utilities.Cryptography
@@ -8,7 +7,7 @@ namespace Lljxww.Common.Utilities.Cryptography
     {
         public static string Calculate(string source)
         {
-            using SHA1CryptoServiceProvider? sha = new();
+            using System.Security.Cryptography.SHA1? sha = System.Security.Cryptography.SHA1.Create();
             byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(source));
             return BitConverter.ToString(result).Replace("-", "").ToLower();
         }
