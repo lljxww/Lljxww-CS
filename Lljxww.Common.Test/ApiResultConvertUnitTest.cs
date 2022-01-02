@@ -17,7 +17,7 @@ namespace Lljxww.Common.Test
 
             ApiResult result = new(str2);
 
-            Price2FromApi ins = result.TryConvert<Price2FromApi>();
+            Price2FromApi? ins = result.TryConvert<Price2FromApi>();
         }
 
         public class Price2FromApi

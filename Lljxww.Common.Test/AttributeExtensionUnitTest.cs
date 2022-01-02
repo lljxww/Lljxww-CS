@@ -20,35 +20,35 @@ namespace Lljxww.Common.Test
 
         public enum MyEnum
         {
-            [My("Ñ§Éú")]
+            [My("Ñ§ï¿½ï¿½")]
             Student,
 
-            [My("½ÌÊ¦")]
+            [My("ï¿½ï¿½Ê¦")]
             Teacher
         }
 
         [TestMethod]
         public void TestMethod1()
         {
-            MyAttribute attr = MyEnum.Student.GetInfo<MyEnum, MyAttribute>(AttributeTargets.Field, nameof(MyEnum.Student));
-            Assert.AreEqual("Ñ§Éú", attr.Info);
+            MyAttribute? attr = MyEnum.Student.GetInfo<MyEnum, MyAttribute>(AttributeTargets.Field, nameof(MyEnum.Student));
+            Assert.AreEqual("Ñ§ï¿½ï¿½", attr.Info);
         }
 
         /// <summary>
-        /// µ£±£·½Ê½
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
         /// </summary>
         public enum GuaraanteeModeType
         {
-            [EnumInfo(0, "ÐÅÓÃ")]
+            [EnumInfo(0, "ï¿½ï¿½ï¿½ï¿½")]
             Credit,
 
-            [EnumInfo(1, "±£Ö¤µ£±£")]
+            [EnumInfo(1, "ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½")]
             Guarantee,
 
-            [EnumInfo(2, "µÖÑºµ£±£")]
+            [EnumInfo(2, "ï¿½ï¿½Ñºï¿½ï¿½ï¿½ï¿½")]
             Mortgage,
 
-            [EnumInfo(3, "ÖÊÑºµ£±£")]
+            [EnumInfo(3, "ï¿½ï¿½Ñºï¿½ï¿½ï¿½ï¿½")]
             Pledge
         }
 
@@ -72,7 +72,7 @@ namespace Lljxww.Common.Test
         {
             GuaraanteeModeType item = GuaraanteeModeType.Credit;
             EnumInfoAttribute attr = item.GetInfo<GuaraanteeModeType, EnumInfoAttribute>(AttributeTargets.Field, nameof(item));
-            Assert.AreEqual("ÐÅÓÃ", attr.Info);
+            Assert.AreEqual("ï¿½ï¿½ï¿½ï¿½", attr.Info);
         }
     }
 }
