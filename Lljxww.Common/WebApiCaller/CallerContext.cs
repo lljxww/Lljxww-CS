@@ -25,6 +25,10 @@ namespace Lljxww.Common.WebApiCaller
         /// </summary>
         public string ApiName { get; private set; }
 
+        public HttpMethod HttpMethod { get; set; }
+
+        public HttpRequestMessage RequestMessage { get; set; }
+
         /// <summary>
         /// 超时时间(计算后)
         /// </summary>
@@ -111,14 +115,14 @@ namespace Lljxww.Common.WebApiCaller
 
         private CallerContext() { }
 
-        internal static readonly Dictionary<string, Func<CallerContext, AuthResult>> AuthorizateFuncs = new();
+        internal static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
 
         /// <summary>
         /// 注册授权操作
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="func">操作Func(CallerContext, AuthResult)</param>
-        public static void AddAuthFunc(string key, Func<CallerContext, AuthResult> func)
+        public static void AddAuthFunc(string key, Func<CallerContext, CallerContext> func)
         {
             AuthorizateFuncs.Add(key, func);
         }
@@ -151,6 +155,8 @@ namespace Lljxww.Common.WebApiCaller
             }
 
             context.ApiItem = context.ServiceItem.ApiItems.Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
+
+            context.HttpMethod = new HttpMethod(context.ApiItem.HTTPMethod);
 
             context.NeedCache = context.ApiItem.NeedCache;
             context.CacheMinuties = context.ApiItem.CacheTime;
@@ -228,7 +234,7 @@ namespace Lljxww.Common.WebApiCaller
             return context;
         }
 
-        public async Task<CallerContext> RequestAsync(RequestOption? requestSetting)
+        internal async Task<CallerContext> RequestAsync(RequestOption? requestSetting)
         {
             ResultFrom = "Request";
 
@@ -250,28 +256,12 @@ namespace Lljxww.Common.WebApiCaller
 
             try
             {
+                HttpClient client = HttpClientInstance.Get();
+
                 sw.Start();
 
-                switch (ApiItem.HTTPMethod)
-                {
-                    case "get":
-                        {
-                            HttpResponseMessage response = HttpClient.GetAsync(FinalUrl, cancellationTokenSource.Token).Result;
-                            ResponseContent = await response.Content.ReadAsStringAsync();
-                            break;
-                        }
-                    case "post":
-                        {
-                            HttpResponseMessage response = HttpClient.PostAsync(FinalUrl, HttpContent, cancellationTokenSource.Token).Result;
-                            ResponseContent = await response.Content.ReadAsStringAsync();
-
-                            break;
-                        }
-                    default:
-                        {
-                            throw new NotImplementedException();
-                        }
-                }
+                HttpResponseMessage response = client.SendAsync(RequestMessage).Result;
+                ResponseContent = await response.Content.ReadAsStringAsync();
             }
             finally
             {
@@ -290,28 +280,18 @@ namespace Lljxww.Common.WebApiCaller
 
     public static class CallerContextExtension
     {
-        /// <summary>
-        /// 添加HttpClient, 同时处理认证配置
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        public static CallerContext AddHttpClient(this CallerContext context, HttpClient client)
+        public static CallerContext PrepareAuthorize(this CallerContext context)
         {
-            client.DefaultRequestHeaders.Add("User-Agent", "WebApiCaller");
-
-            context.HttpClient = client;
-
-            if (context.Authorization == null || string.IsNullOrWhiteSpace(context.Authorization.Name))
+            context.RequestMessage = new HttpRequestMessage
             {
-                return context;
-            }
+                Method = context.HttpMethod,
+                RequestUri = new Uri(context.FinalUrl),
+                Content = context.HttpContent
+            };
 
-            AuthResult result = CallerContext.AuthorizateFuncs[context.Authorization.Name].Invoke(context);
-
-            if (result.Success)
+            if (context.Authorization != null && !string.IsNullOrWhiteSpace(context.Authorization.Name))
             {
-                context.FinalUrl = result.Url;
+                context = CallerContext.AuthorizateFuncs[context.Authorization.Name].Invoke(context);
             }
 
             return context;

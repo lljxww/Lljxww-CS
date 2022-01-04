@@ -4,10 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.3.4</Version>
+    <Version>1.3.5-beta</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集</Description>
-    <PackageReleaseNotes>更新到.NET6</PackageReleaseNotes>
+    <PackageReleaseNotes>调整WebApiCaller中使用的HttpClient为单例</PackageReleaseNotes>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
 

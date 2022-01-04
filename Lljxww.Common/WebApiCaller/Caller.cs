@@ -38,9 +38,8 @@ namespace Lljxww.Common.WebApiCaller
             // 从新Http请求获取结果
             if (context.ApiResult == null)
             {
-                using HttpClient client = _httpClientFactory.CreateClient(apiNameAndMethodName.ToLower());
                 // 处理认证信息
-                context = context.AddHttpClient(client);
+                context = context.PrepareAuthorize();
 
                 try
                 {

@@ -24,7 +24,7 @@ namespace Lljxww.Common.Test
 
             Assert.AreEqual(value, caching.Get<string>("test1"));
 
-            string a = caching.Invoke("test-lock", () =>
+            string? a = caching.Invoke("test-lock", () =>
             {
                 return Task.Run(() =>
                 {
