@@ -30,6 +30,11 @@ namespace Lljxww.Common.WebApiCaller
         public HttpRequestMessage RequestMessage { get; set; }
 
         /// <summary>
+        /// 请求时的特定设置
+        /// </summary>
+        public RequestOption? RequestOption { get; set; }
+
+        /// <summary>
         /// 超时时间(计算后)
         /// </summary>
         public int Timeout { get; set; } = 20000;
@@ -134,7 +139,7 @@ namespace Lljxww.Common.WebApiCaller
         /// <param name="config">配置对象</param>
         /// <param name="param">参数对象</param>
         /// <returns></returns>
-        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param)
+        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param, RequestOption? requestOption = null)
         {
             CallerContext context = new()
             {
@@ -163,6 +168,8 @@ namespace Lljxww.Common.WebApiCaller
 
             context.ApiItem.HTTPMethod = context.ApiItem.HTTPMethod.ToLower().Trim();
             context.ApiItem.ParamType = context.ApiItem.ParamType.ToLower().Trim();
+
+            context.RequestOption = requestOption;
 
             // 授权
             if (!string.IsNullOrWhiteSpace(context.ApiItem.AuthorizationType))
@@ -214,6 +221,17 @@ namespace Lljxww.Common.WebApiCaller
                     }
                 case "body":
                     {
+                        if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
+                        {
+                            break;
+                        }
+
+                        if (context.RequestOption?.CustomHttpContent != null)
+                        {
+                            context.HttpContent = context.RequestOption.CustomHttpContent;
+                            break;
+                        }
+
                         if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
                         {
                             context.HttpContent = new StringContent(JsonConvert.SerializeObject(context.OriginParam));
@@ -242,12 +260,6 @@ namespace Lljxww.Common.WebApiCaller
             cancellationTokenSource.CancelAfter(Timeout);
 
             Stopwatch sw = new();
-
-            // 检测是否有调用方自定义的请求信息
-            if (requestSetting?.CustomHttpContent != null)
-            {
-                HttpContent = requestSetting.CustomHttpContent;
-            }
 
             if (requestSetting?.CustomFinalUrlHandler != null)
             {
