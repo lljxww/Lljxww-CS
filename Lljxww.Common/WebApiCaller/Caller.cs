@@ -17,12 +17,6 @@ namespace Lljxww.Common.WebApiCaller
 
             requestOption ??= new RequestOption();
 
-            // 添加自定义AuthorizeInfo
-            if (!string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo))
-            {
-                context.Authorization.AuthorizationInfo = requestOption.CustomAuthorizeInfo;
-            }
-
             // 尝试从缓存读取结果
             if (context.NeedCache && requestOption.IsFromCache)
             {
@@ -37,9 +31,6 @@ namespace Lljxww.Common.WebApiCaller
             // 从新Http请求获取结果
             if (context.ApiResult == null)
             {
-                // 处理认证信息
-                context = context.PrepareAuthorize();
-
                 try
                 {
                     // 设置本次请求的超时时间（如果有）
@@ -52,7 +43,7 @@ namespace Lljxww.Common.WebApiCaller
                     }
 
                     // 执行请求
-                    context = await context.RequestAsync(requestOption);
+                    context = await context.RequestAsync();
                 }
                 catch (Exception ex)
                 {

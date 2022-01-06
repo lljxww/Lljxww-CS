@@ -59,5 +59,10 @@
         /// 接口授权类型, 目前支持ecp, sign; multisign; accesstoken四种
         /// </summary>
         public string AuthorizationType { get; set; }
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        public int Timeout { get; set; }
     }
 }

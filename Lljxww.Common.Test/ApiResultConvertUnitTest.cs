@@ -16,8 +16,7 @@ namespace Lljxww.Common.Test
             string str2 = "{\"RightTypes\":0,\"IsShowFeePage\":true,\"SelfError\":5056,\"ParentError\":5033,\"ParentName\":null,\"Ip\":null,\"SelfInfo\":{\"UserName\":\"lljxww\",\"IsStudent\":false,\"StudentEndTime\":\"0001-01-01 00:00:00\",\"Balance\":0.0,\"Ticket\":0.0,\"PriceType\":0,\"Price\":0.0,\"Discount\":0.0,\"Expenses\":0.0},\"CardRights\":[],\"FeeRights\":[]}";
 
             ApiResult result = new(str2);
-
-            Price2FromApi? ins = result.TryConvert<Price2FromApi>();
+            _ = result.TryConvert<Price2FromApi>();
         }
 
         public class Price2FromApi

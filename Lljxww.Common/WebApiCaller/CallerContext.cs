@@ -177,6 +177,12 @@ namespace Lljxww.Common.WebApiCaller
                 context.Authorization = config.Authorizations.Single(a => a.Name.ToLower().Trim() == context.ApiItem.AuthorizationType.ToLower().Trim());
             }
 
+            // 添加自定义AuthorizeInfo
+            if (!string.IsNullOrWhiteSpace(requestOption?.CustomAuthorizeInfo))
+            {
+                context.Authorization.AuthorizationInfo = requestOption.CustomAuthorizeInfo;
+            }
+
             // 缓存
             if (context.NeedCache)
             {
@@ -249,10 +255,40 @@ namespace Lljxww.Common.WebApiCaller
                     }
             }
 
+            // 用户自定义的url
+            if (context.RequestOption?.CustomFinalUrlHandler != null)
+            {
+                context.FinalUrl = context.RequestOption.CustomFinalUrlHandler.Invoke(context.FinalUrl);
+            }
+
+            // 超时时间配置 RequestOption > ApiItem > ServiceItem
+            if (context.ServiceItem.Timeout != 0)
+            {
+                context.Timeout = context.ServiceItem.Timeout;
+            }
+
+            ApiItem apiItem = context.ServiceItem.ApiItems.Single(a => a.Method == methodName);
+            if (apiItem.Timeout != 0)
+            {
+                context.Timeout = apiItem.Timeout;
+            }
+
+            context.RequestMessage = new HttpRequestMessage
+            {
+                Method = context.HttpMethod,
+                RequestUri = new Uri(context.FinalUrl),
+                Content = context.HttpContent
+            };
+
+            if (!string.IsNullOrWhiteSpace(context.Authorization?.Name))
+            {
+                context = AuthorizateFuncs[context.Authorization.Name].Invoke(context);
+            }
+
             return context;
         }
 
-        internal async Task<CallerContext> RequestAsync(RequestOption? requestSetting)
+        internal async Task<CallerContext> RequestAsync()
         {
             ResultFrom = "Request";
 
@@ -260,11 +296,6 @@ namespace Lljxww.Common.WebApiCaller
             cancellationTokenSource.CancelAfter(Timeout);
 
             Stopwatch sw = new();
-
-            if (requestSetting?.CustomFinalUrlHandler != null)
-            {
-                FinalUrl = requestSetting.CustomFinalUrlHandler.Invoke(FinalUrl);
-            }
 
             try
             {
@@ -287,26 +318,6 @@ namespace Lljxww.Common.WebApiCaller
             }
 
             return this;
-        }
-    }
-
-    public static class CallerContextExtension
-    {
-        public static CallerContext PrepareAuthorize(this CallerContext context)
-        {
-            context.RequestMessage = new HttpRequestMessage
-            {
-                Method = context.HttpMethod,
-                RequestUri = new Uri(context.FinalUrl),
-                Content = context.HttpContent
-            };
-
-            if (context.Authorization != null && !string.IsNullOrWhiteSpace(context.Authorization.Name))
-            {
-                context = CallerContext.AuthorizateFuncs[context.Authorization.Name].Invoke(context);
-            }
-
-            return context;
         }
     }
 }
