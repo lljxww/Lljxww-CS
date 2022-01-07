@@ -23,4 +23,10 @@
     <ProjectReference Include="..\Lljxww.Common\Lljxww.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="apicaller.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

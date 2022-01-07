@@ -4,6 +4,7 @@ using Lljxww.Common.WebApiCaller.Models.Config;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -150,6 +151,11 @@ namespace Lljxww.Common.WebApiCaller
 
             string serviceName = apiNameAndMethodName.Split('.')[0];
             string methodName = apiNameAndMethodName.Split('.')[1];
+
+            if (!config.ServiceItems.Any(i => i.ApiName.ToLower().Trim() == serviceName.ToLower().Trim()))
+            {
+                throw new ConfigurationErrorsException($"未找到指定的方法: {serviceName}");
+            }
 
             context.ServiceItem = config.ServiceItems.Single(a => a.ApiName.ToLower().Trim() == serviceName.ToLower().Trim());
 
