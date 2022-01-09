@@ -47,13 +47,12 @@ namespace Lljxww.Common.Extensions
         }
     }
 
-
     /// <summary>
     /// 
     /// </summary>
     public class ParameterRebinder : ExpressionVisitor
     {
-        private readonly Dictionary<ParameterExpression, ParameterExpression> map;
+        private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
 
         /// <summary>
         /// 
@@ -61,7 +60,7 @@ namespace Lljxww.Common.Extensions
         /// <param name="map"></param>
         public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
         {
-            this.map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
+            this._map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
         }
 
         /// <summary>
@@ -82,7 +81,7 @@ namespace Lljxww.Common.Extensions
         /// <returns></returns>
         protected override Expression VisitParameter(ParameterExpression p)
         {
-            if (map.TryGetValue(p, out ParameterExpression? replacement))
+            if (_map.TryGetValue(p, out ParameterExpression? replacement))
             {
                 p = replacement;
             }

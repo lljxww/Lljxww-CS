@@ -7,23 +7,15 @@ namespace Lljxww.Common.WebApiCaller.Extensions
     {
         public static Dictionary<string, string>? AsDictionary(this object source)
         {
-            if (source == null)
+            return source switch
             {
-                return default;
-            }
-
-            if (source is Dictionary<string, string>)
-            {
-                return source as Dictionary<string, string>;
-            }
-            else
-            {
-                return source.GetType().GetProperties().ToDictionary
-                (
-                    propInfo => propInfo.Name,
-                    propInfo => propInfo.GetValue(source) == null ? "" : propInfo.GetValue(source)!.ToString()!
-                );
-            }
+                null => default,
+                Dictionary<string, string> dictionary => dictionary,
+                _ => source.GetType()
+                    .GetProperties()
+                    .ToDictionary(propInfo => propInfo.Name,
+                        propInfo => propInfo.GetValue(source) == null ? "" : propInfo.GetValue(source)!.ToString()!)
+            };
         }
     }
 }

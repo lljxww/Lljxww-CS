@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Lljxww.Common.Utilities.Time
 {
@@ -7,7 +8,7 @@ namespace Lljxww.Common.Utilities.Time
     /// </summary>
     public static class Timestamp
     {
-        private static readonly DateTime BASE_UTC_TIME = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime BaseUtcTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// 查询当前的UNIX时间戳
@@ -15,7 +16,7 @@ namespace Lljxww.Common.Utilities.Time
         /// <returns>当前的UNIX时间戳</returns>
         public static string Get()
         {
-            string timestamp = (DateTime.UtcNow - BASE_UTC_TIME).TotalSeconds.ToString();
+            string timestamp = (DateTime.UtcNow - BaseUtcTime).TotalSeconds.ToString(CultureInfo.InvariantCulture);
             return timestamp.Split('.')[0];
         }
 
@@ -31,12 +32,7 @@ namespace Lljxww.Common.Utilities.Time
 
             try
             {
-                if (Math.Abs(Convert.ToInt32(timestamp) - Convert.ToInt32(currentTimestamp)) < expire * 60)
-                {
-                    return false;
-                }
-
-                return true;
+                return Math.Abs(Convert.ToInt32(timestamp) - Convert.ToInt32(currentTimestamp)) >= expire * 60;
             }
             catch
             {

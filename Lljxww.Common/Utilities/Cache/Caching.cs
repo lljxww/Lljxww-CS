@@ -20,7 +20,7 @@ namespace Lljxww.Common.Utilities.Cache
         /// <summary>
         /// 对象锁
         /// </summary>
-        private static readonly object Objlock = new();
+        private static readonly object ObjLock = new();
 
         /// <summary>
         /// 从缓存中读取数据, 如果数据不存在与缓存中, 则使用给定的方法查询数据, 并保存到缓存中.
@@ -34,20 +34,24 @@ namespace Lljxww.Common.Utilities.Cache
         {
             //先查是否已经有数据
             T? value = Get<T>(key);
-            if (value == null)
+            if (value != null)
             {
-                lock (Objlock)
+                return value;
+            }
+
+            lock (ObjLock)
+            {
+                value = Get<T>(key);
+                if (value != null)
                 {
-                    value = Get<T>(key);
-                    if (value == null)
-                    {
-                        //设置数据
-                        value = howToGetValueFunc.Invoke();
-                        if (value != null)
-                        {
-                            Set(key, value, expire);
-                        }
-                    }
+                    return value;
+                }
+
+                //设置数据
+                value = howToGetValueFunc.Invoke();
+                if (value != null)
+                {
+                    Set(key, value, expire);
                 }
             }
 
@@ -70,24 +74,23 @@ namespace Lljxww.Common.Utilities.Cache
             T? result = default;
             if (resultList == default || !resultList.Any(predicate))
             {
-                lock (Objlock)
+                lock (ObjLock)
                 {
                     resultList = Get<IList<T>>(key);
                     if (resultList == default || !resultList.Any(predicate))
                     {
                         //设置数据
                         T item = howToGetValueFunc.Invoke();
-                        if (item != null)
+                        if (item == null)
                         {
-                            if (resultList == default)
-                            {
-                                resultList = new List<T>();
-                            }
-
-                            resultList.Add(item);
-                            result = item;
-                            Set(key, resultList, expire);
+                            return result;
                         }
+
+                        resultList ??= new List<T>();
+
+                        resultList.Add(item);
+                        result = item;
+                        Set(key, resultList, expire);
                     }
                     else
                     {
@@ -113,24 +116,26 @@ namespace Lljxww.Common.Utilities.Cache
         public void RemoveFromList<T>(string key, Func<T, bool> predicate, DateTime? expire = null)
         {
             IList<T>? resultList = Get<IList<T>>(key);
-            if (resultList == default || !resultList.Any(predicate))
+            if (resultList != default && resultList.Any(predicate))
             {
-                lock (Objlock)
+                return;
+            }
+
+            lock (ObjLock)
+            {
+                resultList = Get<IList<T>>(key);
+                if (resultList == default || !resultList.Any(predicate))
                 {
-                    resultList = Get<IList<T>>(key);
-                    if (resultList == default || !resultList.Any(predicate))
-                    {
-                        return;
-                    }
-
-                    T? match = resultList.SingleOrDefault(predicate);
-                    if (match != null)
-                    {
-                        resultList.Remove(match);
-                    }
-
-                    Set(key, resultList, expire);
+                    return;
                 }
+
+                T? match = resultList.SingleOrDefault(predicate);
+                if (match != null)
+                {
+                    resultList.Remove(match);
+                }
+
+                Set(key, resultList, expire);
             }
         }
 
@@ -234,12 +239,7 @@ namespace Lljxww.Common.Utilities.Cache
             try
             {
                 // 未取得锁
-                if (redisLock == null)
-                {
-                    return (false, default);
-                }
-
-                return (true, action.Invoke());
+                return redisLock == null ? (false, default) : (true, action.Invoke());
             }
             finally
             {

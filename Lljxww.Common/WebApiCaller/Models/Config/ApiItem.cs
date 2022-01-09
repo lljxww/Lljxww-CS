@@ -18,7 +18,7 @@
         /// <summary>
         /// 方法的Http谓词
         /// </summary>
-        public string HTTPMethod { get; set; }
+        public string HttpMethod { get; set; }
 
         /// <summary>
         /// 方法参数类型

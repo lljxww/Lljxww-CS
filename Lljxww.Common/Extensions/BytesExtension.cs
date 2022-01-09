@@ -14,7 +14,7 @@ namespace Lljxww.Common.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static T? ToObject<T>(this byte[] bytes)
+        public static T? ToObject<T>(this byte[]? bytes)
         {
             if (bytes == null || bytes.Length == 0)
             {

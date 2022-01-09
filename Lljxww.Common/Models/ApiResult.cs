@@ -16,6 +16,7 @@ namespace Lljxww.Common.Models
         /// </summary>
         /// <param name="success">是否成功</param>
         /// <param name="message">信息</param>
+        /// <param name="code">错误代码</param>
         /// <param name="result">结果集</param>
         /// <param name="count">返回结果数</param>
         /// <param name="total">查找到的结果总数</param>
@@ -51,15 +52,7 @@ namespace Lljxww.Common.Models
         /// </summary>
         /// <param name="result">Result主体</param>
         /// <param name="message">信息</param>
-        public ApiResult(T? result, string? message) : this(true, message, 1, result)
-        {
-        }
-
-        /// <summary>
-        /// 初始化APIResult的新实例
-        /// </summary>
-        /// <param name="result">Result主体</param>
-        public ApiResult(T? result) : this(result, null)
+        public ApiResult(T? result, string? message = null) : this(true, message, 1, result)
         {
         }
 

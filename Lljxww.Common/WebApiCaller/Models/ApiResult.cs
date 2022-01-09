@@ -9,8 +9,8 @@ namespace Lljxww.Common.WebApiCaller.Models
     [Serializable]
     public class ApiResult
     {
-        private bool isSet = false;
-        private bool success = false;
+        private bool _isSet = false;
+        private bool _success = false;
 
         /// <summary>
         /// 执行结果(试用,实际情况以RawStr自行判断)
@@ -19,9 +19,9 @@ namespace Lljxww.Common.WebApiCaller.Models
         {
             get
             {
-                if (isSet)
+                if (_isSet)
                 {
-                    return success;
+                    return _success;
                 }
                 else
                 {
@@ -44,19 +44,19 @@ namespace Lljxww.Common.WebApiCaller.Models
             }
             set
             {
-                success = value;
-                isSet = true;
+                _success = value;
+                _isSet = true;
             }
         }
 
-        private string rawStr;
+        private string _rawStr;
 
         /// <summary>
         /// 接口的原始返回结果
         /// </summary>
         public string RawStr
         {
-            get => rawStr;
+            get => _rawStr;
             set
             {
                 try
@@ -67,11 +67,11 @@ namespace Lljxww.Common.WebApiCaller.Models
                 {
                     JsonObject = new JObject();
                 }
-                rawStr = value;
+                _rawStr = value;
             }
         }
 
-        private string message;
+        private string _message;
 
         /// <summary>
         /// 执行信息(试用,实际情况以RawStr自行判断)
@@ -80,23 +80,21 @@ namespace Lljxww.Common.WebApiCaller.Models
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(message))
+                if (!string.IsNullOrWhiteSpace(_message))
                 {
-                    try
-                    {
-                        return this[nameof(Message)].ToString();
-                    }
-                    catch
-                    {
-                        return "";
-                    }
+                    return _message;
                 }
-                else
+
+                try
                 {
-                    return message;
+                    return this[nameof(Message)];
+                }
+                catch
+                {
+                    return "";
                 }
             }
-            set => message = value;
+            set => _message = value;
         }
 
         public ApiResult(string resultStr)
@@ -115,22 +113,15 @@ namespace Lljxww.Common.WebApiCaller.Models
 
         public ApiResult(bool success, string message)
         {
-            this.success = success;
-            this.message = message;
+            _success = success;
+            _message = message;
         }
 
         public ApiResult()
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(RawStr))
-                {
-                    JsonObject = JObject.Parse(RawStr);
-                }
-                else
-                {
-                    JsonObject = new JObject();
-                }
+                JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JObject.Parse(RawStr) : new JObject();
             }
             catch
             {
@@ -157,7 +148,7 @@ namespace Lljxww.Common.WebApiCaller.Models
                 }
                 catch (NullReferenceException)
                 {
-                    JsonObject = JObject.Parse(rawStr);
+                    JsonObject = JObject.Parse(_rawStr);
                     try
                     {
                         JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken? result);

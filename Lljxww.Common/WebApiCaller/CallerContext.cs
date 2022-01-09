@@ -80,8 +80,6 @@ namespace Lljxww.Common.WebApiCaller
         /// </summary>
         public Dictionary<string, string>? ParamDic { get; private set; }
 
-        public HttpClient HttpClient { get; set; }
-
         /// <summary>
         /// 响应结果
         /// </summary>
@@ -121,7 +119,7 @@ namespace Lljxww.Common.WebApiCaller
 
         private CallerContext() { }
 
-        internal static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
+        private static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
 
         /// <summary>
         /// 注册授权操作
@@ -139,6 +137,7 @@ namespace Lljxww.Common.WebApiCaller
         /// <param name="apiNameAndMethodName">服务名.方法名</param>
         /// <param name="config">配置对象</param>
         /// <param name="param">参数对象</param>
+        /// <param name="requestOption"></param>
         /// <returns></returns>
         internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param, RequestOption? requestOption = null)
         {
@@ -152,7 +151,7 @@ namespace Lljxww.Common.WebApiCaller
             string serviceName = apiNameAndMethodName.Split('.')[0];
             string methodName = apiNameAndMethodName.Split('.')[1];
 
-            if (!config.ServiceItems.Any(i => i.ApiName.ToLower().Trim() == serviceName.ToLower().Trim()))
+            if (config.ServiceItems.All(i => i.ApiName.ToLower().Trim() != serviceName.ToLower().Trim()))
             {
                 throw new ConfigurationErrorsException($"未找到指定的方法: {serviceName}");
             }
@@ -167,12 +166,12 @@ namespace Lljxww.Common.WebApiCaller
 
             context.ApiItem = context.ServiceItem.ApiItems.Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
 
-            context.HttpMethod = new HttpMethod(context.ApiItem.HTTPMethod);
+            context.HttpMethod = new HttpMethod(context.ApiItem.HttpMethod);
 
             context.NeedCache = context.ApiItem.NeedCache;
             context.CacheMinuties = context.ApiItem.CacheTime;
 
-            context.ApiItem.HTTPMethod = context.ApiItem.HTTPMethod.ToLower().Trim();
+            context.ApiItem.HttpMethod = context.ApiItem.HttpMethod.ToLower().Trim();
             context.ApiItem.ParamType = context.ApiItem.ParamType.ToLower().Trim();
 
             context.RequestOption = requestOption;
@@ -309,7 +308,7 @@ namespace Lljxww.Common.WebApiCaller
 
                 sw.Start();
 
-                HttpResponseMessage response = client.SendAsync(RequestMessage).Result;
+                HttpResponseMessage response = client.SendAsync(RequestMessage, cancellationTokenSource.Token).Result;
                 ResponseContent = await response.Content.ReadAsStringAsync();
             }
             finally

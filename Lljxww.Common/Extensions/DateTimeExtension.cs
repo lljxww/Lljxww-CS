@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Lljxww.Common.Extensions
 {
     public static class DateTimeExtension
     {
-        private static readonly DateTime BASE_UTC_TIME = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime BaseUtcTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         //TODO 转移到Common
         /// <summary>
@@ -14,7 +15,7 @@ namespace Lljxww.Common.Extensions
         /// <returns></returns>
         public static string ToUnixTimestamp(this DateTime dateTime)
         {
-            string timestamp = (dateTime - BASE_UTC_TIME).TotalSeconds.ToString();
+            string timestamp = (dateTime - BaseUtcTime).TotalSeconds.ToString(CultureInfo.InvariantCulture);
             return timestamp.Split('.')[0];
         }
     }
