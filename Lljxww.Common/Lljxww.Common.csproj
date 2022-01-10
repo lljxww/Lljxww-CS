@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.3.5.1</Version>
+    <Version>1.3.5.2</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集</Description>
     <PackageReleaseNotes>调整WebApiCaller中使用的HttpClient为单例</PackageReleaseNotes>

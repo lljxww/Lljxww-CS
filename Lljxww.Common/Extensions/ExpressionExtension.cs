@@ -60,7 +60,7 @@ namespace Lljxww.Common.Extensions
         /// <param name="map"></param>
         public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
         {
-            this._map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
+            _map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
         }
 
         /// <summary>

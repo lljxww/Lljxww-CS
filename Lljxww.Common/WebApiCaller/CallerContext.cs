@@ -272,10 +272,9 @@ namespace Lljxww.Common.WebApiCaller
                 context.Timeout = context.ServiceItem.Timeout;
             }
 
-            ApiItem apiItem = context.ServiceItem.ApiItems.Single(a => a.Method == methodName);
-            if (apiItem.Timeout != 0)
+            if (context.ApiItem.Timeout != 0)
             {
-                context.Timeout = apiItem.Timeout;
+                context.Timeout = context.ApiItem.Timeout;
             }
 
             context.RequestMessage = new HttpRequestMessage

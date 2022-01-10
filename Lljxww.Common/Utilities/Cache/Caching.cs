@@ -151,6 +151,11 @@ namespace Lljxww.Common.Utilities.Cache
         {
             Remove(key);
 
+            if (value == null)
+            {
+                return;
+            }
+
             TimeSpan timespan = expire.HasValue ? expire.Value - DateTime.Now : new TimeSpan(0, 10, 0);
 
             _redis.Set(key, value?.ToBytes(), new DistributedCacheEntryOptions
