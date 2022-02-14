@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lljxww.Common.ApiCaller.Models
 {
@@ -175,7 +175,7 @@ namespace Lljxww.Common.ApiCaller.Models
         {
             try
             {
-                T? instance = System.Text.Json.JsonSerializer.Deserialize<T>(RawStr);
+                T? instance = JsonSerializer.Deserialize<T>(RawStr);
                 return instance;
             }
             catch (Exception)
@@ -191,7 +191,7 @@ namespace Lljxww.Common.ApiCaller.Models
         /// <returns></returns>
         public static ApiResult Build(object obj)
         {
-            return new ApiResult(System.Text.Json.JsonSerializer.Serialize(obj));
+            return new ApiResult(JsonSerializer.Serialize(obj));
         }
     }
 }

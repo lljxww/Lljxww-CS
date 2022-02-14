@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-namespace Lljxww.Common.ApiCaller
+﻿namespace Lljxww.Common.ApiCaller
 {
     internal static class HttpClientInstance
     {

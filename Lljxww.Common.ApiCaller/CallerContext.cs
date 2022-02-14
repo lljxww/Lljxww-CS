@@ -1,19 +1,13 @@
-﻿using Lljxww.Common.ApiCaller.Extensions;
-using Lljxww.Common.ApiCaller.Models;
-using Lljxww.Common.ApiCaller.Models.Config;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
+using Lljxww.Common.ApiCaller.Extensions;
+using Lljxww.Common.ApiCaller.Models;
+using Lljxww.Common.ApiCaller.Models.Config;
+using Newtonsoft.Json;
 
 namespace Lljxww.Common.ApiCaller
 {

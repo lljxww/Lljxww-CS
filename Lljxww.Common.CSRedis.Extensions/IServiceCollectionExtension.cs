@@ -1,10 +1,9 @@
 ﻿using CSRedis;
-using Lljxww.Common.CSRedis.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lljxww.Common
+namespace Lljxww.Common.CSRedis.Extensions
 {
     public static class IServiceCollectionExtension
     {

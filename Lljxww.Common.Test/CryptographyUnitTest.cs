@@ -1,3 +1,4 @@
+using Lljxww.Common.Utilities.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Common.Test
@@ -11,7 +12,7 @@ namespace Lljxww.Common.Test
             string source = "liangjw";
             string target = "bc9a767ffd41098041cdec50424a5f4dae9c23b0";
 
-            Assert.AreEqual(target, Utilities.Cryptography.SHA1.Calculate(source));
+            Assert.AreEqual(target, SHA1.Calculate(source));
         }
     }
 }
