@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Lljxww.Common.WebApiCaller
+namespace Lljxww.Common.ApiCaller
 {
     internal static class HttpClientInstance
     {

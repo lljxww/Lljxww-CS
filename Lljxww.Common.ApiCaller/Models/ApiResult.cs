@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
-namespace Lljxww.Common.WebApiCaller.Models
+namespace Lljxww.Common.ApiCaller.Models
 {
     /// <summary>
     /// ApiCaller接口返回结果包装类

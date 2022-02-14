@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lljxww.Common.WebApiCaller.Models.Config
+namespace Lljxww.Common.ApiCaller.Models.Config
 {
     public class ServiceItem
     {

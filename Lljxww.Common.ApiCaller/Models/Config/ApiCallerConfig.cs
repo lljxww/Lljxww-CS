@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 
-namespace Lljxww.Common.WebApiCaller.Models.Config
+namespace Lljxww.Common.ApiCaller.Models.Config
 {
     /// <summary>
     /// 接口配置文件

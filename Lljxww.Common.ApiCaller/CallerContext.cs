@@ -1,6 +1,6 @@
-﻿using Lljxww.Common.WebApiCaller.Extensions;
-using Lljxww.Common.WebApiCaller.Models;
-using Lljxww.Common.WebApiCaller.Models.Config;
+﻿using Lljxww.Common.ApiCaller.Extensions;
+using Lljxww.Common.ApiCaller.Models;
+using Lljxww.Common.ApiCaller.Models.Config;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Lljxww.Common.WebApiCaller
+namespace Lljxww.Common.ApiCaller
 {
     public class CallerContext
     {

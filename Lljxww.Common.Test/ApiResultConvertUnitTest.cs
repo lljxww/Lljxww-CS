@@ -1,8 +1,8 @@
-﻿using Lljxww.Common.WebApiCaller.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Lljxww.Common.ApiCaller.Models;
 
 namespace Lljxww.Common.Test
 {

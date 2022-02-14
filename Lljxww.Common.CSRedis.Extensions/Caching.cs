@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Lljxww.Common.Utilities.Cache
+namespace Lljxww.Common.CSRedis.Extensions
 {
     public class Caching
     {

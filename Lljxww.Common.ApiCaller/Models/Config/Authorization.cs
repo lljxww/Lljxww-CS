@@ -1,4 +1,4 @@
-﻿namespace Lljxww.Common.WebApiCaller.Models.Config
+﻿namespace Lljxww.Common.ApiCaller.Models.Config
 {
     public class Authorization
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Lljxww.Common.Extensions
+namespace Lljxww.Common.EntityFramework.Extensions
 {
     public static class DbSetExtension
     {

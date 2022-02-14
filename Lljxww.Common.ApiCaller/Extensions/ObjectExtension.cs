@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Lljxww.Common.WebApiCaller.Extensions
+namespace Lljxww.Common.ApiCaller.Extensions
 {
     public static class ObjectExtension
     {
