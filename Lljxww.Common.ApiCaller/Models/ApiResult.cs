@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 
 namespace Lljxww.Common.ApiCaller.Models
 {
@@ -61,22 +61,22 @@ namespace Lljxww.Common.ApiCaller.Models
             {
                 try
                 {
-                    JsonObject = JObject.Parse(value);
+                    JsonObject = JsonNode.Parse(value)?.AsObject();
                 }
                 catch
                 {
-                    JsonObject = new JObject();
+                    JsonObject = new JsonObject();
                 }
                 _rawStr = value;
             }
         }
 
-        private string _message;
+        private string? _message;
 
         /// <summary>
-        /// 执行信息(试用,实际情况以RawStr自行判断)
+        /// 执行信息
         /// </summary>
-        public string Message
+        public string? Message
         {
             get
             {
@@ -103,11 +103,11 @@ namespace Lljxww.Common.ApiCaller.Models
 
             try
             {
-                JsonObject = JObject.Parse(RawStr);
+                JsonObject = JsonNode.Parse(RawStr)?.AsObject();
             }
             catch
             {
-                JsonObject = new JObject();
+                JsonObject = new JsonObject();
             }
         }
 
@@ -121,38 +121,52 @@ namespace Lljxww.Common.ApiCaller.Models
         {
             try
             {
-                JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JObject.Parse(RawStr) : new JObject();
+                JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JsonNode.Parse(RawStr)?.AsObject() : new JsonObject();
             }
             catch
             {
-                JsonObject = new JObject();
+                JsonObject = new JsonObject();
             }
         }
 
         [NonSerialized]
-        public JObject JsonObject;
+        public JsonObject? JsonObject;
 
         /// <summary>
         /// 返回结果索引器
         /// </summary>
         /// <param name="propertyName">键名</param>
         /// <returns>返回值</returns>
-        public string this[string propertyName]
+        public string? this[string propertyName]
         {
             get
             {
                 try
                 {
-                    JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken? result);
-                    return result != null ? result.ToString() : string.Empty;
+                    JsonNode? result = default;
+                    bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
+
+                    if (success.HasValue && success.Value)
+                    {
+                        return result?.GetValue<string>();
+                    }
+
+                    return string.Empty;
                 }
                 catch (NullReferenceException)
                 {
-                    JsonObject = JObject.Parse(_rawStr);
+                    JsonObject = JsonNode.Parse(_rawStr)?.AsObject();
                     try
                     {
-                        JsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken? result);
-                        return result != null ? result.ToString() : string.Empty;
+                        JsonNode? result = default;
+                        bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
+
+                        if (success.HasValue && success.Value)
+                        {
+                            return result?.GetValue<string>();
+                        }
+
+                        return string.Empty;
                     }
                     catch
                     {

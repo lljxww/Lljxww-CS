@@ -1,13 +1,13 @@
-﻿using System.Configuration;
+﻿using Lljxww.Common.ApiCaller.Extensions;
+using Lljxww.Common.ApiCaller.Models;
+using Lljxww.Common.ApiCaller.Models.Config;
+using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Web;
-using Lljxww.Common.ApiCaller.Extensions;
-using Lljxww.Common.ApiCaller.Models;
-using Lljxww.Common.ApiCaller.Models.Config;
-using Newtonsoft.Json;
 
 namespace Lljxww.Common.ApiCaller
 {
@@ -186,7 +186,7 @@ namespace Lljxww.Common.ApiCaller
             if (context.NeedCache)
             {
                 using SHA1 sha = SHA1.Create();
-                byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(($"{apiNameAndMethodName}+{(param == null ? "" : JsonConvert.SerializeObject(param))}").ToLower()));
+                byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(($"{apiNameAndMethodName}+{(param == null ? "" : JsonSerializer.Serialize(param))}").ToLower()));
                 context.CacheKey = $"WebApiCaller:{BitConverter.ToString(result).Replace("-", "").ToLower()}";
             }
 
@@ -239,7 +239,7 @@ namespace Lljxww.Common.ApiCaller
 
                         if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
                         {
-                            context.HttpContent = new StringContent(JsonConvert.SerializeObject(context.OriginParam));
+                            context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
                             context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
                         }
                         else

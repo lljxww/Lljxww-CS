@@ -1,8 +1,8 @@
-﻿using System.Net;
-using Lljxww.Common.ApiCaller;
+﻿using Lljxww.Common.ApiCaller;
 using Lljxww.Common.ApiCaller.Models;
 using Lljxww.Common.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace Lljxww.Common.WebApiCaller
 {

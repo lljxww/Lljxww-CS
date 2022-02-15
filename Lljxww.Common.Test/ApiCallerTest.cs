@@ -10,7 +10,7 @@ namespace Lljxww.Common.Test
     [TestClass]
     public class ApiCallerTest
     {
-        private readonly ServiceCollection services = new();
+        private readonly IServiceCollection services = new ServiceCollection();
 
         public ApiCallerTest()
         {
