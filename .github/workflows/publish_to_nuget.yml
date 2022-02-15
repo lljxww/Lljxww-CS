@@ -17,25 +17,31 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Publish-Common
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
        PROJECT_FILE_PATH: Lljxww.Common/Lljxww.Common.csproj
        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
     - name: Publish-CSRedis
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
        PROJECT_FILE_PATH: Lljxww.Common.CSRedis.Extensions/Lljxww.Common.CSRedis.Extensions.csproj
        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
     - name: Publish-ApiCaller
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
        PROJECT_FILE_PATH: Lljxww.Common.ApiCaller/Lljxww.Common.ApiCaller.csproj
        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+       
     - name: Publish-EntityFramework
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:

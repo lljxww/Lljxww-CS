@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Lljxww.Common</PackageId>
+    <PackageId>Lljxww.Common.ApiCaller</PackageId>
     <Version>1.4.3</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集-ApiCaller</Description>
