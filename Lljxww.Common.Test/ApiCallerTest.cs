@@ -34,6 +34,11 @@ namespace Lljxww.Common.Test
             }).Result;
 
             Assert.AreEqual(username, result!["login"]);
+            Assert.AreEqual(username, result!["Login"]);
+            Assert.AreEqual(username, result!["lOgin"]);
+            Assert.AreEqual(username, result!["loGin"]);
+            Assert.AreEqual(username, result!["logIn"]);
+            Assert.AreEqual(username, result!["logiN"]);
         }
     }
 }

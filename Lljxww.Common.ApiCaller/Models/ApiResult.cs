@@ -12,6 +12,11 @@ namespace Lljxww.Common.ApiCaller.Models
         private bool _isSet = false;
         private bool _success = false;
 
+        private JsonNodeOptions jnOption = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         /// <summary>
         /// 执行结果(试用,实际情况以RawStr自行判断)
         /// </summary>
@@ -61,12 +66,13 @@ namespace Lljxww.Common.ApiCaller.Models
             {
                 try
                 {
-                    JsonObject = JsonNode.Parse(value)?.AsObject();
+                    JsonObject = JsonNode.Parse(value, jnOption)?.AsObject();
                 }
                 catch
                 {
-                    JsonObject = new JsonObject();
+                    JsonObject = new JsonObject(jnOption);
                 }
+
                 _rawStr = value;
             }
         }
@@ -103,11 +109,11 @@ namespace Lljxww.Common.ApiCaller.Models
 
             try
             {
-                JsonObject = JsonNode.Parse(RawStr)?.AsObject();
+                JsonObject = JsonNode.Parse(RawStr, jnOption)?.AsObject();
             }
             catch
             {
-                JsonObject = new JsonObject();
+                JsonObject = new JsonObject(jnOption);
             }
         }
 
@@ -121,11 +127,11 @@ namespace Lljxww.Common.ApiCaller.Models
         {
             try
             {
-                JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JsonNode.Parse(RawStr)?.AsObject() : new JsonObject();
+                JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JsonNode.Parse(RawStr, jnOption)?.AsObject() : new JsonObject(jnOption);
             }
             catch
             {
-                JsonObject = new JsonObject();
+                JsonObject = new JsonObject(jnOption);
             }
         }
 
@@ -155,7 +161,7 @@ namespace Lljxww.Common.ApiCaller.Models
                 }
                 catch (NullReferenceException)
                 {
-                    JsonObject = JsonNode.Parse(_rawStr)?.AsObject();
+                    JsonObject = JsonNode.Parse(_rawStr, jnOption)?.AsObject();
                     try
                     {
                         JsonNode? result = default;

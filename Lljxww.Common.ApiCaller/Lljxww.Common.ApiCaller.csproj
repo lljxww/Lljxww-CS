@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common.ApiCaller</PackageId>
-    <Version>1.4.3</Version>
+    <Version>1.4.3.1</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集-ApiCaller</Description>
-    <PackageReleaseNotes>分离组件到单独的包</PackageReleaseNotes>
+    <PackageReleaseNotes>ApiResult的索引器支持case-insensitive筛选</PackageReleaseNotes>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
 
