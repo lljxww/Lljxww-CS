@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common</PackageId>
-    <Version>1.4.2</Version>
+    <Version>1.4.3</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集-ApiCaller</Description>
     <PackageReleaseNotes>分离组件到单独的包</PackageReleaseNotes>
