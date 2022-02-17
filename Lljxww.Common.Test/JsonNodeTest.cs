@@ -26,8 +26,6 @@ namespace Lljxww.Common.Test
             JsonDocument? jsonDoc = JsonDocument.Parse(jsonStr);
 
             IList<Dictionary<string, JsonNode>>? dic = JsonSerializer.Deserialize<IList<Dictionary<string, JsonNode>>>(jsonArray);
-
-            Console.ReadKey();
         }
 
         public class TestModel

@@ -32,13 +32,13 @@ namespace Lljxww.Common.ApiCaller.Models
                 {
                     try
                     {
-                        return Convert.ToBoolean(this[nameof(Success)]);
+                        return JsonObject![nameof(Success)]!.GetValue<bool>();
                     }
                     catch
                     {
                         try
                         {
-                            return Convert.ToBoolean(this["IsSuccess"]);
+                            return JsonObject!["IsSuccess"]!.GetValue<bool>();
                         }
                         catch
                         {
@@ -51,6 +51,24 @@ namespace Lljxww.Common.ApiCaller.Models
             {
                 _success = value;
                 _isSet = true;
+            }
+        }
+
+        /// <summary>
+        /// 结果中的Code(试用, 请在确保结果中存在int类型的code时使用)
+        /// </summary>
+        public int Code
+        {
+            get
+            {
+                try
+                {
+                    return JsonObject!["code"]!.GetValue<int>();
+                }
+                catch
+                {
+                    return -1;
+                }
             }
         }
 
@@ -154,7 +172,8 @@ namespace Lljxww.Common.ApiCaller.Models
 
                     if (success.HasValue && success.Value)
                     {
-                        return result?.GetValue<string>();
+                        object? resultObj = result?.GetValue<object>();
+                        return Convert.ToString(resultObj);
                     }
 
                     return string.Empty;
