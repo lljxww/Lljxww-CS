@@ -97,7 +97,7 @@ namespace Lljxww.Common.ApiCaller
         /// <summary>
         /// 请求结果对象
         /// </summary>
-        public ApiResult? ApiResult { get; set; }
+        public ApiResult ApiResult { get; set; }
 
         /// <summary>
         /// 请求体

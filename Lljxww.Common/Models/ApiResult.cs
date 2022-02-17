@@ -61,7 +61,7 @@ namespace Lljxww.Common.Models
         /// </summary>
         /// <param name="success"></param>
         /// <param name="message"></param>
-        public ApiResult(bool success, string message) : this(success, message, 1)
+        public ApiResult(bool success, string? message) : this(success, message, 1)
         {
         }
 
