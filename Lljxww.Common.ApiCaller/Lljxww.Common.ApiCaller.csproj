@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Lljxww.Common.ApiCaller</PackageId>
-    <Version>1.4.3.3-beta</Version>
+    <Version>1.4.3.3</Version>
     <Authors>liangjw</Authors>
     <Description>常用代码合集-ApiCaller</Description>
     <PackageReleaseNotes>优化ApiResult的索引器</PackageReleaseNotes>
@@ -30,7 +30,7 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
