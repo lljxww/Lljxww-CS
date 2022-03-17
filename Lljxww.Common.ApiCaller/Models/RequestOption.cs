@@ -23,6 +23,11 @@
         public HttpContent CustomHttpContent { get; set; }
 
         /// <summary>
+        /// 不记录日志
+        /// </summary>
+        public bool DontLog { get; set; } = false;
+
+        /// <summary>
         /// 自定义认证信息
         /// </summary>
         public string CustomAuthorizeInfo { get; set; }

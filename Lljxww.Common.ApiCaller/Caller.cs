@@ -88,18 +88,21 @@ namespace Lljxww.Common.WebApiCaller
             }
 
             // 记录日志事件
-            try
+            if (requestOption == null || !requestOption.DontLog)
             {
-                LogEvent?.Invoke(context);
+                try
+                {
+                    _ = Task.Run(() => LogEvent?.Invoke(context));
+                }
+                catch { }
             }
-            catch { }
 
             // 执行后事件
             try
             {
                 if (requestOption != null && requestOption.IsTriggerOnExecuted)
                 {
-                    OnExecuted?.Invoke(context);
+                    _ = Task.Run(() => OnExecuted?.Invoke(context));
                 }
             }
             catch { }
