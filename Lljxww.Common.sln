@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.CSRedis.Exten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.ApiCaller", "Lljxww.Common.ApiCaller\Lljxww.Common.ApiCaller.csproj", "{D5D5397C-C246-4B3C-B221-F1D96063B501}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.Dapper.Extensions", "Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj", "{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D5D5397C-C246-4B3C-B221-F1D96063B501}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5D5397C-C246-4B3C-B221-F1D96063B501}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5D5397C-C246-4B3C-B221-F1D96063B501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Lljxww.Common.Dapper.Extensions</PackageId>
+    <Version>1.0</Version>
+    <Authors>liangjw</Authors>
+    <Description>常用代码合集-Dapper扩展</Description>
+    <PackageReleaseNotes>支持批量设置Model的Column Mapping</PackageReleaseNotes>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+  </ItemGroup>
+</Project>

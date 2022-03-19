@@ -47,3 +47,9 @@ jobs:
       with:
        PROJECT_FILE_PATH: Lljxww.Common.EntityFramework.Extensions/Lljxww.Common.EntityFramework.Extensions.csproj
        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+    - name: Publish-Dapper
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+       PROJECT_FILE_PATH: Lljxww.Common.Dapper.Extensions/Lljxww.Common.Dapper.Extensions.csproj
+       NUGET_KEY: ${{secrets.NUGET_API_KEY}}
