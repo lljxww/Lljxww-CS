@@ -3,11 +3,11 @@ using static Dapper.SqlMapper;
 
 namespace Lljxww.Common.Dapper.Extensions
 {
-    public class FallbackTypeMapper : ITypeMap
+    internal class TypeMapper : ITypeMap
     {
         private readonly IEnumerable<ITypeMap> _mappers;
 
-        public FallbackTypeMapper(IEnumerable<ITypeMap> mappers)
+        public TypeMapper(IEnumerable<ITypeMap> mappers)
         {
             _mappers = mappers;
         }

@@ -24,7 +24,7 @@ namespace Lljxww.Common.Dapper.Extensions
                     continue;
                 }
 
-                FallbackTypeMapper fallback = new(new SqlMapper.ITypeMap[]
+                TypeMapper fallback = new(new SqlMapper.ITypeMap[]
                 {
                     new CustomPropertyTypeMap(
                         type,
