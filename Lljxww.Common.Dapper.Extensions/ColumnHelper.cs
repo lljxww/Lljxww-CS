@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Dapper;
+﻿using Dapper;
+using System.Reflection;
 
 namespace Lljxww.Common.Dapper.Extensions
 {
@@ -7,10 +7,10 @@ namespace Lljxww.Common.Dapper.Extensions
     {
         public static void SetMapper(Assembly assembly)
         {
-            foreach (var type in assembly.GetTypes())
+            foreach (Type? type in assembly.GetTypes())
             {
                 bool marked = false;
-                foreach (var item in type.GetProperties())
+                foreach (PropertyInfo? item in type.GetProperties())
                 {
                     if (item.GetCustomAttribute(typeof(ColumnAttribute)) != null)
                     {

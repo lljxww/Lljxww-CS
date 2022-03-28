@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using Dapper;
+﻿using Dapper;
 using Lljxww.Common.Dapper.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using ColumnAttribute = Lljxww.Common.Dapper.Extensions.ColumnAttribute;
 
 namespace Lljxww.Common.Test
@@ -14,7 +14,7 @@ namespace Lljxww.Common.Test
     {
         private IDbConnection GetConn()
         {
-            var connStr = "server=localhost;uid=root;pwd=123456;database=gans;";
+            string? connStr = "server=localhost;uid=root;pwd=123456;database=gans;";
             return new MySqlConnection(connStr);
         }
 
@@ -23,8 +23,8 @@ namespace Lljxww.Common.Test
         {
             ColumnHelper.SetMapper(typeof(DapperExtensionUnitTest).Assembly);
 
-            using var conn = GetConn();
-            var testModel = conn.QueryFirst<TestModel>("select * from role_action");
+            using IDbConnection? conn = GetConn();
+            TestModel? testModel = conn.QueryFirst<TestModel>("select * from role_action");
             Assert.AreEqual(9, testModel.ActionId);
         }
 

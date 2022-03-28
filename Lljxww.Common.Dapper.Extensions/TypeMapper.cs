@@ -14,7 +14,7 @@ namespace Lljxww.Common.Dapper.Extensions
 
         public ConstructorInfo? FindConstructor(string[] names, Type[] types)
         {
-            foreach (var mapper in _mappers)
+            foreach (ITypeMap? mapper in _mappers)
             {
                 try
                 {
@@ -34,11 +34,11 @@ namespace Lljxww.Common.Dapper.Extensions
 
         public IMemberMap? GetConstructorParameter(ConstructorInfo constructor, string columnName)
         {
-            foreach (var mapper in _mappers)
+            foreach (ITypeMap? mapper in _mappers)
             {
                 try
                 {
-                    var result = mapper.GetConstructorParameter(constructor, columnName);
+                    IMemberMap? result = mapper.GetConstructorParameter(constructor, columnName);
                     if (result != null)
                     {
                         return result;
@@ -54,11 +54,11 @@ namespace Lljxww.Common.Dapper.Extensions
 
         public IMemberMap? GetMember(string columnName)
         {
-            foreach (var mapper in _mappers)
+            foreach (ITypeMap? mapper in _mappers)
             {
                 try
                 {
-                    var result = mapper.GetMember(columnName);
+                    IMemberMap? result = mapper.GetMember(columnName);
                     if (result != null)
                     {
                         return result;
@@ -72,8 +72,11 @@ namespace Lljxww.Common.Dapper.Extensions
             return null;
         }
 
-        public ConstructorInfo? FindExplicitConstructor() => _mappers
-            .Select(mapper => mapper.FindExplicitConstructor())
-            .FirstOrDefault(result => result != null);
+        public ConstructorInfo? FindExplicitConstructor()
+        {
+            return _mappers
+.Select(mapper => mapper.FindExplicitConstructor())
+.FirstOrDefault(result => result != null);
+        }
     }
 }

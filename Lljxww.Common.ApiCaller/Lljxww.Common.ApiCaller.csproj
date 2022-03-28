@@ -36,4 +36,5 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties configs_4caller_1sample_1json__JsonSchema="https://raw.githubusercontent.com/liang1224/Lljxww.Common/main/Lljxww.Common.ApiCaller/Configs/caller.schema.json" /></VisualStudio></ProjectExtensions>
 </Project>
