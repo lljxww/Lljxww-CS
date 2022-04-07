@@ -36,5 +36,43 @@
         /// 超时时长（ms），超过此时间的请求将取消
         /// </summary>
         public int Timeout { get; set; } = -1;
+
+        /// <summary>
+        /// 自定义对象, 可用于将请求时的一些细节传递到各类事件处理程序中使用
+        /// </summary>
+        public object CustomObject { get; set; }
+
+        /// <summary>
+        /// 获取自定义对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T? GetCustomObject<T>()
+        {
+            if (CustomObject == null)
+            {
+                return default;
+            }
+
+            try
+            {
+                return (T)CustomObject;
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// 获取自定义对象, 如果获取失败, 则返回给定的默认值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public T? GetCustomObject<T>(T defaultValue)
+        {
+            return GetCustomObject<T>() ?? defaultValue;
+        }
     }
 }
