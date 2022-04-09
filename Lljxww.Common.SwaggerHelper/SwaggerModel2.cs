@@ -2,30 +2,30 @@ using System.Text.Json.Serialization;
 
 namespace Lljxww.Common.SwaggerHelper;
 
-public class SwaggerModel2 : SwaggerModel
+public class SwaggerModel
 {
-    [JsonIgnore] public override string Version => Swagger;
+    [JsonIgnore] public string Version => Swagger;
 
     private string Swagger { get; set; }
 
-    public InfoModel2 Info { get; set; }
+    public InfoModel Info { get; set; }
 
     public string Host { get; set; }
 
     public IList<string> Schemes { get; set; }
 
-    public Dictionary<string, Dictionary<string, MethodInfo2>> Paths { get; set; }
+    public Dictionary<string, Dictionary<string, MethodInfo>> Paths { get; set; }
 
     public Dictionary<string, ParamDefinition> Definitions { get; set; }
 
-    public class InfoModel2
+    public class InfoModel
     {
         public string Version { get; set; }
 
         public string Title { get; set; }
     }
 
-    public class MethodInfo2
+    public class MethodInfo
     {
         public IList<string> Tags { get; set; }
 
@@ -37,12 +37,12 @@ public class SwaggerModel2 : SwaggerModel
 
         public IList<string> Produces { get; set; }
 
-        public IList<Parameter2> Parameters { get; set; }
+        public IList<Parameter> Parameters { get; set; }
 
-        public Dictionary<string, Response2> Responses { get; set; }
+        public Dictionary<string, Response> Responses { get; set; }
     }
 
-    public class Parameter2
+    public class Parameter
     {
         public string Name { get; set; }
 
@@ -54,22 +54,22 @@ public class SwaggerModel2 : SwaggerModel
 
         public string? Type { get; set; }
 
-        public Dictionary<string, ParamDefinition> Schema { get; set; }
+        public RequestSchema Schema { get; set; }
     }
 
-    public class RequestSchema2
+    public class RequestSchema
     {
-        [JsonPropertyName("$ref")] public PropertyDefinition Ref { get; set; }
+        public string Ref { get; set; }
     }
 
-    public class Response2
+    public class Response
     {
         public string Description { get; set; }
 
-        public ResponseSchema2 Schema { get; set; }
+        public ResponseSchema Schema { get; set; }
     }
 
-    public class ResponseSchema2
+    public class ResponseSchema
     {
         public string Type { get; set; }
     }
@@ -91,10 +91,10 @@ public class SwaggerModel2 : SwaggerModel
 
         public bool? ReadOnly { get; set; }
 
-        public Item2 Items { get; set; }
+        public Item Items { get; set; }
     }
 
-    public class Item2
+    public class Item
     {
         public string Format { get; set; }
 
