@@ -133,7 +133,7 @@ namespace Lljxww.Common.ApiCaller
         /// <param name="param">参数对象</param>
         /// <param name="requestOption"></param>
         /// <returns></returns>
-        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param, RequestOption? requestOption = null)
+        internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param, RequestOption requestOption)
         {
             CallerContext context = new()
             {
@@ -177,7 +177,7 @@ namespace Lljxww.Common.ApiCaller
             }
 
             // 添加自定义AuthorizeInfo
-            if (!string.IsNullOrWhiteSpace(requestOption?.CustomAuthorizeInfo))
+            if (!string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo))
             {
                 context.Authorization.AuthorizationInfo = requestOption.CustomAuthorizeInfo;
             }

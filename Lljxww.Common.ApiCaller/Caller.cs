@@ -10,10 +10,10 @@ namespace Lljxww.Common.WebApiCaller
     {
         public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName, object? requestParam = null, RequestOption? requestOption = null)
         {
+            requestOption ??= new RequestOption();
+
             // 创建请求对象
             CallerContext context = CallerContext.Build(apiNameAndMethodName, _apiCallerConfig, requestParam, requestOption);
-
-            requestOption ??= new RequestOption();
 
             // 尝试从缓存读取结果
             if (context.NeedCache && requestOption.IsFromCache)
@@ -33,12 +33,9 @@ namespace Lljxww.Common.WebApiCaller
                 try
                 {
                     // 设置本次请求的超时时间（如果有）
-                    if (requestOption?.Timeout != -1)
+                    if (requestOption.Timeout > 0)
                     {
-                        if (requestOption != null)
-                        {
-                            context.Timeout = requestOption.Timeout;
-                        }
+                        context.Timeout = requestOption.Timeout;
                     }
 
                     // 执行请求
@@ -88,7 +85,7 @@ namespace Lljxww.Common.WebApiCaller
             }
 
             // 记录日志事件
-            if (requestOption == null || !requestOption.DontLog)
+            if (!requestOption.DontLog)
             {
                 try
                 {
@@ -100,7 +97,7 @@ namespace Lljxww.Common.WebApiCaller
             // 执行后事件
             try
             {
-                if (requestOption != null && requestOption.IsTriggerOnExecuted)
+                if (requestOption.IsTriggerOnExecuted)
                 {
                     _ = Task.Run(() => OnExecuted?.Invoke(context));
                 }
