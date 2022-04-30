@@ -1,82 +1,81 @@
 ﻿using System.Reflection;
 using static Dapper.SqlMapper;
 
-namespace Lljxww.Common.Dapper.Extensions
+namespace Lljxww.Common.Dapper.Extensions;
+
+internal class TypeMapper : ITypeMap
 {
-    internal class TypeMapper : ITypeMap
+    private readonly IEnumerable<ITypeMap> _mappers;
+
+    public TypeMapper(IEnumerable<ITypeMap> mappers)
     {
-        private readonly IEnumerable<ITypeMap> _mappers;
+        _mappers = mappers;
+    }
 
-        public TypeMapper(IEnumerable<ITypeMap> mappers)
+    public ConstructorInfo? FindConstructor(string[] names, Type[] types)
+    {
+        foreach (ITypeMap? mapper in _mappers)
         {
-            _mappers = mappers;
-        }
-
-        public ConstructorInfo? FindConstructor(string[] names, Type[] types)
-        {
-            foreach (ITypeMap? mapper in _mappers)
+            try
             {
-                try
+                ConstructorInfo result = mapper.FindConstructor(names, types);
+                if (result != null)
                 {
-                    ConstructorInfo result = mapper.FindConstructor(names, types);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-
-            return null;
+            catch (NotImplementedException)
+            {
+            }
         }
 
-        public IMemberMap? GetConstructorParameter(ConstructorInfo constructor, string columnName)
+        return null;
+    }
+
+    public IMemberMap? GetConstructorParameter(ConstructorInfo constructor, string columnName)
+    {
+        foreach (ITypeMap? mapper in _mappers)
         {
-            foreach (ITypeMap? mapper in _mappers)
+            try
             {
-                try
+                IMemberMap? result = mapper.GetConstructorParameter(constructor, columnName);
+                if (result != null)
                 {
-                    IMemberMap? result = mapper.GetConstructorParameter(constructor, columnName);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-
-            return null;
+            catch (NotImplementedException)
+            {
+            }
         }
 
-        public IMemberMap? GetMember(string columnName)
+        return null;
+    }
+
+    public IMemberMap? GetMember(string columnName)
+    {
+        foreach (ITypeMap? mapper in _mappers)
         {
-            foreach (ITypeMap? mapper in _mappers)
+            try
             {
-                try
+                IMemberMap? result = mapper.GetMember(columnName);
+                if (result != null)
                 {
-                    IMemberMap? result = mapper.GetMember(columnName);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-
-            return null;
+            catch (NotImplementedException)
+            {
+            }
         }
 
-        public ConstructorInfo? FindExplicitConstructor()
-        {
-            return _mappers
-.Select(mapper => mapper.FindExplicitConstructor())
-.FirstOrDefault(result => result != null);
-        }
+        return null;
+    }
+
+    public ConstructorInfo? FindExplicitConstructor()
+    {
+        return _mappers
+            .Select(mapper => mapper.FindExplicitConstructor())
+            .FirstOrDefault(result => result != null);
     }
 }

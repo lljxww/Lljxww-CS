@@ -1,20 +1,19 @@
-﻿namespace Lljxww.Common.ApiCaller
+﻿namespace Lljxww.Common.ApiCaller;
+
+internal static class HttpClientInstance
 {
-    internal static class HttpClientInstance
+    private static readonly HttpClient client;
+
+    static HttpClientInstance()
     {
-        private static readonly HttpClient client;
+        client = new HttpClient();
 
-        static HttpClientInstance()
-        {
-            client = new HttpClient();
+        client.DefaultRequestHeaders.Add("User-Agent", "Lljxww.WebApiCaller");
+        client.DefaultRequestHeaders.Connection.Add("keep-alive");
+    }
 
-            client.DefaultRequestHeaders.Add("User-Agent", "Lljxww.WebApiCaller");
-            client.DefaultRequestHeaders.Connection.Add("keep-alive");
-        }
-
-        public static HttpClient Get()
-        {
-            return client;
-        }
+    public static HttpClient Get()
+    {
+        return client;
     }
 }

@@ -1,14 +1,12 @@
-﻿namespace Lljxww.Common.Dapper.Extensions
+﻿namespace Lljxww.Common.Dapper.Extensions;
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+public class ColumnAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class ColumnAttribute : Attribute
+    public ColumnAttribute(string name)
     {
-        public ColumnAttribute(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; set; }
+        Name = name;
     }
-}
 
+    public string Name { get; set; }
+}
