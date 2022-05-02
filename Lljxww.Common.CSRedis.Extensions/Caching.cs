@@ -208,29 +208,26 @@ public class Caching
             return result;
         }
 
-        if (onLockFunc == null)
-        {
-            for (int i = 0; i < RETRY_TIMES; i++)
-            {
-                (success, result) = Invoke(key, action);
-
-                if (success)
-                {
-                    return result;
-                }
-                else
-                {
-                    Thread.Sleep(1000 * LOCK_SECONDS / RETRY_TIMES);
-                    continue;
-                }
-            }
-
-            return default;
-        }
-        else
+        if (onLockFunc != null)
         {
             return onLockFunc.Invoke();
         }
+
+        for (int i = 0; i < RETRY_TIMES; i++)
+        {
+            (success, result) = Invoke(key, action);
+
+            switch (success)
+            {
+                case true:
+                    return result;
+                default:
+                    Thread.Sleep(1000 * LOCK_SECONDS / RETRY_TIMES);
+                    break;
+            }
+        }
+
+        return default;
     }
 
     private (bool, T?) Invoke<T>(string key, Func<T> action)
@@ -274,14 +271,9 @@ public class Caching
                 {
                     return;
                 }
-                else
-                {
-                    Thread.Sleep(1000 * LOCK_SECONDS / RETRY_TIMES);
-                    continue;
-                }
-            }
 
-            return;
+                Thread.Sleep(1000 * LOCK_SECONDS / RETRY_TIMES);
+            }
         }
         else
         {

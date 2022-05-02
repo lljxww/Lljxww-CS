@@ -53,22 +53,28 @@ public partial class Caller
                 string? fullName = innerException.GetType().FullName;
                 if (fullName != null && fullName.Contains(nameof(TaskCanceledException)))
                 {
-                    try
+                    // 取消请求后的操作
+                    _ = Task.Run(() =>
                     {
-                        // 取消请求后的操作
-                        OnRequestTimeout?.Invoke(context);
-                    }
-                    catch { }
+                        try
+                        {
+                            OnRequestTimeout?.Invoke(context);
+                        }
+                        catch {}
+                    });
                     return new ApiResult(false, "上游服务响应超时");
                 }
                 else
                 {
-                    try
+                    _ = Task.Run(() =>
                     {
-                        // 触发异常事件
-                        OnException?.Invoke(context, ex);
-                    }
-                    catch { }
+                        try
+                        {
+                            // 触发异常事件
+                            OnException?.Invoke(context, ex);
+                        }
+                        catch { }
+                    });
                     throw innerException;
                 }
             }
@@ -76,22 +82,28 @@ public partial class Caller
             // 处理缓存
             if (context.NeedCache)
             {
-                try
+                _ = Task.Run(() =>
                 {
-                    SetCacheEvent?.Invoke(context);
-                }
-                catch { }
+                    try
+                    {
+                        SetCacheEvent?.Invoke(context);
+                    }
+                    catch { }
+                });
             }
         }
 
         // 记录日志事件
         if (!requestOption.DontLog)
         {
-            try
+            _ = Task.Run(() =>
             {
-                _ = Task.Run(() => LogEvent?.Invoke(context));
-            }
-            catch { }
+                try
+                {
+                    _ = Task.Run(() => LogEvent?.Invoke(context));
+                }
+                catch { }
+            });
         }
 
         // 执行后事件
@@ -99,7 +111,14 @@ public partial class Caller
         {
             if (requestOption.IsTriggerOnExecuted)
             {
-                _ = Task.Run(() => OnExecuted?.Invoke(context));
+                _ = Task.Run(() =>
+                {
+                    try
+                    {
+                        OnExecuted?.Invoke(context);
+                    }
+                    catch { }
+                });
             }
         }
         catch { }
@@ -112,14 +131,9 @@ public partial class Caller
 {
     private readonly ApiCallerConfig _apiCallerConfig;
 
-    private readonly IHttpClientFactory _httpClientFactory;
-
-
-    public Caller(IHttpClientFactory httpClientFactory, IOptions<ApiCallerConfig> apiCallerConfigOption)
+    public Caller(IOptions<ApiCallerConfig> apiCallerConfigOption)
     {
-        _httpClientFactory = httpClientFactory;
         _apiCallerConfig = apiCallerConfigOption.Value;
-
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
     }
 

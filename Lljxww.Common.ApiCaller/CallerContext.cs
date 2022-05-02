@@ -203,9 +203,9 @@ public class CallerContext
                         context.FinalUrl += "?";
                     }
 
-                    foreach (KeyValuePair<string, string> keyvaluepair in context.ParamDic)
+                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
                     {
-                        context.FinalUrl += $"&{keyvaluepair.Key}={HttpUtility.UrlEncode(keyvaluepair.Value)}";
+                        context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
                     }
                     context.FinalUrl = context.FinalUrl.Replace("?&", "?");
                 }
@@ -216,9 +216,9 @@ public class CallerContext
             {
                 if (context.ParamDic != null)
                 {
-                    foreach (KeyValuePair<string, string> keyvaluepair in context.ParamDic)
+                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
                     {
-                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyvaluepair.Key}}}", keyvaluepair.Value);
+                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
                     }
                 }
 
