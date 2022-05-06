@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Common.Test;
 
@@ -25,18 +25,7 @@ public class JsonNodeTest
 
         JsonDocument? jsonDoc = JsonDocument.Parse(jsonStr);
 
-        IList<Dictionary<string, JsonNode>>? dic = JsonSerializer.Deserialize<IList<Dictionary<string, JsonNode>>>(jsonArray);
-    }
-
-    public class TestModel
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public IList<string> Books { get; set; }
-
-        public IList<TestModel> OtherModels { get; set; }
+        IList<Dictionary<string, JsonNode>>? dic = jsonArray.Deserialize<IList<Dictionary<string, JsonNode>>>();
     }
 
     public TestModel TestModelGen(int bookCount = 5, int otherModelCount = 0)
@@ -62,5 +51,16 @@ public class JsonNodeTest
             Books = books,
             OtherModels = otherModels
         };
+    }
+
+    public class TestModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public IList<string> Books { get; set; }
+
+        public IList<TestModel> OtherModels { get; set; }
     }
 }

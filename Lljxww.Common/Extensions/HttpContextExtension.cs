@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Http;
 
 namespace Lljxww.Common.Extensions;
@@ -12,8 +11,8 @@ public static class HttpContextExtension
             return null;
         }
 
-        return context.Request.Query.Keys.Contains(key) 
-            ? context.Request.Query[key].ToString() 
+        return context.Request.Query.Keys.Contains(key)
+            ? context.Request.Query[key].ToString()
             : null;
     }
 

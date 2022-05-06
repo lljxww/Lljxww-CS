@@ -1,6 +1,6 @@
-﻿using Lljxww.Common.Extensions;
+﻿using System.Collections.Generic;
+using Lljxww.Common.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace Lljxww.Common.Test;
 

@@ -4,78 +4,99 @@ using System.Text.Json.Nodes;
 namespace Lljxww.Common.ApiCaller.Models;
 
 /// <summary>
-/// ApiCaller接口返回结果包装类
+///     ApiCaller接口返回结果包装类
 /// </summary>
 [Serializable]
 public class ApiResult
 {
-    private bool _isSet = false;
-    private bool _success = false;
+    #region Success
 
-    private JsonNodeOptions jnOption = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
+    public delegate bool GetSuccessHandler(ApiResult apiResult, Predicate<ApiResult> defaultPredicate);
 
-    /// <summary>
-    /// 执行结果(试用,实际情况以RawStr自行判断)
-    /// </summary>
-    public bool Success
+    public static event GetSuccessHandler GetSuccess;
+
+    private static bool GetSuccessDefault(ApiResult apiResult)
     {
-        get
+        try
         {
-            if (_isSet)
-            {
-                return _success;
-            }
-            else
-            {
-                try
-                {
-                    return JsonObject![nameof(Success)]!.GetValue<bool>();
-                }
-                catch
-                {
-                    try
-                    {
-                        return JsonObject!["IsSuccess"]!.GetValue<bool>();
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
-            }
+            return apiResult.JsonObject![nameof(Success)]!.GetValue<bool>();
         }
-        set
-        {
-            _success = value;
-            _isSet = true;
-        }
-    }
-
-    /// <summary>
-    /// 结果中的Code(试用, 请在确保结果中存在int类型的code时使用)
-    /// </summary>
-    public int Code
-    {
-        get
+        catch
         {
             try
             {
-                return JsonObject!["code"]!.GetValue<int>();
+                return apiResult.JsonObject!["IsSuccess"]!.GetValue<bool>();
             }
             catch
             {
-                return -1;
+                return false;
             }
         }
     }
+
+    /// <summary>
+    ///     执行结果(如默认方法无法正常工作，可通过GetSuccess事件自行注册)
+    /// </summary>
+    public bool Success => GetSuccess != null ? GetSuccess(this, GetSuccessDefault) : GetSuccessDefault(this);
+
+    #endregion
+
+    #region Code
+
+    public delegate int GetCodeHandler(ApiResult apiResult, Func<ApiResult, int> defaultFunc);
+
+    public static event GetCodeHandler GetCode;
+
+    private static int GetCodeDefault(ApiResult apiResult)
+    {
+        try
+        {
+            return apiResult.JsonObject!["code"]!.GetValue<int>();
+        }
+        catch
+        {
+            return -1;
+        }
+    }
+
+    /// <summary>
+    ///     结果中的Code(如默认方法无法正常工作，可通过GetCode事件自行注册)
+    /// </summary>
+    public int Code => GetCode != null ? GetCode(this, GetCodeDefault) : GetCodeDefault(this);
+
+    #endregion
+
+    #region Message
+
+    public delegate string? GetMessageHandler(ApiResult apiResult, Func<ApiResult, string?> defaultFunc);
+
+    public static event GetMessageHandler GetMessage;
+
+    private static string? GetMessageDefault(ApiResult apiResult)
+    {
+        try
+        {
+            return apiResult[nameof(Message)];
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    ///     执行信息(如默认方法无法正常工作，可通过GetMessage事件自行注册)
+    /// </summary>
+    public string? Message => GetMessage != null ? GetMessage(this, GetMessageDefault) : GetMessageDefault(this);
+
+    #endregion
+
+    #region RawString
 
     private string _rawStr;
 
     /// <summary>
-    /// 接口的原始返回结果
+    ///     接口的原始返回结果
     /// </summary>
     public string RawStr
     {
@@ -84,7 +105,7 @@ public class ApiResult
         {
             try
             {
-                JsonObject = JsonNode.Parse(value, jnOption)?.AsObject();
+                JsonObject = JsonNode.Parse(value, jnOption)?.AsObject() ?? new JsonObject(jnOption);
             }
             catch
             {
@@ -95,39 +116,17 @@ public class ApiResult
         }
     }
 
-    private string? _message;
+    #endregion
 
-    /// <summary>
-    /// 执行信息
-    /// </summary>
-    public string? Message
-    {
-        get
-        {
-            if (!string.IsNullOrWhiteSpace(_message))
-            {
-                return _message;
-            }
+    #region Ctor
 
-            try
-            {
-                return this[nameof(Message)];
-            }
-            catch
-            {
-                return "";
-            }
-        }
-        set => _message = value;
-    }
-
-    public ApiResult(string resultStr)
+    public ApiResult(string resultStr, CallerContext? context = null)
     {
         RawStr = resultStr;
 
         try
         {
-            JsonObject = JsonNode.Parse(RawStr, jnOption)?.AsObject();
+            JsonObject = JsonNode.Parse(RawStr, jnOption)?.AsObject() ?? new JsonObject(jnOption);
         }
         catch
         {
@@ -135,17 +134,11 @@ public class ApiResult
         }
     }
 
-    public ApiResult(bool success, string message)
-    {
-        _success = success;
-        _message = message;
-    }
-
-    public ApiResult()
+    public ApiResult(object result, CallerContext? context = null)
     {
         try
         {
-            JsonObject = !string.IsNullOrWhiteSpace(RawStr) ? JsonNode.Parse(RawStr, jnOption)?.AsObject() : new JsonObject(jnOption);
+            JsonObject = JsonSerializer.SerializeToNode(result, jsOption)?.AsObject() ?? new JsonObject(jnOption);
         }
         catch
         {
@@ -153,11 +146,16 @@ public class ApiResult
         }
     }
 
-    [NonSerialized]
-    public JsonObject? JsonObject;
+    #endregion
+
+    #region PublicMethod
+
+    [NonSerialized] public JsonObject JsonObject;
+
+    [NonSerialized] public CallerContext? Context;
 
     /// <summary>
-    /// 返回结果索引器
+    ///     返回结果索引器
     /// </summary>
     /// <param name="propertyName">键名</param>
     /// <returns>返回值</returns>
@@ -170,17 +168,17 @@ public class ApiResult
                 JsonNode? result = default;
                 bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
 
-                if (success.HasValue && success.Value)
+                if (!success.HasValue || !success.Value)
                 {
-                    object? resultObj = result?.GetValue<object>();
-                    return Convert.ToString(resultObj);
+                    return null;
                 }
 
-                return string.Empty;
+                object? resultObj = result?.GetValue<object>();
+                return Convert.ToString(resultObj);
             }
             catch (NullReferenceException)
             {
-                JsonObject = JsonNode.Parse(_rawStr, jnOption)?.AsObject();
+                JsonObject = JsonNode.Parse(_rawStr, jnOption)?.AsObject() ?? new JsonObject(jnOption);
                 try
                 {
                     JsonNode? result = default;
@@ -191,22 +189,22 @@ public class ApiResult
                         return result?.GetValue<string>();
                     }
 
-                    return string.Empty;
+                    return null;
                 }
                 catch
                 {
-                    return string.Empty;
+                    return null;
                 }
             }
             catch
             {
-                return string.Empty;
+                return null;
             }
         }
     }
 
     /// <summary>
-    /// 将Result的原始字符串反序列化为指定的格式
+    ///     将Result的原始字符串反序列化为指定的格式
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
@@ -223,13 +221,19 @@ public class ApiResult
         }
     }
 
-    /// <summary>
-    /// 使用对象构建ApiResult实例
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public static ApiResult Build(object obj)
+    #endregion
+
+    #region Options
+
+    private JsonNodeOptions jnOption = new()
     {
-        return new ApiResult(JsonSerializer.Serialize(obj));
-    }
+        PropertyNameCaseInsensitive = true
+    };
+
+    private JsonSerializerOptions jsOption = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    #endregion
 }

@@ -1,122 +1,26 @@
-﻿using Lljxww.Common.ApiCaller.Extensions;
-using Lljxww.Common.ApiCaller.Models;
-using Lljxww.Common.ApiCaller.Models.Config;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using Lljxww.Common.ApiCaller.Extensions;
+using Lljxww.Common.ApiCaller.Models;
+using Lljxww.Common.ApiCaller.Models.Config;
 
 namespace Lljxww.Common.ApiCaller;
 
 public class CallerContext
 {
-    #region 属性
-
-    /// <summary>
-    /// 服务名.方法名
-    /// </summary>
-    public string ApiName { get; private init; }
-
-    public HttpMethod HttpMethod { get; private set; }
-
-    public HttpRequestMessage RequestMessage { get; private set; }
-
-    /// <summary>
-    /// 请求时的特定设置
-    /// </summary>
-    public RequestOption? RequestOption { get; private set; }
-
-    /// <summary>
-    /// 超时时间(计算后)
-    /// </summary>
-    public int Timeout { get; internal set; } = 20000;
-
-    /// <summary>
-    /// 服务配置节
-    /// </summary>
-    public ServiceItem ServiceItem { get; private set; }
-
-    /// <summary>
-    /// 基础地址
-    /// </summary>
-    public string BaseUrl { get; private set; }
-
-    /// <summary>
-    /// 认证信息
-    /// </summary>
-    public Authorization Authorization { get; private set; }
-
-    /// <summary>
-    /// Api配置节
-    /// </summary>
-    public ApiItem ApiItem { get; private set; }
-
-    /// <summary>
-    /// 是否需要缓存(计算后)
-    /// </summary>
-    public bool NeedCache { get; private set; }
-
-    /// <summary>
-    /// 最终的请求地址(计算后)
-    /// </summary>
-    public string FinalUrl { get; private set; }
-
-    /// <summary>
-    /// 请求参数
-    /// </summary>
-    public object? OriginParam { get; init; }
-
-    /// <summary>
-    /// 请求参数(转换为字典类型后)
-    /// </summary>
-    public Dictionary<string, string>? ParamDic { get; init; }
-
-    /// <summary>
-    /// 响应结果
-    /// </summary>
-    public string ResponseContent { get; private set; }
-
-    /// <summary>
-    /// 请求执行时间
-    /// </summary>
-    public int Runtime { get; private set; } = 0;
-
-    /// <summary>
-    /// 请求结果来源
-    /// </summary>
-    public string ResultFrom { get; internal set; } = "Request";
-
-    /// <summary>
-    /// 缓存Key
-    /// </summary>
-    public string CacheKey { get; private set; }
-
-    /// <summary>
-    /// 请求结果对象
-    /// </summary>
-    public ApiResult ApiResult { get; internal set; }
-
-    /// <summary>
-    /// 请求体
-    /// </summary>
-    public HttpContent HttpContent { get; private set; }
-
-    /// <summary>
-    /// 缓存时间(分, 计算后)
-    /// </summary>
-    public int CacheMinuties { get; private set; }
-
-    #endregion
-
-    private CallerContext() { }
-
     private static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
 
+    private CallerContext()
+    {
+    }
+
     /// <summary>
-    /// 注册授权操作
+    ///     注册授权操作
     /// </summary>
     /// <param name="key">key</param>
     /// <param name="func">操作Func(CallerContext, AuthResult)</param>
@@ -126,14 +30,15 @@ public class CallerContext
     }
 
     /// <summary>
-    /// 创建Caller上下文实例
+    ///     创建Caller上下文实例
     /// </summary>
     /// <param name="apiNameAndMethodName">服务名.方法名</param>
     /// <param name="config">配置对象</param>
     /// <param name="param">参数对象</param>
     /// <param name="requestOption"></param>
     /// <returns></returns>
-    internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param, RequestOption requestOption)
+    internal static CallerContext Build(string apiNameAndMethodName, ApiCallerConfig config, object? param,
+        RequestOption requestOption)
     {
         CallerContext context = new()
         {
@@ -150,15 +55,18 @@ public class CallerContext
             throw new ConfigurationErrorsException($"未找到指定的方法: {serviceName}");
         }
 
-        context.ServiceItem = config.ServiceItems.Single(a => a.ApiName.ToLower().Trim() == serviceName.ToLower().Trim());
+        context.ServiceItem =
+            config.ServiceItems.Single(a => a.ApiName.ToLower().Trim() == serviceName.ToLower().Trim());
 
         context.BaseUrl = context.ServiceItem.BaseUrl;
         if (!string.IsNullOrWhiteSpace(context.ServiceItem.AuthorizationType))
         {
-            context.Authorization = config.Authorizations.Single(a => a.Name.ToLower().Trim() == context.ServiceItem.AuthorizationType.ToLower().Trim());
+            context.Authorization = config.Authorizations.Single(a =>
+                a.Name.ToLower().Trim() == context.ServiceItem.AuthorizationType.ToLower().Trim());
         }
 
-        context.ApiItem = context.ServiceItem.ApiItems.Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
+        context.ApiItem =
+            context.ServiceItem.ApiItems.Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
 
         context.HttpMethod = new HttpMethod(context.ApiItem.HttpMethod);
 
@@ -173,7 +81,8 @@ public class CallerContext
         // 授权
         if (!string.IsNullOrWhiteSpace(context.ApiItem.AuthorizationType))
         {
-            context.Authorization = config.Authorizations.Single(a => a.Name.ToLower().Trim() == context.ApiItem.AuthorizationType.ToLower().Trim());
+            context.Authorization = config.Authorizations.Single(a =>
+                a.Name.ToLower().Trim() == context.ApiItem.AuthorizationType.ToLower().Trim());
         }
 
         // 添加自定义AuthorizeInfo
@@ -186,7 +95,8 @@ public class CallerContext
         if (context.NeedCache)
         {
             using SHA1 sha = SHA1.Create();
-            byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(($"{apiNameAndMethodName}+{(param == null ? "" : JsonSerializer.Serialize(param))}").ToLower()));
+            byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(
+                $"{apiNameAndMethodName}+{(param == null ? "" : JsonSerializer.Serialize(param))}".ToLower()));
             context.CacheKey = $"WebApiCaller:{BitConverter.ToString(result).Replace("-", "").ToLower()}";
         }
 
@@ -207,6 +117,7 @@ public class CallerContext
                     {
                         context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
                     }
+
                     context.FinalUrl = context.FinalUrl.Replace("?&", "?");
                 }
 
@@ -312,9 +223,107 @@ public class CallerContext
 
         if (!string.IsNullOrWhiteSpace(ResponseContent))
         {
-            ApiResult = new ApiResult(ResponseContent);
+            ApiResult = new ApiResult(ResponseContent, this);
         }
 
         return this;
     }
+
+    #region 属性
+
+    /// <summary>
+    ///     服务名.方法名
+    /// </summary>
+    public string ApiName { get; private init; }
+
+    public HttpMethod HttpMethod { get; private set; }
+
+    public HttpRequestMessage RequestMessage { get; private set; }
+
+    /// <summary>
+    ///     请求时的特定设置
+    /// </summary>
+    public RequestOption? RequestOption { get; private set; }
+
+    /// <summary>
+    ///     超时时间(计算后)
+    /// </summary>
+    public int Timeout { get; internal set; } = 20000;
+
+    /// <summary>
+    ///     服务配置节
+    /// </summary>
+    public ServiceItem ServiceItem { get; private set; }
+
+    /// <summary>
+    ///     基础地址
+    /// </summary>
+    public string BaseUrl { get; private set; }
+
+    /// <summary>
+    ///     认证信息
+    /// </summary>
+    public Authorization Authorization { get; private set; }
+
+    /// <summary>
+    ///     Api配置节
+    /// </summary>
+    public ApiItem ApiItem { get; private set; }
+
+    /// <summary>
+    ///     是否需要缓存(计算后)
+    /// </summary>
+    public bool NeedCache { get; private set; }
+
+    /// <summary>
+    ///     最终的请求地址(计算后)
+    /// </summary>
+    public string FinalUrl { get; private set; }
+
+    /// <summary>
+    ///     请求参数
+    /// </summary>
+    public object? OriginParam { get; init; }
+
+    /// <summary>
+    ///     请求参数(转换为字典类型后)
+    /// </summary>
+    public Dictionary<string, string>? ParamDic { get; init; }
+
+    /// <summary>
+    ///     响应结果
+    /// </summary>
+    public string ResponseContent { get; private set; }
+
+    /// <summary>
+    ///     请求执行时间
+    /// </summary>
+    public int Runtime { get; private set; }
+
+    /// <summary>
+    ///     请求结果来源
+    /// </summary>
+    public string ResultFrom { get; internal set; } = "Request";
+
+    /// <summary>
+    ///     缓存Key
+    /// </summary>
+    public string CacheKey { get; private set; }
+
+    /// <summary>
+    ///     请求结果对象
+    /// </summary>
+    public ApiResult ApiResult { get; internal set; }
+
+    /// <summary>
+    ///     请求体
+    /// </summary>
+    public HttpContent HttpContent { get; private set; }
+
+    /// <summary>
+    ///     缓存时间(分, 计算后)
+    /// </summary>
+    public int CacheMinuties { get; private set; }
+
+    #endregion
 }

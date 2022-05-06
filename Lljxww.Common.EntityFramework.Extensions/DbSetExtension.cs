@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lljxww.Common.EntityFramework.Extensions;
 
@@ -18,7 +18,8 @@ public static class DbSetExtension
         dbSet.RemoveRange(contents);
     }
 
-    public static void Update<T>(this DbSet<T> dbSet, Expression<Func<T>> values, Expression<Func<T?, bool>> match) where T : class
+    public static void Update<T>(this DbSet<T> dbSet, Expression<Func<T>> values, Expression<Func<T?, bool>> match)
+        where T : class
     {
         T? instance = dbSet.SingleOrDefault(match);
 

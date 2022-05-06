@@ -9,16 +9,15 @@ namespace Lljxww.Common.Utilities.Image;
 public class VerificationCode
 {
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="length"></param>
     /// <returns></returns>
     public static string CreateValidateCodeWithLetter(int length)
     {
         //字母去掉I、O避免与数字混淆
-        char[] pattern = new char[]
+        char[] pattern =
         {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
             'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y'
         };
 
@@ -35,7 +34,7 @@ public class VerificationCode
     }
 
     /// <summary>
-    /// 创建验证码图形的字节流
+    ///     创建验证码图形的字节流
     /// </summary>
     /// <param name="validateCode">验证码</param>
     /// <returns>图形字节流</returns>
@@ -60,7 +59,8 @@ public class VerificationCode
             }
 
             Font font = new("Arial", 16, FontStyle.Bold | FontStyle.Italic);
-            LinearGradientBrush brush = new(new Rectangle(0, 0, image.Width, image.Height), Color.Blue, Color.DarkRed, 1.2f, true);
+            LinearGradientBrush brush = new(new Rectangle(0, 0, image.Width, image.Height), Color.Blue, Color.DarkRed,
+                1.2f, true);
             g.DrawString(validateCode, font, brush, 18, 10);
 
             //画图片的前景干扰点

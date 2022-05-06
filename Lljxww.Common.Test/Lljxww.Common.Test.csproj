@@ -1,44 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+        <IsPackable>false</IsPackable>
 
-    <LangVersion>default</LangVersion>
+        <LangVersion>default</LangVersion>
 
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
-    <PackageReference Include="MySql.Data" Version="8.0.29" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="3.1.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Dapper" Version="2.0.123"/>
+        <PackageReference Include="Dapper.Contrib" Version="2.0.78"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
+        <PackageReference Include="MSTest.TestAdapter" Version="2.2.10"/>
+        <PackageReference Include="MSTest.TestFramework" Version="2.2.10"/>
+        <PackageReference Include="MySql.Data" Version="8.0.29"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Lljxww.Common.ApiCaller\Lljxww.Common.ApiCaller.csproj" />
-    <ProjectReference Include="..\Lljxww.Common.CSRedis.Extensions\Lljxww.Common.CSRedis.Extensions.csproj" />
-    <ProjectReference Include="..\Lljxww.Common\Lljxww.Common.csproj" />
-    <ProjectReference Include="..\Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj" />
-    <ProjectReference Include="..\Lljxww.Common.EntityFramework.Extensions\Lljxww.Common.EntityFramework.Extensions.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Lljxww.Common.ApiCaller\Lljxww.Common.ApiCaller.csproj"/>
+        <ProjectReference Include="..\Lljxww.Common.CSRedis.Extensions\Lljxww.Common.CSRedis.Extensions.csproj"/>
+        <ProjectReference Include="..\Lljxww.Common\Lljxww.Common.csproj"/>
+        <ProjectReference Include="..\Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj"/>
+        <ProjectReference Include="..\Lljxww.Common.EntityFramework.Extensions\Lljxww.Common.EntityFramework.Extensions.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="apicaller.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="apicaller.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

@@ -4,14 +4,14 @@ using System.Globalization;
 namespace Lljxww.Common.Utilities.Time;
 
 /// <summary>
-/// 时间戳工具
+///     时间戳工具
 /// </summary>
 public static class Timestamp
 {
     private static readonly DateTime BaseUtcTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     /// <summary>
-    /// 查询当前的UNIX时间戳
+    ///     查询当前的UNIX时间戳
     /// </summary>
     /// <returns>当前的UNIX时间戳</returns>
     public static string Get()
@@ -21,7 +21,7 @@ public static class Timestamp
     }
 
     /// <summary>
-    /// 检查指定的时间戳是否已超过指定期限(分钟)
+    ///     检查指定的时间戳是否已超过指定期限(分钟)
     /// </summary>
     /// <param name="timestamp">目标时间戳</param>
     /// <param name="expire">有效期(分)</param>

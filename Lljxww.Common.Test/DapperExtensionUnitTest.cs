@@ -1,11 +1,10 @@
-﻿using Dapper;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using Dapper;
 using Lljxww.Common.Dapper.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using ColumnAttribute = Lljxww.Common.Dapper.Extensions.ColumnAttribute;
 
 namespace Lljxww.Common.Test;
 
@@ -31,13 +30,11 @@ public class DapperExtensionUnitTest
     [Table("role_action")]
     public class TestModel
     {
-        [Key]
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
-        [Column("role_id")]
-        public int RoleId { get; set; }
+        [Dapper.Extensions.Column("role_id")] public int RoleId { get; set; }
 
-        [Column("action_id")]
+        [Dapper.Extensions.Column("action_id")]
         public int ActionId { get; set; }
     }
 }

@@ -1,19 +1,21 @@
-﻿using Lljxww.Common.ApiCaller;
+﻿using System.Net;
+using Lljxww.Common.ApiCaller;
 using Lljxww.Common.ApiCaller.Models;
 using Lljxww.Common.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
-using System.Net;
 
 namespace Lljxww.Common.WebApiCaller;
 
 public partial class Caller
 {
-    public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName, object? requestParam = null, RequestOption? requestOption = null)
+    public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName, object? requestParam = null,
+        RequestOption? requestOption = null)
     {
         requestOption ??= new RequestOption();
 
         // 创建请求对象
-        CallerContext context = CallerContext.Build(apiNameAndMethodName, _apiCallerConfig, requestParam, requestOption);
+        CallerContext context =
+            CallerContext.Build(apiNameAndMethodName, _apiCallerConfig, requestParam, requestOption);
 
         // 尝试从缓存读取结果
         if (context.NeedCache && requestOption.IsFromCache)
@@ -60,23 +62,29 @@ public partial class Caller
                         {
                             OnRequestTimeout?.Invoke(context);
                         }
-                        catch {}
-                    });
-                    return new ApiResult(false, "上游服务响应超时");
-                }
-                else
-                {
-                    _ = Task.Run(() =>
-                    {
-                        try
+                        catch
                         {
-                            // 触发异常事件
-                            OnException?.Invoke(context, ex);
                         }
-                        catch { }
                     });
-                    throw innerException;
+                    return new ApiResult(new
+                    {
+                        success = false,
+                        message = "目标服务超时"
+                    }, context);
                 }
+
+                _ = Task.Run(() =>
+                {
+                    try
+                    {
+                        // 触发异常事件
+                        OnException?.Invoke(context, ex);
+                    }
+                    catch
+                    {
+                    }
+                });
+                throw innerException;
             }
 
             // 处理缓存
@@ -88,7 +96,9 @@ public partial class Caller
                     {
                         SetCacheEvent?.Invoke(context);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 });
             }
         }
@@ -102,7 +112,9 @@ public partial class Caller
                 {
                     _ = Task.Run(() => LogEvent?.Invoke(context));
                 }
-                catch { }
+                catch
+                {
+                }
             });
         }
 
@@ -117,11 +129,15 @@ public partial class Caller
                     {
                         OnExecuted?.Invoke(context);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 });
             }
         }
-        catch { }
+        catch
+        {
+        }
 
         return context.ApiResult;
     }
@@ -140,48 +156,54 @@ public partial class Caller
     #region 事件
 
     /// <summary>
-    /// 设置缓存
+    ///     设置缓存
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
     public delegate void SetCacheHandler(CallerContext context);
+
     public static event SetCacheHandler SetCacheEvent;
 
     /// <summary>
-    /// 读取缓存
+    ///     读取缓存
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
     public delegate ApiResult? GetCacheHandler(CallerContext context);
+
     public static event GetCacheHandler GetCacheEvent;
 
     /// <summary>
-    /// 记录日志
+    ///     记录日志
     /// </summary>
     /// <param name="context"></param>
     public delegate void LogHandler(CallerContext context);
+
     public static event LogHandler LogEvent;
 
     /// <summary>
-    /// 请求方法执行结束后的操作
+    ///     请求方法执行结束后的操作
     /// </summary>
     /// <param name="context"></param>
     public delegate void OnExecutedHandler(CallerContext context);
+
     public static event OnExecutedHandler OnExecuted;
 
     /// <summary>
-    /// 执行发生异常时触发
+    ///     执行发生异常时触发
     /// </summary>
     /// <param name="context"></param>
     /// <param name="ex"></param>
     public delegate void OnExceptionHandler(CallerContext context, Exception ex);
+
     public static event OnExceptionHandler OnException;
 
     /// <summary>
-    /// 请求超时时触发
+    ///     请求超时时触发
     /// </summary>
     /// <param name="context"></param>
     public delegate void OnRequestTimeoutHandler(CallerContext context);
+
     public static event OnRequestTimeoutHandler OnRequestTimeout;
 
     #endregion

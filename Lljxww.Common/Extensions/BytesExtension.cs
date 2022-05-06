@@ -4,12 +4,12 @@ using System.Text.Json;
 namespace Lljxww.Common.Extensions;
 
 /// <summary>
-/// 字节流扩展方法
+///     字节流扩展方法
 /// </summary>
 public static class BytesExtension
 {
     /// <summary>
-    /// 将字节流反序列化为指定的对象
+    ///     将字节流反序列化为指定的对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="bytes"></param>
