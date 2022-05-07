@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.Common.ApiCaller</PackageId>
-        <Version>1.5</Version>
+        <Version>1.5.1</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集-ApiCaller</Description>
         <PackageReleaseNotes>ApiResult支持自定义GetSuccess,GetCode,GetMessage事件</PackageReleaseNotes>
