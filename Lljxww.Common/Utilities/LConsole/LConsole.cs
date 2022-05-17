@@ -3,7 +3,7 @@ namespace Lljxww.Common.Utilities.LConsole;
 
 public static class LConsole
 {
-    private static readonly ConsoleColor _defaultColor = Console.ForegroundColor;
+    private static readonly ConsoleColor _defaultColor = ConsoleColor.Gray;
 
     public static void Info(string message)
     {

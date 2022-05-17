@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.Common</PackageId>
-        <Version>1.4.5</Version>
+        <Version>1.4.6</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集</Description>
         <PackageReleaseNotes>添加LConsole帮助类；添加Dictionary.Merge扩展方法</PackageReleaseNotes>
@@ -18,9 +18,5 @@
 
     <ItemGroup>
       <None Remove="SourceGen\" />
-      <None Remove="Utilities\Console\" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Utilities\Console\" />
     </ItemGroup>
 </Project>
