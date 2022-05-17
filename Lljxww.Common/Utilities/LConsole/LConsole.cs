@@ -3,11 +3,13 @@ namespace Lljxww.Common.Utilities.LConsole;
 
 public static class LConsole
 {
+    private static readonly ConsoleColor _defaultColor = Console.ForegroundColor;
+
     public static void Info(string message)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(message);
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = _defaultColor;
     }
 
     public static void InfoLine(string message)
@@ -20,7 +22,7 @@ public static class LConsole
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write(message);
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = _defaultColor;
     }
 
     public static void WarnLine(string message)
@@ -33,7 +35,7 @@ public static class LConsole
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write(message);
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = _defaultColor;
     }
 
     public static void FailLine(string message)
