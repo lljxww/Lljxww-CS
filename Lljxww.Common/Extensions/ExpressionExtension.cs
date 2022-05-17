@@ -8,7 +8,7 @@ namespace Lljxww.Common.Extensions;
 public static class ExpressionExtension
 {
     /// <summary>
-    ///     Lambda表达式拼接
+    /// Lambda表达式拼接
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="first"></param>
@@ -25,7 +25,7 @@ public static class ExpressionExtension
     }
 
     /// <summary>
-    ///     and扩展
+    /// and扩展
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="first"></param>
@@ -38,7 +38,7 @@ public static class ExpressionExtension
     }
 
     /// <summary>
-    ///     or扩展
+    /// or扩展
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="first"></param>

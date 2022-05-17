@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 namespace Lljxww.Common.ApiCaller.Models;
 
 /// <summary>
-///     ApiCaller接口返回结果包装类
+/// ApiCaller接口返回结果包装类
 /// </summary>
 [Serializable]
 public class ApiResult
@@ -35,7 +35,7 @@ public class ApiResult
     }
 
     /// <summary>
-    ///     执行结果(如默认方法无法正常工作，可通过GetSuccess事件自行注册)
+    /// 执行结果(如默认方法无法正常工作，可通过GetSuccess事件自行注册)
     /// </summary>
     public bool Success => GetSuccess != null ? GetSuccess(this, GetSuccessDefault) : GetSuccessDefault(this);
 
@@ -60,7 +60,7 @@ public class ApiResult
     }
 
     /// <summary>
-    ///     结果中的Code(如默认方法无法正常工作，可通过GetCode事件自行注册)
+    /// 结果中的Code(如默认方法无法正常工作，可通过GetCode事件自行注册)
     /// </summary>
     public int Code => GetCode != null ? GetCode(this, GetCodeDefault) : GetCodeDefault(this);
 
@@ -85,7 +85,7 @@ public class ApiResult
     }
 
     /// <summary>
-    ///     执行信息(如默认方法无法正常工作，可通过GetMessage事件自行注册)
+    /// 执行信息(如默认方法无法正常工作，可通过GetMessage事件自行注册)
     /// </summary>
     public string? Message => GetMessage != null ? GetMessage(this, GetMessageDefault) : GetMessageDefault(this);
 
@@ -96,7 +96,7 @@ public class ApiResult
     private string _rawStr;
 
     /// <summary>
-    ///     接口的原始返回结果
+    /// 接口的原始返回结果
     /// </summary>
     public string RawStr
     {
@@ -155,7 +155,7 @@ public class ApiResult
     [NonSerialized] public CallerContext? Context;
 
     /// <summary>
-    ///     返回结果索引器
+    /// 返回结果索引器
     /// </summary>
     /// <param name="propertyName">键名</param>
     /// <returns>返回值</returns>
@@ -204,7 +204,7 @@ public class ApiResult
     }
 
     /// <summary>
-    ///     将Result的原始字符串反序列化为指定的格式
+    /// 将Result的原始字符串反序列化为指定的格式
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>

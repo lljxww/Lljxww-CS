@@ -48,25 +48,25 @@ public class ApiResultConvertUnitTest
     public class FileAuthModel
     {
         /// <summary>
-        ///     库代码
+        /// 库代码
         /// </summary>
         [DataMember]
         public string DbCode { get; set; }
 
         /// <summary>
-        ///     文件名
+        /// 文件名
         /// </summary>
         [DataMember]
         public string FileId { get; set; }
 
         /// <summary>
-        ///     RootId
+        /// RootId
         /// </summary>
         [DataMember]
         public string RootId { get; set; }
 
         /// <summary>
-        ///     查询权限需要的kbase字段名
+        /// 查询权限需要的kbase字段名
         /// </summary>
         [DataMember]
         public IList<string> Fields { get; set; } = new List<string>
@@ -89,7 +89,7 @@ public class ApiResultConvertUnitTest
         };
 
         /// <summary>
-        ///     从kbase中查询出来的字段名及其值
+        /// 从kbase中查询出来的字段名及其值
         /// </summary>
         [DataMember]
         public Dictionary<string, string> FieldValuePairs { get; set; } = new();

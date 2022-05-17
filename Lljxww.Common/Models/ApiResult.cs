@@ -5,14 +5,14 @@ using System.Text.Json;
 namespace Lljxww.Common.Models;
 
 /// <summary>
-///     实现了IHttpActionResult的返回结果类
+/// 实现了IHttpActionResult的返回结果类
 /// </summary>
 /// <typeparam name="T">返回结果集的类型</typeparam>
 [Serializable]
 public class ApiResult<T>
 {
     /// <summary>
-    ///     构造方法
+    /// 构造方法
     /// </summary>
     /// <param name="success">是否成功</param>
     /// <param name="message">信息</param>
@@ -49,7 +49,7 @@ public class ApiResult<T>
     }
 
     /// <summary>
-    ///     初始化APIResult的新实例
+    /// 初始化APIResult的新实例
     /// </summary>
     /// <param name="result">Result主体</param>
     /// <param name="message">信息</param>
@@ -58,7 +58,7 @@ public class ApiResult<T>
     }
 
     /// <summary>
-    ///     初始化APIResult的新实例
+    /// 初始化APIResult的新实例
     /// </summary>
     /// <param name="success"></param>
     /// <param name="message"></param>
@@ -67,32 +67,32 @@ public class ApiResult<T>
     }
 
     /// <summary>
-    ///     返回记录数
+    /// 返回记录数
     /// </summary>
     public int Count { get; }
 
     /// <summary>
-    ///     结果/结果集
+    /// 结果/结果集
     /// </summary>
     public T? Content { get; }
 
     /// <summary>
-    ///     提示信息
+    /// 提示信息
     /// </summary>
     public string? Message { get; }
 
     /// <summary>
-    ///     错误码
+    /// 错误码
     /// </summary>
     public int Code { get; set; }
 
     /// <summary>
-    ///     是否成功
+    /// 是否成功
     /// </summary>
     public bool Success { get; }
 
     /// <summary>
-    ///     记录总数
+    /// 记录总数
     /// </summary>
     public int Total { get; }
 

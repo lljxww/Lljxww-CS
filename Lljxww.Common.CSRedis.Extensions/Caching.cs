@@ -7,7 +7,7 @@ namespace Lljxww.Common.CSRedis.Extensions;
 public class Caching
 {
     /// <summary>
-    ///     对象锁
+    /// 对象锁
     /// </summary>
     private static readonly object ObjLock = new();
 
@@ -23,7 +23,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     从缓存中读取数据, 如果数据不存在与缓存中, 则使用给定的方法查询数据, 并保存到缓存中.
+    /// 从缓存中读取数据, 如果数据不存在与缓存中, 则使用给定的方法查询数据, 并保存到缓存中.
     /// </summary>
     /// <typeparam name="T">缓存数据类型</typeparam>
     /// <param name="key">键</param>
@@ -59,7 +59,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     从缓存中的T类型列表读取指定的一个对象. 如果在列表中不存在指定的对象, 则尝试使用给定的方法获取此对象, 并更新到缓存的列表中
+    /// 从缓存中的T类型列表读取指定的一个对象. 如果在列表中不存在指定的对象, 则尝试使用给定的方法获取此对象, 并更新到缓存的列表中
     /// </summary>
     /// <typeparam name="T">对象类型</typeparam>
     /// <param name="key">缓存键</param>
@@ -108,7 +108,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     删除缓存列表中指定的一个对象
+    /// 删除缓存列表中指定的一个对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key">缓存键</param>
@@ -141,7 +141,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     存储一个对象到缓存中
+    /// 存储一个对象到缓存中
     /// </summary>
     /// <typeparam name="T">缓存对象类型</typeparam>
     /// <param name="key">键</param>
@@ -166,7 +166,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     读取一个缓存对象
+    /// 读取一个缓存对象
     /// </summary>
     /// <typeparam name="T">缓存对象类型</typeparam>
     /// <param name="key">键</param>
@@ -183,7 +183,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     删除缓存中的指定对象
+    /// 删除缓存中的指定对象
     /// </summary>
     /// <param name="key">键</param>
     /// <returns>删除结果</returns>
@@ -193,7 +193,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     使用分布式锁,尽量保证action是单例执行
+    /// 使用分布式锁,尽量保证action是单例执行
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
@@ -247,7 +247,7 @@ public class Caching
     }
 
     /// <summary>
-    ///     使用分布式锁,尽量保证action是单例执行
+    /// 使用分布式锁,尽量保证action是单例执行
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>

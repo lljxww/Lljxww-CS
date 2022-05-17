@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Common.ApiCaller", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Common.Dapper.Extensions", "Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj", "{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.WebTest", "Lljxww.Common.WebTest\Lljxww.Common.WebTest.csproj", "{6EB15123-075A-4DCB-ABB1-B361E5F75FCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.SourceGen", "Lljxww.Common.SourceGen\Lljxww.Common.SourceGen.csproj", "{E9ACECEE-43FA-456B-BEBF-B65BDB3CCB91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EB15123-075A-4DCB-ABB1-B361E5F75FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB15123-075A-4DCB-ABB1-B361E5F75FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB15123-075A-4DCB-ABB1-B361E5F75FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB15123-075A-4DCB-ABB1-B361E5F75FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9ACECEE-43FA-456B-BEBF-B65BDB3CCB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9ACECEE-43FA-456B-BEBF-B65BDB3CCB91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9ACECEE-43FA-456B-BEBF-B65BDB3CCB91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9ACECEE-43FA-456B-BEBF-B65BDB3CCB91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

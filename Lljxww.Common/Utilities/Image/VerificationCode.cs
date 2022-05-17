@@ -34,7 +34,7 @@ public class VerificationCode
     }
 
     /// <summary>
-    ///     创建验证码图形的字节流
+    /// 创建验证码图形的字节流
     /// </summary>
     /// <param name="validateCode">验证码</param>
     /// <returns>图形字节流</returns>

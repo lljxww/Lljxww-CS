@@ -156,7 +156,7 @@ public partial class Caller
     #region 事件
 
     /// <summary>
-    ///     设置缓存
+    /// 设置缓存
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
@@ -165,7 +165,7 @@ public partial class Caller
     public static event SetCacheHandler SetCacheEvent;
 
     /// <summary>
-    ///     读取缓存
+    /// 读取缓存
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
@@ -174,7 +174,7 @@ public partial class Caller
     public static event GetCacheHandler GetCacheEvent;
 
     /// <summary>
-    ///     记录日志
+    /// 记录日志
     /// </summary>
     /// <param name="context"></param>
     public delegate void LogHandler(CallerContext context);
@@ -182,7 +182,7 @@ public partial class Caller
     public static event LogHandler LogEvent;
 
     /// <summary>
-    ///     请求方法执行结束后的操作
+    /// 请求方法执行结束后的操作
     /// </summary>
     /// <param name="context"></param>
     public delegate void OnExecutedHandler(CallerContext context);
@@ -190,7 +190,7 @@ public partial class Caller
     public static event OnExecutedHandler OnExecuted;
 
     /// <summary>
-    ///     执行发生异常时触发
+    /// 执行发生异常时触发
     /// </summary>
     /// <param name="context"></param>
     /// <param name="ex"></param>
@@ -199,7 +199,7 @@ public partial class Caller
     public static event OnExceptionHandler OnException;
 
     /// <summary>
-    ///     请求超时时触发
+    /// 请求超时时触发
     /// </summary>
     /// <param name="context"></param>
     public delegate void OnRequestTimeoutHandler(CallerContext context);

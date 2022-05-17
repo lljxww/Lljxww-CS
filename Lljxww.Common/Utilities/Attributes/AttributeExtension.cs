@@ -5,7 +5,7 @@ namespace Lljxww.Common.Utilities.Attributes;
 public static class AttributeExtension
 {
     /// <summary>
-    ///     获取属性或字段的指定特性
+    /// 获取属性或字段的指定特性
     /// </summary>
     /// <param name="source"></param>
     /// <param name="target"></param>
