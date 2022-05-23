@@ -1,6 +1,5 @@
 ﻿using Lljxww.Common.ApiCaller;
 using Lljxww.Common.ApiCaller.Models;
-using Lljxww.Common.WebApiCaller;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

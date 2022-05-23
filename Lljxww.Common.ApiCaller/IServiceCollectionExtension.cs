@@ -1,5 +1,4 @@
 ﻿using Lljxww.Common.ApiCaller.Models.Config;
-using Lljxww.Common.WebApiCaller;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

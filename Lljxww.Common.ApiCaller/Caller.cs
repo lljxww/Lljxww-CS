@@ -4,7 +4,7 @@ using Lljxww.Common.ApiCaller.Models;
 using Lljxww.Common.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
 
-namespace Lljxww.Common.WebApiCaller;
+namespace Lljxww.Common.ApiCaller;
 
 public partial class Caller
 {

@@ -28,9 +28,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Lljxww.Common.ApiCaller.Client\Lljxww.Common.ApiCaller.Client.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\Lljxww.Common.ApiCaller\Lljxww.Common.ApiCaller.csproj" />
         <ProjectReference Include="..\Lljxww.Common.CSRedis.Extensions\Lljxww.Common.CSRedis.Extensions.csproj" />
-        <ProjectReference Include="..\Lljxww.Common.SourceGen\Lljxww.Common.SourceGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\Lljxww.Common\Lljxww.Common.csproj" />
         <ProjectReference Include="..\Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj" />
         <ProjectReference Include="..\Lljxww.Common.EntityFramework.Extensions\Lljxww.Common.EntityFramework.Extensions.csproj" />

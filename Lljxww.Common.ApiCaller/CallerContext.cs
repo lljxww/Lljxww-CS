@@ -63,6 +63,11 @@ public class CallerContext
         {
             context.Authorization = config.Authorizations.Single(a =>
                 a.Name.ToLower().Trim() == context.ServiceItem.AuthorizationType.ToLower().Trim());
+
+            if (context.Authorization == null)
+            {
+                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+            }
         }
 
         context.ApiItem =
@@ -83,11 +88,21 @@ public class CallerContext
         {
             context.Authorization = config.Authorizations.Single(a =>
                 a.Name.ToLower().Trim() == context.ApiItem.AuthorizationType.ToLower().Trim());
+            
+            if (context.Authorization == null)
+            {
+                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+            }
         }
 
         // 添加自定义AuthorizeInfo
         if (!string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo))
         {
+            if (context.Authorization == null)
+            {
+                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+            }
+            
             context.Authorization.AuthorizationInfo = requestOption.CustomAuthorizeInfo;
         }
 
@@ -189,9 +204,9 @@ public class CallerContext
             Content = context.HttpContent
         };
 
-        if (!string.IsNullOrWhiteSpace(context.Authorization?.Name))
+        if (context.Authorization != null && !string.IsNullOrWhiteSpace(context.Authorization?.Name))
         {
-            context = AuthorizateFuncs[context.Authorization.Name].Invoke(context);
+            context = AuthorizateFuncs[context.Authorization!.Name].Invoke(context);
         }
 
         return context;
@@ -234,7 +249,7 @@ public class CallerContext
     /// <summary>
     /// 服务名.方法名
     /// </summary>
-    public string ApiName { get; private init; }
+    public string ApiName { get; private set; }
 
     public HttpMethod HttpMethod { get; private set; }
 
@@ -263,7 +278,7 @@ public class CallerContext
     /// <summary>
     /// 认证信息
     /// </summary>
-    public Authorization Authorization { get; private set; }
+    public Authorization? Authorization { get; private set; }
 
     /// <summary>
     /// Api配置节
@@ -283,12 +298,12 @@ public class CallerContext
     /// <summary>
     /// 请求参数
     /// </summary>
-    public object? OriginParam { get; init; }
+    public object? OriginParam { get; set; }
 
     /// <summary>
     /// 请求参数(转换为字典类型后)
     /// </summary>
-    public Dictionary<string, string>? ParamDic { get; init; }
+    public Dictionary<string, string>? ParamDic { get; set; }
 
     /// <summary>
     /// 响应结果
