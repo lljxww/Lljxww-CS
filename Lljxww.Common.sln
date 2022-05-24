@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Common.ApiCaller", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Common.Dapper.Extensions", "Lljxww.Common.Dapper.Extensions\Lljxww.Common.Dapper.Extensions.csproj", "{A333BBA2-E700-4D0A-85E5-31F0A7BC606F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.Common.ApiCaller.Client", "Lljxww.Common.ApiCaller.Client\Lljxww.Common.ApiCaller.Client.csproj", "{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Common.ApiCaller.Client", "Lljxww.Common.ApiCaller.Client\Lljxww.Common.ApiCaller.Client.csproj", "{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

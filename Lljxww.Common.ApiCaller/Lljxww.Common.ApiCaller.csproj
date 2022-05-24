@@ -5,10 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.Common.ApiCaller</PackageId>
-        <Version>1.5.1</Version>
+        <Version>1.5.2</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集-ApiCaller</Description>
-        <PackageReleaseNotes>ApiResult支持自定义GetSuccess,GetCode,GetMessage事件</PackageReleaseNotes>
+        <PackageReleaseNotes>添加ApiResult.Context对象, 用于记录请求细节</PackageReleaseNotes>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
 
