@@ -1,7 +1,7 @@
-﻿using Lljxww.Common.ApiCaller.Models;
+﻿using System.Net;
+using Lljxww.Common.ApiCaller.Models;
 using Lljxww.Common.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
-using System.Net;
 
 namespace Lljxww.Common.ApiCaller;
 
@@ -19,7 +19,7 @@ public partial class Caller
         // 尝试从缓存读取结果
         if (context.NeedCache && requestOption.IsFromCache)
         {
-            ApiResult? tempApiResult = GetCacheEvent?.Invoke(context);
+            ApiResult? tempApiResult = CallerEvents.GetCache(context);
 
             if (tempApiResult != null)
             {
@@ -55,16 +55,8 @@ public partial class Caller
                 if (fullName != null && fullName.Contains(nameof(TaskCanceledException)))
                 {
                     // 取消请求后的操作
-                    _ = Task.Run(() =>
-                    {
-                        try
-                        {
-                            OnRequestTimeout?.Invoke(context);
-                        }
-                        catch
-                        {
-                        }
-                    });
+                    CallerEvents.RequestTimeout(context);
+
                     return new ApiResult(new
                     {
                         success = false,
@@ -72,73 +64,30 @@ public partial class Caller
                     }, context);
                 }
 
-                _ = Task.Run(() =>
-                {
-                    try
-                    {
-                        // 触发异常事件
-                        OnException?.Invoke(context, ex);
-                    }
-                    catch
-                    {
-                    }
-                });
+                CallerEvents.Exception(context, innerException);
                 throw innerException;
             }
 
             // 处理缓存
             if (context.NeedCache)
             {
-                _ = Task.Run(() =>
-                {
-                    try
-                    {
-                        SetCacheEvent?.Invoke(context);
-                    }
-                    catch
-                    {
-                    }
-                });
+                CallerEvents.SetCache(context);
             }
         }
 
         // 记录日志事件
         if (!requestOption.DontLog)
         {
-            _ = Task.Run(() =>
-            {
-                try
-                {
-                    _ = Task.Run(() => LogEvent?.Invoke(context));
-                }
-                catch
-                {
-                }
-            });
+            CallerEvents.Log(context);
         }
 
         // 执行后事件
-        try
+        if (requestOption.IsTriggerOnExecuted)
         {
-            if (requestOption.IsTriggerOnExecuted)
-            {
-                _ = Task.Run(() =>
-                {
-                    try
-                    {
-                        OnExecuted?.Invoke(context);
-                    }
-                    catch
-                    {
-                    }
-                });
-            }
-        }
-        catch
-        {
+            CallerEvents.Executed(context);
         }
 
-        ApiResult? apiResult = context.ApiResult;
+        ApiResult apiResult = context.ApiResult!;
         apiResult.Context = context;
 
         return apiResult;
@@ -154,59 +103,4 @@ public partial class Caller
         _apiCallerConfig = apiCallerConfigOption.Value;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
     }
-
-    #region 事件
-
-    /// <summary>
-    /// 设置缓存
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public delegate void SetCacheHandler(CallerContext context);
-
-    public static event SetCacheHandler SetCacheEvent;
-
-    /// <summary>
-    /// 读取缓存
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public delegate ApiResult? GetCacheHandler(CallerContext context);
-
-    public static event GetCacheHandler GetCacheEvent;
-
-    /// <summary>
-    /// 记录日志
-    /// </summary>
-    /// <param name="context"></param>
-    public delegate void LogHandler(CallerContext context);
-
-    public static event LogHandler LogEvent;
-
-    /// <summary>
-    /// 请求方法执行结束后的操作
-    /// </summary>
-    /// <param name="context"></param>
-    public delegate void OnExecutedHandler(CallerContext context);
-
-    public static event OnExecutedHandler OnExecuted;
-
-    /// <summary>
-    /// 执行发生异常时触发
-    /// </summary>
-    /// <param name="context"></param>
-    /// <param name="ex"></param>
-    public delegate void OnExceptionHandler(CallerContext context, Exception ex);
-
-    public static event OnExceptionHandler OnException;
-
-    /// <summary>
-    /// 请求超时时触发
-    /// </summary>
-    /// <param name="context"></param>
-    public delegate void OnRequestTimeoutHandler(CallerContext context);
-
-    public static event OnRequestTimeoutHandler OnRequestTimeout;
-
-    #endregion
 }

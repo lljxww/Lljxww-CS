@@ -18,6 +18,11 @@ public class ApiCallerTest
             .Build();
 
         services.ConfigureCaller(config);
+
+        CallerEvents.OnExecuted += context =>
+        {
+            string apiName = context.ApiName;
+        };
     }
 
     [TestMethod]

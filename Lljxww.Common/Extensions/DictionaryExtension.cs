@@ -22,7 +22,7 @@ public static class DictionaryExtension
 
         Dictionary<T, U> newDic = new();
 
-        foreach (var item in dic)
+        foreach (KeyValuePair<T, U> item in dic)
         {
             if (!newDic.Keys.Any(k => predicate.Invoke(k, item.Key)))
             {
@@ -30,7 +30,7 @@ public static class DictionaryExtension
             }
             else
             {
-                var key = newDic.Keys.Single(k => predicate.Invoke(k, item.Key));
+                T key = newDic.Keys.Single(k => predicate.Invoke(k, item.Key));
                 newDic[key] = merge.Invoke(newDic[key], item.Value);
             }
         }
@@ -38,4 +38,3 @@ public static class DictionaryExtension
         return newDic;
     }
 }
-

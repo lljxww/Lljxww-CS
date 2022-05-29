@@ -4,6 +4,5 @@ public class SourceGenTest
 {
     private static void SourceGeneratorSample()
     {
-        
     }
 }

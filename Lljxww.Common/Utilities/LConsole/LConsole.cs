@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Lljxww.Common.Utilities.LConsole;
 
 public static class LConsole
@@ -44,4 +45,3 @@ public static class LConsole
         Console.WriteLine();
     }
 }
-
