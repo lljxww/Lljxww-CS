@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>Lljxww.EntityFramework.Extensions</PackageId>
+        <Version>1.4.3</Version>
+        <Authors>liangjw</Authors>
+        <Description>常用代码合集-EntityFrameworkCore</Description>
+        <PackageReleaseNotes>分离组件到单独的包</PackageReleaseNotes>
+        <LangVersion>default</LangVersion>
+        <RootNamespace>Lljxww.EntityFramework.Extensions</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="Microsoft.EntityFrameworkCore" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    </ItemGroup>
+</Project>

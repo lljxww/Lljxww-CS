@@ -25,16 +25,16 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Publish-Common
-      run: dotnet pack -c Release -o . Lljxww.Common/Lljxww.Common.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet pack -c Release -o . Lljxww/Lljxww.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Publish-CSRedis
-      run: dotnet pack -c Release -o . Lljxww.Common.CSRedis.Extensions/Lljxww.Common.CSRedis.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet pack -c Release -o . Lljxww.CSRedis.Extensions/Lljxww.CSRedis.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Publish-ApiCaller
-      run: dotnet pack -c Release -o . Lljxww.Common.ApiCaller/Lljxww.Common.ApiCaller.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet pack -c Release -o . Lljxww.ApiCaller/Lljxww.ApiCaller.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
        
     - name: Publish-EntityFramework
-      run: dotnet pack -c Release -o . Lljxww.Common.EntityFramework.Extensions/Lljxww.Common.EntityFramework.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet pack -c Release -o . Lljxww.EntityFramework.Extensions/Lljxww.EntityFramework.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Publish-Dapper
-      run: dotnet pack -c Release -o . Lljxww.Common.Dapper.Extensions/Lljxww.Common.Dapper.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet pack -c Release -o . Lljxww.Dapper.Extensions/Lljxww.Dapper.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate

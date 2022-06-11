@@ -1,0 +1,22 @@
+﻿{
+  "Authorizations": [
+    {
+      "Name": "Jwt"
+    }
+  ],
+  "ServiceItems": [
+    {
+      "ApiName": "gh",
+      "BaseUrl": "https://api.github.com",
+      "AuthorizationType": "Jwt",
+      "ApiItems": [
+        {
+          "Method": "GetUserInfo",
+          "Url": "/users/{username}",
+          "HTTPMethod": "GET",
+          "ParamType": "path"
+        }
+      ]
+    }
+  ]
+}
