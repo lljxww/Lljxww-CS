@@ -230,7 +230,7 @@ public class ApiResult
         PropertyNameCaseInsensitive = true
     };
 
-    private JsonSerializerOptions jsOption = new()
+    private readonly JsonSerializerOptions jsOption = new()
     {
         PropertyNameCaseInsensitive = true
     };
