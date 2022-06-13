@@ -1,9 +1,10 @@
-using Lljxww.Utilities.SqlHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Lljxww.Dapper.Extensions;
+using SqlGenerator = Lljxww.Dapper.Extensions.SqlGenerator;
 
 namespace Lljxww.Test;
 
@@ -35,10 +36,10 @@ public class TypeA
 {
     public int ID { get; set; }
 
-    [Column("first_name")]
+    [LColumn("first_name")]
     public string FirstName { get; set; }
 
-    [Column("last_name")]
+    [LColumn("last_name")]
     public string LastName { get; set; }
 
     public string Address { get; set; }
@@ -50,10 +51,10 @@ public class TypeB
     [Key]
     public int ID { get; set; }
 
-    [Column("first_name")]
+    [LColumn("first_name")]
     public string FirstName { get; set; }
 
-    [Column("last_name")]
+    [LColumn("last_name")]
     public string LastName { get; set; }
 
     public string Address { get; set; }

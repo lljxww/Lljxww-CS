@@ -32,10 +32,10 @@ public class DapperExtensionUnitTest
     {
         [Key] public int Id { get; set; }
 
-        [Dapper.Extensions.Column("role_id")]
+        [LColumn("role_id")]
         public int RoleId { get; set; }
 
-        [Dapper.Extensions.Column("action_id")]
+        [LColumn("action_id")]
         public int ActionId { get; set; }
     }
 }

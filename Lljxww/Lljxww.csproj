@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww</PackageId>
-        <Version>1.5</Version>
+        <Version>1.5.1</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集</Description>
         <PackageReleaseNotes>添加SqlGenerator</PackageReleaseNotes>

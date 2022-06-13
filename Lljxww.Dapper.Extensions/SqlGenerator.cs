@@ -93,6 +93,17 @@ public static partial class SqlGenerator
         return string.Format(INSERT_STR, GetCustomTableName<T>(),
             fieldsSegment.ToString().TrimEnd(','), valuesSegment.ToString().TrimEnd(','));
     }
+
+    /// <summary>
+    /// 使用指定的模型生成SQL删除语句
+    /// </summary>
+    /// <param name="whereSegment"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static string BuildDelete<T>(string whereSegment) where T : class
+    {
+        return string.Format(DELETE_STR, GetCustomTableName<T>(), whereSegment);
+    }
 }
 
 public static partial class SqlGenerator
@@ -104,6 +115,7 @@ public static partial class SqlGenerator
     private static readonly string QUERY_STR = "SELECT {0} FROM {1}";
     private static readonly string UPDATE_STR = "UPDATE {0} SET {1}";
     private static readonly string INSERT_STR = "INSERT INTO {0} ({1}) values ({2})";
+    private static readonly string DELETE_STR = "DELETE FROM {0} where {1}";
 }
 
 public static partial class SqlGenerator

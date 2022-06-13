@@ -10,7 +10,7 @@ public class ColumnHelper
         foreach (Type? type in assembly.GetTypes())
         {
             bool marked = type.GetProperties()
-                .Any(item => item.GetCustomAttribute(typeof(ColumnAttribute)) != null);
+                .Any(item => item.GetCustomAttribute(typeof(LColumnAttribute)) != null);
 
             if (!marked)
             {
@@ -24,7 +24,7 @@ public class ColumnHelper
                     (type, columnName) =>
                         type.GetProperties().FirstOrDefault(prop =>
                             prop.GetCustomAttributes(false)
-                                .OfType<ColumnAttribute>()
+                                .OfType<LColumnAttribute>()
                                 .Any(attr => attr.Name == columnName))
                 ),
                 new DefaultTypeMap(type)

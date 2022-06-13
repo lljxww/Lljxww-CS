@@ -1,9 +1,9 @@
 ﻿namespace Lljxww.Dapper.Extensions;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-public class ColumnAttribute : Attribute
+public class LColumnAttribute : Attribute
 {
-    public ColumnAttribute(string name)
+    public LColumnAttribute(string name)
     {
         Name = name;
     }
