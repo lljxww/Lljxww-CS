@@ -20,7 +20,7 @@ public class DapperExtensionUnitTest
     [TestMethod]
     public void Test()
     {
-        ColumnHelper.SetMapper(typeof(DapperExtensionUnitTest).Assembly);
+        LColumnHelper.SetMapper(typeof(DapperExtensionUnitTest).Assembly);
 
         using IDbConnection? conn = GetConn();
         TestModel? testModel = conn.QueryFirst<TestModel>("select * from role_action");

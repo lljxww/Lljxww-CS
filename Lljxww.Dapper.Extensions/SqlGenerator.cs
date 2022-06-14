@@ -115,7 +115,7 @@ public static partial class SqlGenerator
     private static readonly string QUERY_STR = "SELECT {0} FROM {1}";
     private static readonly string UPDATE_STR = "UPDATE {0} SET {1}";
     private static readonly string INSERT_STR = "INSERT INTO {0} ({1}) values ({2})";
-    private static readonly string DELETE_STR = "DELETE FROM {0} where {1}";
+    private static readonly string DELETE_STR = "DELETE FROM {0} WHERE {1}";
 }
 
 public static partial class SqlGenerator
@@ -143,7 +143,7 @@ public static partial class SqlGenerator
 
         foreach (PropertyInfo prop in props)
         {
-            ColumnAttribute? columnAttr = prop.GetCustomAttribute<ColumnAttribute>();
+            LColumnAttribute? columnAttr = prop.GetCustomAttribute<LColumnAttribute>();
             if (columnAttr != null)
             {
                 propNames.Add(prop.Name, columnAttr.Name ?? prop.Name);
@@ -211,7 +211,7 @@ public static partial class SqlGenerator
                 continue;
             }
 
-            ColumnAttribute? columnAttr = prop.GetCustomAttribute<ColumnAttribute>();
+            LColumnAttribute? columnAttr = prop.GetCustomAttribute<LColumnAttribute>();
             KeyValuePair<string, string> pair = new(prop.Name, columnAttr?.Name ?? prop.Name);
             keyInfos.Add(hash, pair);
             return pair;

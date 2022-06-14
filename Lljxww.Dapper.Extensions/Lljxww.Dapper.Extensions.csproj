@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.Dapper.Extensions</PackageId>
-        <Version>1.2</Version>
+        <Version>1.2.1</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集-Dapper扩展</Description>
         <PackageReleaseNotes>添加SqlGenerator</PackageReleaseNotes>

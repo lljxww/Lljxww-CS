@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Lljxww.Dapper.Extensions;
 
-public class ColumnHelper
+public class LColumnHelper
 {
     public static void SetMapper(Assembly assembly)
     {
