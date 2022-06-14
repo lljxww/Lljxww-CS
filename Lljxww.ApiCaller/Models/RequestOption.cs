@@ -40,7 +40,7 @@ public class RequestOption
     /// <summary>
     /// 自定义对象, 可用于将请求时的一些细节传递到各类事件处理程序中使用
     /// </summary>
-    public object CustomObject { get; set; }
+    public object? CustomObject { get; set; }
 
     /// <summary>
     /// 获取自定义对象
