@@ -177,8 +177,7 @@ public class ApiResult
                     return null;
                 }
 
-                object? resultObj = result?.GetValue<object>();
-                return Convert.ToString(resultObj);
+                return result?.ToJsonString();
             }
             catch (NullReferenceException)
             {
@@ -190,7 +189,7 @@ public class ApiResult
 
                     if (success.HasValue && success.Value)
                     {
-                        return result?.GetValue<string>();
+                        return result?.ToJsonString();
                     }
 
                     return null;
