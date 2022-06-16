@@ -146,6 +146,10 @@ public class ApiResult
         }
     }
 
+    public ApiResult()
+    {
+    }
+
     #endregion
 
     #region PublicMethod
