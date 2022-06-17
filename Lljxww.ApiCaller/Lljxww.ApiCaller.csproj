@@ -5,10 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.ApiCaller</PackageId>
-        <Version>1.5.5</Version>
+        <Version>1.5.7</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集-ApiCaller</Description>
-        <PackageReleaseNotes>修复ApiResult索引器的异常</PackageReleaseNotes>
+        <PackageReleaseNotes>修复ApiResult的中文编码问题</PackageReleaseNotes>
         <LangVersion>default</LangVersion>
         <RootNamespace>Lljxww.ApiCaller</RootNamespace>
     </PropertyGroup>

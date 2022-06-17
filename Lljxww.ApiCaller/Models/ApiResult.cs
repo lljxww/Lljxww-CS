@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Lljxww.ApiCaller.Models;
@@ -105,11 +106,11 @@ public class ApiResult
         {
             try
             {
-                JsonObject = JsonNode.Parse(value, jnOption)?.AsObject() ?? new JsonObject(jnOption);
+                JsonObject = JsonNode.Parse(value, _jnOption)?.AsObject() ?? new JsonObject(_jnOption);
             }
             catch
             {
-                JsonObject = new JsonObject(jnOption);
+                JsonObject = new JsonObject(_jnOption);
             }
 
             _rawStr = value;
@@ -126,11 +127,11 @@ public class ApiResult
 
         try
         {
-            JsonObject = JsonNode.Parse(RawStr, jnOption)?.AsObject() ?? new JsonObject(jnOption);
+            JsonObject = JsonNode.Parse(RawStr, _jnOption)?.AsObject() ?? new JsonObject(_jnOption);
         }
         catch
         {
-            JsonObject = new JsonObject(jnOption);
+            JsonObject = new JsonObject(_jnOption);
         }
     }
 
@@ -138,11 +139,11 @@ public class ApiResult
     {
         try
         {
-            JsonObject = JsonSerializer.SerializeToNode(result, jsOption)?.AsObject() ?? new JsonObject(jnOption);
+            JsonObject = JsonSerializer.SerializeToNode(result, _jsOption)?.AsObject() ?? new JsonObject(_jnOption);
         }
         catch
         {
-            JsonObject = new JsonObject(jnOption);
+            JsonObject = new JsonObject(_jnOption);
         }
     }
 
@@ -177,11 +178,11 @@ public class ApiResult
                     return null;
                 }
 
-                return result?.ToJsonString();
+                return result?.ToJsonString(_jsOption);
             }
             catch (NullReferenceException)
             {
-                JsonObject = JsonNode.Parse(_rawStr, jnOption)?.AsObject() ?? new JsonObject(jnOption);
+                JsonObject = JsonNode.Parse(_rawStr, _jnOption)?.AsObject() ?? new JsonObject(_jnOption);
                 try
                 {
                     JsonNode? result = default;
@@ -189,7 +190,7 @@ public class ApiResult
 
                     if (success.HasValue && success.Value)
                     {
-                        return result?.ToJsonString();
+                        return result?.ToJsonString(_jsOption);
                     }
 
                     return null;
@@ -228,14 +229,16 @@ public class ApiResult
 
     #region Options
 
-    private JsonNodeOptions jnOption = new()
+    private JsonNodeOptions _jnOption = new()
     {
         PropertyNameCaseInsensitive = true
     };
 
-    private readonly JsonSerializerOptions jsOption = new()
+    private readonly JsonSerializerOptions _jsOption = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        WriteIndented = true
     };
 
     #endregion
