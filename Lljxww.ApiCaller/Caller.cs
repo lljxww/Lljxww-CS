@@ -2,6 +2,7 @@
 using Lljxww.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
 using System.Net;
+using Lljxww.ApiCaller.Diagnosis;
 
 namespace Lljxww.ApiCaller;
 
@@ -89,6 +90,12 @@ public partial class Caller
 
         ApiResult apiResult = context.ApiResult!;
         apiResult.Context = context;
+
+        if (_apiCallerConfig.Diagnosis?.LogDetail != default 
+            && _apiCallerConfig.Diagnosis.LogDetail.Contains(context.ApiName))
+        {
+            await Logger.LogAsync(context);
+        }
 
         return apiResult;
     }

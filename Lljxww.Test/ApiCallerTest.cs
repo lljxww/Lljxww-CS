@@ -9,7 +9,7 @@ namespace Lljxww.Test;
 [TestClass]
 public class ApiCallerTest
 {
-    private readonly IServiceCollection services = new ServiceCollection();
+    private readonly IServiceCollection _services = new ServiceCollection();
 
     public ApiCallerTest()
     {
@@ -17,7 +17,7 @@ public class ApiCallerTest
             .AddJsonFile("apicaller.json")
             .Build();
 
-        services.ConfigureCaller(config);
+        _services.ConfigureCaller(config);
 
         CallerEvents.OnExecuted += context =>
         {
@@ -28,9 +28,9 @@ public class ApiCallerTest
     [TestMethod]
     public void InvokeTest()
     {
-        Caller? caller = services.BuildServiceProvider().GetRequiredService<Caller>();
+        Caller caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
-        string? username = "liang1224";
+        string username = "liang1224";
 
         ApiResult? result = caller.InvokeAsync("gh.GetUserInfo", new
         {
@@ -46,5 +46,25 @@ public class ApiCallerTest
         Assert.AreEqual(username, result!["loGin"]);
         Assert.AreEqual(username, result!["logIn"]);
         Assert.AreEqual(username, result!["logiN"]);
+    }
+
+    [TestMethod]
+    public void CallerSettingTest()
+    {
+        Caller caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
+        
+        // LogDetail
+        string username = "liang1224";
+
+        int i = 0;
+        while (i < 10)
+        {
+            ApiResult? result = caller.InvokeAsync("gh.GetUserInfo2", new
+            {
+                username
+            }).Result;
+
+            i++;
+        }
     }
 }

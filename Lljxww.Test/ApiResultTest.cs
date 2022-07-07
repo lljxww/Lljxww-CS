@@ -10,7 +10,7 @@ namespace Lljxww.Test;
 [TestClass]
 public class ApiResultTest
 {
-    private readonly IServiceCollection services = new ServiceCollection();
+    private readonly IServiceCollection _services = new ServiceCollection();
 
     public ApiResultTest()
     {
@@ -18,13 +18,13 @@ public class ApiResultTest
             .AddJsonFile("apicaller.json")
             .Build();
 
-        services.ConfigureCaller(config);
+        _services.ConfigureCaller(config);
     }
 
     [TestMethod]
     public void InvokeTest()
     {
-        Caller? caller = services.BuildServiceProvider().GetRequiredService<Caller>();
+        Caller? caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
         string? username = "liang1224";
 
@@ -44,7 +44,7 @@ public class ApiResultTest
     [TestMethod]
     public void EventTest()
     {
-        Caller? caller = services.BuildServiceProvider().GetRequiredService<Caller>();
+        Caller? caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
         string? username = "liang1224";
 
@@ -107,7 +107,7 @@ public class ApiResultTest
 
         var result = new ApiResult(raw);
         var part = result["BaseInfo"];
-        var partObj = JsonObject.Parse(part);
-        Assert.AreNotEqual("lljxww_02", partObj["username"]);
+        var partObj = JsonNode.Parse(part!);
+        Assert.AreNotEqual("lljxww_02", partObj!["username"]);
     }
 }

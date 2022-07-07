@@ -8,7 +8,7 @@ namespace Lljxww.Test;
 [TestClass]
 public class ApiCallerClientTest
 {
-    private readonly IServiceCollection services = new ServiceCollection();
+    private readonly IServiceCollection _services = new ServiceCollection();
 
     public ApiCallerClientTest()
     {
@@ -16,14 +16,14 @@ public class ApiCallerClientTest
             .AddJsonFile("apicaller.json")
             .Build();
 
-        services.ConfigureCaller(config);
+        _services.ConfigureCaller(config);
         //services.AddSingleton<CallerClient>();
     }
 
     [TestMethod]
     public void Test()
     {
-        ServiceProvider? serviceProvider = services.BuildServiceProvider();
+        ServiceProvider? serviceProvider = _services.BuildServiceProvider();
         //var client = serviceProvider.GetRequiredService<CallerClient>();
 
         //var result = client.GhGetUserInfoAsync(new

@@ -1,4 +1,9 @@
 ﻿{
+  "Diagnosis": {
+    "LogDetail": [
+      "gh.GetUserInfo2"
+    ]
+  },
   "Authorizations": [
     {
       "Name": "Jwt"
@@ -8,10 +13,16 @@
     {
       "ApiName": "gh",
       "BaseUrl": "https://api.github.com",
-      "AuthorizationType": "Jwt",
       "ApiItems": [
         {
           "Method": "GetUserInfo",
+          "Url": "/users/{username}",
+          "AuthorizationType": "Jwt",
+          "HTTPMethod": "GET",
+          "ParamType": "path"
+        },
+        {
+          "Method": "GetUserInfo2",
           "Url": "/users/{username}",
           "HTTPMethod": "GET",
           "ParamType": "path"

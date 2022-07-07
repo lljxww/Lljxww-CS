@@ -16,6 +16,8 @@ public class ApiCallerConfig : IOptions<ApiCallerConfig>
     /// 接口配置节
     /// </summary>
     public IList<ServiceItem> ServiceItems { get; set; }
+    
+    public DiagnosisConfig? Diagnosis { get; set; }
 
     public ApiCallerConfig Value => this;
 }
