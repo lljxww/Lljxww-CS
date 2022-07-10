@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.Runtime.Serialization;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -10,6 +11,9 @@ namespace Lljxww.ApiCaller.Models;
 [Serializable]
 public class ApiResult
 {
+    [IgnoreDataMember]
+    public HttpResponseMessage? HttpResponseMessage { get; private set; }
+    
     #region Success
 
     public delegate bool GetSuccessHandler(ApiResult apiResult, Predicate<ApiResult> defaultPredicate);
@@ -121,9 +125,10 @@ public class ApiResult
 
     #region Ctor
 
-    public ApiResult(string resultStr, CallerContext? context = null)
+    public ApiResult(string resultStr, HttpResponseMessage? response = null, CallerContext? context = null)
     {
         RawStr = resultStr;
+        HttpResponseMessage = response;
 
         try
         {
@@ -135,7 +140,7 @@ public class ApiResult
         }
     }
 
-    public ApiResult(object result, CallerContext? context = null)
+    public ApiResult(object result, HttpResponseMessage? response = null, CallerContext? context = null)
     {
         try
         {
@@ -145,6 +150,8 @@ public class ApiResult
         {
             JsonObject = new JsonObject(_jnOption);
         }
+
+        HttpResponseMessage = response;
     }
 
     public ApiResult()

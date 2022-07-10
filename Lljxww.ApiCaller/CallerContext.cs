@@ -229,6 +229,11 @@ public class CallerContext
 
             HttpResponseMessage response = client.SendAsync(RequestMessage, cancellationTokenSource.Token).Result;
             ResponseContent = await response.Content.ReadAsStringAsync();
+            
+            if (!string.IsNullOrWhiteSpace(ResponseContent))
+            {
+                ApiResult = new ApiResult(ResponseContent, response, this);
+            }
         }
         finally
         {
@@ -236,10 +241,7 @@ public class CallerContext
             Runtime = Convert.ToInt32(sw.ElapsedMilliseconds);
         }
 
-        if (!string.IsNullOrWhiteSpace(ResponseContent))
-        {
-            ApiResult = new ApiResult(ResponseContent, this);
-        }
+        
 
         return this;
     }

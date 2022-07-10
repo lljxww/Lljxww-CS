@@ -35,7 +35,7 @@ public static class Logger
             using var sw = new StreamWriter(filePath, true, Encoding.UTF8);
             await sw.WriteLineAsync(content);
         }
-        catch(Exception ex)
+        catch(Exception)
         {
             // ignored
         }
