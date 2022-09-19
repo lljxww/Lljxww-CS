@@ -230,3 +230,5 @@ Github: [liang1224/Lljxww](https://github.com/liang1224/Lljxww)
 
 水平有限，欢迎批评指正。
 邮箱：[liangjw1224@foxmail.com](mailto:liangjw1224@foxmail.com)
+
+[![.NET](https://github.com/liang1224/Lljxww/actions/workflows/publish_to_nuget.yml/badge.svg?branch=main&event=push)](https://github.com/liang1224/Lljxww/actions/workflows/publish_to_nuget.yml)
