@@ -11,9 +11,8 @@ namespace Lljxww.ApiCaller.Models;
 [Serializable]
 public class ApiResult
 {
-    [IgnoreDataMember]
-    public HttpResponseMessage? HttpResponseMessage { get; private set; }
-    
+    [IgnoreDataMember] public HttpResponseMessage? HttpResponseMessage { get; private set; }
+
     #region Success
 
     public delegate bool GetSuccessHandler(ApiResult apiResult, Predicate<ApiResult> defaultPredicate);

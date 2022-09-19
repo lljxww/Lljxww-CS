@@ -2,18 +2,15 @@
 
 internal static class HttpClientInstance
 {
-    private static readonly HttpClient client;
+    private static HttpClient? client;
 
-    static HttpClientInstance()
+    public static HttpClient Get(CallerContext context)
     {
-        client = new HttpClient();
-
-        client.DefaultRequestHeaders.Add("User-Agent", "Lljxww.WebApiCaller");
+        client ??= new HttpClient();
+        
+        client.DefaultRequestHeaders.Add("User-Agent", context.Config.UserAgent);
         client.DefaultRequestHeaders.Connection.Add("keep-alive");
-    }
-
-    public static HttpClient Get()
-    {
+        
         return client;
     }
 }

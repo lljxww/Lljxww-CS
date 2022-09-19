@@ -1,6 +1,7 @@
 ﻿{
   "$schema": "http://liangjw.cn/schema/webapicaller.schema.json",
   "Authorizations": [],
+  "UserAgent": "MyApiCaller",
   "ServiceItems": [
     {
       "ApiName": "github",

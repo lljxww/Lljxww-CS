@@ -5,7 +5,7 @@ namespace Lljxww.ApiCaller.Diagnosis;
 
 public static class Logger
 {
-    public static async Task LogAsync(CallerContext context)
+    public static void Log(CallerContext context)
     {
         StringBuilder sb = new();
 
@@ -21,21 +21,21 @@ public static class Logger
 
         sb.Append(Environment.NewLine);
 
-        await LogAsync(sb.ToString());
+        Task.Run(() => LogAsync(sb.ToString()));
     }
-    
+
     private static async Task LogAsync(string content)
     {
         try
         {
-            var directoryPath = InitDirectory();
-            var fileName = $"caller.{DateTime.Now:yyyyMMddHHmm}.log";
-            var filePath = Path.Combine(directoryPath, fileName);
+            string directoryPath = InitDirectory();
+            string fileName = $"caller.{DateTime.Now:yyyyMMddHHmm}.log";
+            string filePath = Path.Combine(directoryPath, fileName);
 
-            using var sw = new StreamWriter(filePath, true, Encoding.UTF8);
+            using StreamWriter sw = new(filePath, true, Encoding.UTF8);
             await sw.WriteLineAsync(content);
         }
-        catch(Exception)
+        catch (Exception)
         {
             // ignored
         }
@@ -43,8 +43,8 @@ public static class Logger
 
     private static string InitDirectory()
     {
-        var directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Diagnosis");
-        if(!Directory.Exists(directoryPath))
+        string directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Diagnosis");
+        if (!Directory.Exists(directoryPath))
         {
             Directory.CreateDirectory(directoryPath);
         }

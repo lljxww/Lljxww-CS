@@ -105,9 +105,9 @@ public class ApiResultTest
                      "\":null,\"IPAreaType\":null,\"ExtendInfo\":null,\"IPAreaLimit\":null,\"ClaimFiles" +
                      "\":[],\"LoadTime\":\"2022-06-16T15:20:34.4268906+08:00\"}";
 
-        var result = new ApiResult(raw);
-        var part = result["BaseInfo"];
-        var partObj = JsonNode.Parse(part!);
+        ApiResult result = new(raw);
+        string? part = result["BaseInfo"];
+        JsonNode? partObj = JsonNode.Parse(part!);
         Assert.AreNotEqual("lljxww_02", partObj!["username"]);
     }
 }

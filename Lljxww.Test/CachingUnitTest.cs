@@ -1,9 +1,9 @@
-using Lljxww.CSRedis.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Lljxww.CSRedis.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Test;
 

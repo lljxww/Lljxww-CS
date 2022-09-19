@@ -23,7 +23,7 @@ public static class HttpContextExtension
             return null;
         }
 
-        return context.Request.Headers.Keys.Contains(key)
+        return context.Request.Headers.ContainsKey(key) 
             ? context.Request.Headers[key].ToString()
             : null;
     }

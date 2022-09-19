@@ -19,7 +19,9 @@ public static class ExpressionExtension
         Func<Expression, Expression, Expression> merge)
     {
         Dictionary<ParameterExpression, ParameterExpression> map = first.Parameters
-            .Select((f, i) => new { f, s = second.Parameters[i] }).ToDictionary(p => p.s, p => p.f);
+            .Select((f, i) 
+                => new { f, s = second.Parameters[i] })
+            .ToDictionary(p => p.s, p => p.f);
         Expression secondBody = ParameterRebinder.ReplaceParameters(map, second.Body);
         return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
     }
@@ -60,7 +62,7 @@ public class ParameterRebinder : ExpressionVisitor
     /// <summary>
     /// </summary>
     /// <param name="map"></param>
-    public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
+    private ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
     {
         _map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
     }

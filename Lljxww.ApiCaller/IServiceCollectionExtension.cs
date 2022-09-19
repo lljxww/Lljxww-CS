@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lljxww.ApiCaller;
 
-public static class IServiceCollectionExtension
+public static class ServiceCollectionExtension
 {
     /// <summary>
     /// 使用指定的配置节初始化Caller配置

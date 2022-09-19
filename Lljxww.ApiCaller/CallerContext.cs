@@ -1,13 +1,13 @@
-﻿using Lljxww.ApiCaller.Extensions;
-using Lljxww.ApiCaller.Models;
-using Lljxww.ApiCaller.Models.Config;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using Lljxww.ApiCaller.Extensions;
+using Lljxww.ApiCaller.Models;
+using Lljxww.ApiCaller.Models.Config;
 
 namespace Lljxww.ApiCaller;
 
@@ -42,6 +42,7 @@ public class CallerContext
     {
         CallerContext context = new()
         {
+            Config = config,
             ApiName = apiNameAndMethodName,
             OriginParam = param,
             ParamDic = param?.AsDictionary()
@@ -120,64 +121,64 @@ public class CallerContext
         switch (context.ApiItem.ParamType)
         {
             case "query":
+            {
+                if (context.ParamDic?.Count > 0)
                 {
-                    if (context.ParamDic?.Count > 0)
+                    if (!context.FinalUrl.Contains('?'))
                     {
-                        if (!context.FinalUrl.Contains('?'))
-                        {
-                            context.FinalUrl += "?";
-                        }
-
-                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                        {
-                            context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
-                        }
-
-                        context.FinalUrl = context.FinalUrl.Replace("?&", "?");
+                        context.FinalUrl += "?";
                     }
 
+                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                    {
+                        context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                    }
+
+                    context.FinalUrl = context.FinalUrl.Replace("?&", "?");
+                }
+
+                break;
+            }
+            case "path":
+            {
+                if (context.ParamDic != null)
+                {
+                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                    {
+                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
+                    }
+                }
+
+                break;
+            }
+            case "body":
+            {
+                if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
+                {
                     break;
                 }
-            case "path":
+
+                if (context.RequestOption?.CustomHttpContent != null)
+                {
+                    context.HttpContent = context.RequestOption.CustomHttpContent;
+                    break;
+                }
+
+                if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
+                {
+                    context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
+                    context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
+                }
+                else
                 {
                     if (context.ParamDic != null)
                     {
-                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                        {
-                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
-                        }
+                        context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
                     }
-
-                    break;
                 }
-            case "body":
-                {
-                    if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
-                    {
-                        break;
-                    }
 
-                    if (context.RequestOption?.CustomHttpContent != null)
-                    {
-                        context.HttpContent = context.RequestOption.CustomHttpContent;
-                        break;
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
-                    {
-                        context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
-                        context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
-                    }
-                    else
-                    {
-                        if (context.ParamDic != null)
-                        {
-                            context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
-                        }
-                    }
-
-                    break;
-                }
+                break;
+            }
         }
 
         // 用户自定义的url
@@ -223,13 +224,13 @@ public class CallerContext
 
         try
         {
-            HttpClient client = HttpClientInstance.Get();
+            HttpClient client = HttpClientInstance.Get(this);
 
             sw.Start();
 
             HttpResponseMessage response = client.SendAsync(RequestMessage, cancellationTokenSource.Token).Result;
             ResponseContent = await response.Content.ReadAsStringAsync();
-            
+
             if (!string.IsNullOrWhiteSpace(ResponseContent))
             {
                 ApiResult = new ApiResult(ResponseContent, response, this);
@@ -241,13 +242,17 @@ public class CallerContext
             Runtime = Convert.ToInt32(sw.ElapsedMilliseconds);
         }
 
-        
 
         return this;
     }
 
     #region 属性
 
+    /// <summary>
+    /// Caller全局设置
+    /// </summary>
+    public ApiCallerConfig Config { get; private set; }
+    
     /// <summary>
     /// 服务名.方法名
     /// </summary>

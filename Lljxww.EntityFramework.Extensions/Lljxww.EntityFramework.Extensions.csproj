@@ -14,9 +14,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Microsoft.EntityFrameworkCore" />
+        <None Remove="Microsoft.EntityFrameworkCore"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"/>
     </ItemGroup>
 </Project>

@@ -52,7 +52,7 @@ public class ApiCallerTest
     public void CallerSettingTest()
     {
         Caller caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
-        
+
         // LogDetail
         string username = "liang1224";
 
