@@ -1,7 +1,7 @@
 using Lljxww.Utilities.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.Core;
 
 [TestClass]
 public class CryptographyUnitTest

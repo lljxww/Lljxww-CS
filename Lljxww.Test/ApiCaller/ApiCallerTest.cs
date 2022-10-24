@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.ApiCaller;
 
 [TestClass]
 public class ApiCallerTest
@@ -14,7 +14,7 @@ public class ApiCallerTest
     public ApiCallerTest()
     {
         IConfigurationRoot config = new ConfigurationBuilder()
-            .AddJsonFile("apicaller.json")
+            .AddJsonFile("./ApiCaller/apicaller.json")
             .Build();
 
         _services.ConfigureCaller(config);

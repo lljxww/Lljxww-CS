@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Lljxww.ApiCaller.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Lljxww.ApiCaller.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.ApiCaller;
 
 [TestClass]
 public class ApiResultConvertUnitTest

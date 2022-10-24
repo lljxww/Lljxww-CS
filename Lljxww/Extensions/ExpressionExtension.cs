@@ -19,7 +19,7 @@ public static class ExpressionExtension
         Func<Expression, Expression, Expression> merge)
     {
         Dictionary<ParameterExpression, ParameterExpression> map = first.Parameters
-            .Select((f, i) 
+            .Select((f, i)
                 => new { f, s = second.Parameters[i] })
             .ToDictionary(p => p.s, p => p.f);
         Expression secondBody = ParameterRebinder.ReplaceParameters(map, second.Body);

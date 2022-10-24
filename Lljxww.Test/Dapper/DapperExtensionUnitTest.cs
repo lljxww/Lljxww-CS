@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using Dapper;
+﻿using Dapper;
 using Lljxww.Dapper.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.Dapper;
 
 [TestClass]
 public class DapperExtensionUnitTest

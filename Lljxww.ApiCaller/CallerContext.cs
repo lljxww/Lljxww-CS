@@ -1,13 +1,14 @@
-﻿using System.Configuration;
+﻿using Lljxww.ApiCaller.Exceptions;
+using Lljxww.ApiCaller.Extensions;
+using Lljxww.ApiCaller.Models;
+using Lljxww.ApiCaller.Models.Config;
+using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Web;
-using Lljxww.ApiCaller.Extensions;
-using Lljxww.ApiCaller.Models;
-using Lljxww.ApiCaller.Models.Config;
 
 namespace Lljxww.ApiCaller;
 
@@ -67,7 +68,7 @@ public class CallerContext
 
             if (context.Authorization == null)
             {
-                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+                throw new CallerException($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
             }
         }
 
@@ -92,7 +93,7 @@ public class CallerContext
 
             if (context.Authorization == null)
             {
-                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+                throw new CallerException($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
             }
         }
 
@@ -101,7 +102,7 @@ public class CallerContext
         {
             if (context.Authorization == null)
             {
-                throw new Exception($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
+                throw new CallerException($"找不到授权配置：{context.ServiceItem.AuthorizationType}");
             }
 
             context.Authorization.AuthorizationInfo = requestOption.CustomAuthorizeInfo;
@@ -121,64 +122,64 @@ public class CallerContext
         switch (context.ApiItem.ParamType)
         {
             case "query":
-            {
-                if (context.ParamDic?.Count > 0)
                 {
-                    if (!context.FinalUrl.Contains('?'))
+                    if (context.ParamDic?.Count > 0)
                     {
-                        context.FinalUrl += "?";
+                        if (!context.FinalUrl.Contains('?'))
+                        {
+                            context.FinalUrl += "?";
+                        }
+
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                        }
+
+                        context.FinalUrl = context.FinalUrl.Replace("?&", "?");
                     }
 
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
-                    }
-
-                    context.FinalUrl = context.FinalUrl.Replace("?&", "?");
+                    break;
                 }
-
-                break;
-            }
             case "path":
-            {
-                if (context.ParamDic != null)
-                {
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
-                    }
-                }
-
-                break;
-            }
-            case "body":
-            {
-                if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
-                {
-                    break;
-                }
-
-                if (context.RequestOption?.CustomHttpContent != null)
-                {
-                    context.HttpContent = context.RequestOption.CustomHttpContent;
-                    break;
-                }
-
-                if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
-                {
-                    context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
-                    context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
-                }
-                else
                 {
                     if (context.ParamDic != null)
                     {
-                        context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
+                        }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
+            case "body":
+                {
+                    if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
+                    {
+                        break;
+                    }
+
+                    if (context.RequestOption?.CustomHttpContent != null)
+                    {
+                        context.HttpContent = context.RequestOption.CustomHttpContent;
+                        break;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
+                    {
+                        context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
+                        context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
+                    }
+                    else
+                    {
+                        if (context.ParamDic != null)
+                        {
+                            context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        }
+                    }
+
+                    break;
+                }
         }
 
         // 用户自定义的url
@@ -205,10 +206,17 @@ public class CallerContext
             Content = context.HttpContent
         };
 
-        if (context.Authorization != null && !string.IsNullOrWhiteSpace(context.Authorization?.Name))
+        if (context.Authorization == null || string.IsNullOrWhiteSpace(context.Authorization?.Name))
         {
-            context = AuthorizateFuncs[context.Authorization!.Name].Invoke(context);
+            return context;
         }
+
+        if (!AuthorizateFuncs.ContainsKey(context.Authorization!.Name))
+        {
+            throw new CallerException($"未配置给定的授权方式: {context.Authorization!.Name}");
+        }
+
+        context = AuthorizateFuncs[context.Authorization!.Name].Invoke(context);
 
         return context;
     }
@@ -242,7 +250,6 @@ public class CallerContext
             Runtime = Convert.ToInt32(sw.ElapsedMilliseconds);
         }
 
-
         return this;
     }
 
@@ -252,7 +259,7 @@ public class CallerContext
     /// Caller全局设置
     /// </summary>
     public ApiCallerConfig Config { get; private set; }
-    
+
     /// <summary>
     /// 服务名.方法名
     /// </summary>

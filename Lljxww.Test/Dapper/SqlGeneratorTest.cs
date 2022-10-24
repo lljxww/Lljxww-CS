@@ -1,11 +1,11 @@
+using Lljxww.Dapper.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Lljxww.Dapper.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.Dapper;
 
 [TestClass]
 public class SqlGeneratorTest

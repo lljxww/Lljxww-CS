@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.Dapper.Extensions", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ApiCaller.Client", "Lljxww.ApiCaller.Client\Lljxww.ApiCaller.Client.csproj", "{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.ConsoleApp4CodeGenerator", "Lljxww.ConsoleApp4CodeGenerator\Lljxww.ConsoleApp4CodeGenerator.csproj", "{C2346700-62E5-42AE-97B2-1332C646E6DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC7BB145-2624-46AA-BC80-B9DB4AF8C1B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2346700-62E5-42AE-97B2-1332C646E6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2346700-62E5-42AE-97B2-1332C646E6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2346700-62E5-42AE-97B2-1332C646E6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2346700-62E5-42AE-97B2-1332C646E6DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

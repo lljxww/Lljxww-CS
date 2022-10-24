@@ -15,7 +15,7 @@ public static class DictionaryExtension
             return dic;
         }
 
-        predicate ??= (key1, key2) 
+        predicate ??= (key1, key2)
             => string.Equals(key1?.ToString(), key2?.ToString(), StringComparison.OrdinalIgnoreCase);
 
         Dictionary<T, U> newDic = new();
