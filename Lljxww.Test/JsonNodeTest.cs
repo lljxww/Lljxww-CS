@@ -64,3 +64,4 @@ public class JsonNodeTest
         public IList<TestModel> OtherModels { get; set; }
     }
 }
+
