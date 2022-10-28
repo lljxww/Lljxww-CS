@@ -5,15 +5,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww.ApiCaller</PackageId>
-        <Version>1.5.8</Version>
+        <Version>1.6.0-alpha</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集-ApiCaller</Description>
-        <PackageReleaseNotes>ApiResult添加HttpResponseMessage属性</PackageReleaseNotes>
+        <PackageReleaseNotes>CallerContext新增ModifyRequestBody方法</PackageReleaseNotes>
         <LangVersion>default</LangVersion>
         <RootNamespace>Lljxww.ApiCaller</RootNamespace>
-        <PackageProjectUrl>https://github.com/liang1224/Lljxww</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/lljxww/Lljxww</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/liang1224/Lljxww</RepositoryUrl>
+        <RepositoryUrl>https://github.com/lljxww/Lljxww</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

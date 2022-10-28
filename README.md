@@ -226,7 +226,7 @@ _caller.Invoke("some_site.some_method", new {
 ## 结语
 已发布到NuGet: [点击此处查看](https://www.nuget.org/packages?q=Lljxww)
 
-Github: [liang1224/Lljxww](https://github.com/liang1224/Lljxww)
+Github: [lljxww/Lljxww](https://github.com/lljxww/Lljxww)
 
 水平有限，欢迎批评指正。
 邮箱：[liangjw1224@foxmail.com](mailto:liangjw1224@foxmail.com)
