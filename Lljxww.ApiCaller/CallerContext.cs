@@ -50,9 +50,7 @@ public class CallerContext
         {
             return;
         }
-        
-        var originParam = OriginParam;
-        
+
         OriginParam = modifyParamFunc.Invoke(OriginParam);
         ParamDic = OriginParam.AsDictionary();
 
@@ -92,6 +90,18 @@ public class CallerContext
     {
         (ServiceItem serviceItem, ApiItem apiItem) = ParseConfig(apiNameAndMethodName, config);
 
+        var authName = string.IsNullOrWhiteSpace(apiItem.AuthorizationType)
+            ? serviceItem.AuthorizationType
+            : apiItem.AuthorizationType;
+
+        var authInfo = "";
+        if (!string.IsNullOrWhiteSpace(authName))
+        {
+            authInfo = !string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo)
+                ? requestOption.CustomAuthorizeInfo
+                : config.Authorizations.FirstOrDefault(a => a.Name == authName)?.AuthorizationInfo;
+        }
+
         CallerContext context = new()
         {
             Config = config,
@@ -111,9 +121,13 @@ public class CallerContext
                     ? apiItem.Timeout
                     : serviceItem.Timeout != 0
                         ? serviceItem.Timeout
-                        : 0
+                        : 0,
+            Authorization = new Authorization
+            {
+                AuthorizationInfo = authInfo,
+                Name = authName
+            }
         };
-
 
         context = ConfigureCache(context);
         context = ConfigureRequestParam(context);
@@ -229,6 +243,9 @@ public class CallerContext
 
     private static CallerContext ConfigureRequestParam(CallerContext context)
     {
+        // 请求地址和请求头
+        context.FinalUrl = $"{context.BaseUrl.TrimEnd('/')}/{context.ApiItem.Url.TrimStart('/')}";
+        
         // 用户自定义的url
         if (context.RequestOption?.CustomFinalUrlHandler != null)
         {
@@ -242,8 +259,6 @@ public class CallerContext
             Content = context.HttpContent
         };
         
-        // 请求地址和请求头
-        context.FinalUrl = $"{context.BaseUrl.TrimEnd('/')}/{context.ApiItem.Url.TrimStart('/')}";
         switch (context.ApiItem.ParamType)
         {
             case "query":

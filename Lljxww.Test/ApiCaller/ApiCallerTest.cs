@@ -30,7 +30,7 @@ public class ApiCallerTest
     {
         Caller caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
-        string username = "liang1224";
+        string username = "lljxww";
 
         ApiResult? result = caller.InvokeAsync("gh.GetUserInfo", new
         {
@@ -54,7 +54,7 @@ public class ApiCallerTest
         Caller caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
         // LogDetail
-        string username = "liang1224";
+        string username = "lljxww";
 
         int i = 0;
         while (i < 10)

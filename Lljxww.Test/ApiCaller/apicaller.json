@@ -17,7 +17,6 @@
         {
           "Method": "GetUserInfo",
           "Url": "/users/{username}",
-          "AuthorizationType": "Jwt",
           "HTTPMethod": "GET",
           "ParamType": "path"
         },
