@@ -19,11 +19,11 @@
         </PackageReference>
         <PackageReference Include="Dapper" Version="2.0.123" />
         <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
         <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
         <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
         <PackageReference Include="MySql.Data" Version="8.0.31" />
@@ -34,15 +34,10 @@
         <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj" />
         <ProjectReference Include="..\Lljxww.CSRedis.Extensions\Lljxww.CSRedis.Extensions.csproj" />
         <ProjectReference Include="..\Lljxww\Lljxww.csproj" />
-        <ProjectReference Include="..\Lljxww.Dapper.Extensions\Lljxww.Dapper.Extensions.csproj" />
-        <ProjectReference Include="..\Lljxww.EntityFramework.Extensions\Lljxww.EntityFramework.Extensions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <None Update="ApiCaller\apicaller.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="ApiCallerClient\apicaller.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

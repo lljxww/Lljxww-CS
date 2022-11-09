@@ -26,19 +26,12 @@ public class ApiResultTest
     {
         Caller? caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
-        string? username = "liang1224";
+        ApiResult? result = caller.InvokeAsync("weibo.hot").Result;
 
-        ApiResult? result = caller.InvokeAsync("gh.GetUserInfo", new
-        {
-            username
-        }).Result;
-
-        Assert.AreEqual(username, result!["login"]);
-        Assert.AreEqual(username, result!["Login"]);
-        Assert.AreEqual(username, result!["lOgin"]);
-        Assert.AreEqual(username, result!["loGin"]);
-        Assert.AreEqual(username, result!["logIn"]);
-        Assert.AreEqual(username, result!["logiN"]);
+        Assert.AreEqual("1", result!["ok"]);
+        Assert.AreEqual("1", result!["Ok"]);
+        Assert.AreEqual("1", result!["oK"]);
+        Assert.AreEqual("1", result!["OK"]);
     }
 
     [TestMethod]
@@ -46,12 +39,7 @@ public class ApiResultTest
     {
         Caller? caller = _services.BuildServiceProvider().GetRequiredService<Caller>();
 
-        string? username = "liang1224";
-
-        ApiResult? result = caller.InvokeAsync("gh.GetUserInfo", new
-        {
-            username
-        }).Result;
+        ApiResult? result = caller.InvokeAsync("weibo.hot").Result;
 
         Assert.AreEqual(false, result.Success);
         Assert.AreEqual(-1, result.Code);

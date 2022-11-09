@@ -1,7 +1,7 @@
 ﻿{
   "Diagnosis": {
     "LogDetail": [
-      "gh.GetUserInfo2"
+      "weibo.hot"
     ]
   },
   "Authorizations": [
@@ -11,20 +11,14 @@
   ],
   "ServiceItems": [
     {
-      "ApiName": "gh",
-      "BaseUrl": "https://api.github.com",
+      "ApiName": "weibo",
+      "BaseUrl": "https://weibo.com/ajax",
       "ApiItems": [
         {
-          "Method": "GetUserInfo",
-          "Url": "/users/{username}",
+          "Method": "hot",
+          "Url": "/side/hotSearch",
           "HTTPMethod": "GET",
-          "ParamType": "path"
-        },
-        {
-          "Method": "GetUserInfo2",
-          "Url": "/users/{username}",
-          "HTTPMethod": "GET",
-          "ParamType": "path"
+          "ParamType": "query"
         }
       ]
     }

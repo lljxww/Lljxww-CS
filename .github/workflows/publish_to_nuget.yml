@@ -32,9 +32,3 @@ jobs:
 
     - name: Publish-ApiCaller
       run: dotnet pack -c Release -o . Lljxww.ApiCaller/Lljxww.ApiCaller.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
-       
-    - name: Publish-EntityFramework
-      run: dotnet pack -c Release -o . Lljxww.EntityFramework.Extensions/Lljxww.EntityFramework.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
-
-    - name: Publish-Dapper
-      run: dotnet pack -c Release -o . Lljxww.Dapper.Extensions/Lljxww.Dapper.Extensions.csproj && dotnet nuget push *.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate

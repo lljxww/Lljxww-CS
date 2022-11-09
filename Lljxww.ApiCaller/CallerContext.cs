@@ -66,7 +66,7 @@ public class CallerContext
                 HttpContent = new FormUrlEncodedContent(ParamDic!);
             }
         }
-        
+
         RequestMessage = new HttpRequestMessage
         {
             Method = HttpMethod,
@@ -83,18 +83,18 @@ public class CallerContext
     /// <param name="param">参数对象</param>
     /// <param name="requestOption"></param>
     /// <returns></returns>
-    internal static CallerContext Build(string apiNameAndMethodName, 
-        ApiCallerConfig config, 
+    internal static CallerContext Build(string apiNameAndMethodName,
+        ApiCallerConfig config,
         object? param,
         RequestOption requestOption)
     {
         (ServiceItem serviceItem, ApiItem apiItem) = ParseConfig(apiNameAndMethodName, config);
 
-        var authName = string.IsNullOrWhiteSpace(apiItem.AuthorizationType)
+        string authName = string.IsNullOrWhiteSpace(apiItem.AuthorizationType)
             ? serviceItem.AuthorizationType
             : apiItem.AuthorizationType;
 
-        var authInfo = "";
+        string? authInfo = "";
         if (!string.IsNullOrWhiteSpace(authName))
         {
             authInfo = !string.IsNullOrWhiteSpace(requestOption.CustomAuthorizeInfo)
@@ -132,7 +132,7 @@ public class CallerContext
         context = ConfigureCache(context);
         context = ConfigureRequestParam(context);
         context = ConfigureAuth(config, context);
-        
+
         return context;
     }
 
@@ -180,14 +180,14 @@ public class CallerContext
             throw new ConfigurationErrorsException($"未找到指定的方法: {serviceName}");
         }
 
-        var serviceItem = config.ServiceItems
+        ServiceItem serviceItem = config.ServiceItems
             .Single(a => a.ApiName.ToLower().Trim() == serviceName.ToLower().Trim());
-        var apiItem = serviceItem.ApiItems
+        ApiItem apiItem = serviceItem.ApiItems
             .Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
 
         return (serviceItem, apiItem);
     }
-    
+
     private static CallerContext ConfigureAuth(ApiCallerConfig config, CallerContext context)
     {
         // 授权
@@ -245,7 +245,7 @@ public class CallerContext
     {
         // 请求地址和请求头
         context.FinalUrl = $"{context.BaseUrl.TrimEnd('/')}/{context.ApiItem.Url.TrimStart('/')}";
-        
+
         // 用户自定义的url
         if (context.RequestOption?.CustomFinalUrlHandler != null)
         {
@@ -258,68 +258,68 @@ public class CallerContext
             RequestUri = new Uri(context.FinalUrl),
             Content = context.HttpContent
         };
-        
+
         switch (context.ApiItem.ParamType)
         {
             case "query":
-            {
-                if (context.ParamDic?.Count > 0)
                 {
-                    if (!context.FinalUrl.Contains('?'))
+                    if (context.ParamDic?.Count > 0)
                     {
-                        context.FinalUrl += "?";
+                        if (!context.FinalUrl.Contains('?'))
+                        {
+                            context.FinalUrl += "?";
+                        }
+
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                        }
+
+                        context.FinalUrl = context.FinalUrl.Replace("?&", "?");
                     }
 
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
-                    }
-
-                    context.FinalUrl = context.FinalUrl.Replace("?&", "?");
+                    break;
                 }
-
-                break;
-            }
             case "path":
-            {
-                if (context.ParamDic != null)
-                {
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
-                    }
-                }
-
-                break;
-            }
-            case "body":
-            {
-                if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
-                {
-                    break;
-                }
-
-                if (context.RequestOption?.CustomHttpContent != null)
-                {
-                    context.HttpContent = context.RequestOption.CustomHttpContent;
-                    break;
-                }
-
-                if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
-                {
-                    context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
-                    context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
-                }
-                else
                 {
                     if (context.ParamDic != null)
                     {
-                        context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
+                        }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
+            case "body":
+                {
+                    if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
+                    {
+                        break;
+                    }
+
+                    if (context.RequestOption?.CustomHttpContent != null)
+                    {
+                        context.HttpContent = context.RequestOption.CustomHttpContent;
+                        break;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
+                    {
+                        context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
+                        context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
+                    }
+                    else
+                    {
+                        if (context.ParamDic != null)
+                        {
+                            context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        }
+                    }
+
+                    break;
+                }
         }
 
         return context;
@@ -332,7 +332,7 @@ public class CallerContext
             return context;
         }
 
-        var keySource =
+        string keySource =
             $"{context.ApiName}+{(context.OriginParam == null ? "" : JsonSerializer.Serialize(context.OriginParam))}"
                 .ToLower();
 
