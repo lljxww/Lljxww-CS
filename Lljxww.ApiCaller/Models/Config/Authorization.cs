@@ -4,5 +4,5 @@ public class Authorization
 {
     public string Name { get; set; }
 
-    public string AuthorizationInfo { get; set; }
+    public string? AuthorizationInfo { get; set; }
 }

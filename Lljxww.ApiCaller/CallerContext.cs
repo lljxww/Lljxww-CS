@@ -36,17 +36,12 @@ public class CallerContext
     /// <param name="modifyParamFunc"></param>
     public void ModifyRequestBody(Func<object, object> modifyParamFunc)
     {
+        if(OriginParam == null)
+        {
+            return;
+        }
+
         if (ApiItem.ParamType != "body")
-        {
-            return;
-        }
-
-        if (OriginParam == null && RequestOption?.CustomHttpContent == null)
-        {
-            return;
-        }
-
-        if (RequestOption?.CustomHttpContent != null)
         {
             return;
         }

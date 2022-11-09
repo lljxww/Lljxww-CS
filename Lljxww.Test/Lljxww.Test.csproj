@@ -30,7 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Lljxww.ApiCaller.Client\Lljxww.ApiCaller.Client.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj" />
         <ProjectReference Include="..\Lljxww.CSRedis.Extensions\Lljxww.CSRedis.Extensions.csproj" />
         <ProjectReference Include="..\Lljxww\Lljxww.csproj" />
