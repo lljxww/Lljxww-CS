@@ -240,20 +240,7 @@ public class CallerContext
     {
         // 请求地址和请求头
         context.FinalUrl = $"{context.BaseUrl.TrimEnd('/')}/{context.ApiItem.Url.TrimStart('/')}";
-
-        // 用户自定义的url
-        if (context.RequestOption?.CustomFinalUrlHandler != null)
-        {
-            context.FinalUrl = context.RequestOption.CustomFinalUrlHandler.Invoke(context.FinalUrl);
-        }
-
-        context.RequestMessage = new HttpRequestMessage
-        {
-            Method = context.HttpMethod,
-            RequestUri = new Uri(context.FinalUrl),
-            Content = context.HttpContent
-        };
-
+        
         switch (context.ApiItem.ParamType)
         {
             case "query":
@@ -267,7 +254,14 @@ public class CallerContext
 
                         foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
                         {
-                            context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                            if (context.ApiItem.EncodeUrl)
+                            {
+                                context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                            }
+                            else
+                            {
+                                context.FinalUrl += $"&{keyValuePair.Key}={keyValuePair.Value}";
+                            }
                         }
 
                         context.FinalUrl = context.FinalUrl.Replace("?&", "?");
@@ -281,7 +275,8 @@ public class CallerContext
                     {
                         foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
                         {
-                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}", keyValuePair.Value);
+                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}",
+                                context.ApiItem.EncodeUrl ? HttpUtility.UrlEncode(keyValuePair.Value) : keyValuePair.Value);
                         }
                     }
 
@@ -317,6 +312,19 @@ public class CallerContext
                 }
         }
 
+        // 用户自定义的url
+        if (context.RequestOption?.CustomFinalUrlHandler != null)
+        {
+            context.FinalUrl = context.RequestOption.CustomFinalUrlHandler.Invoke(context.FinalUrl);
+        }
+
+        context.RequestMessage = new HttpRequestMessage
+        {
+            Method = context.HttpMethod,
+            RequestUri = new Uri(context.FinalUrl),
+            Content = context.HttpContent
+        };
+        
         return context;
     }
 

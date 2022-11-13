@@ -54,4 +54,9 @@ public class ApiItem
     /// 超时时间
     /// </summary>
     public int Timeout { get; set; }
+
+    /// <summary>
+    /// 是否对URL进行编码
+    /// </summary>
+    public bool EncodeUrl { get; set; } = true;
 }
