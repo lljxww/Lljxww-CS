@@ -24,15 +24,25 @@ public partial class ApiCallerConfigPage : ContentPage
 
     private async void SaveButton_Clicked(object sender, EventArgs e)
     {
-		var config = new ManagedApiCallerConfig
+		if (BindingContext is ManagedApiCallerConfig config)
 		{
-			Id = Guid.NewGuid().ToString(),
-			Name = TextEditor.Text
-		};
-		
-		ConfigFileUtil.SaveConfigFile(config);
+			if (config != null)
+			{
+				config.Name = TextEditor.Text;
+			}
+		}
+		else
+		{
+			config = new ManagedApiCallerConfig
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = TextEditor.Text
+            };
+        }
 
-		await Shell.Current.GoToAsync("..");
+        ConfigFileUtil.SaveConfigFile(config);
+
+        await Shell.Current.GoToAsync("..");
     }
 
     private async void DeleteButton_Clicked(object sender, EventArgs e)
