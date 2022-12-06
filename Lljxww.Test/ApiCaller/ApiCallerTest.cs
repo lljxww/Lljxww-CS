@@ -46,6 +46,6 @@ public class ApiCallerTest
             hourly = "temperature_2m,relativehumidity_2m,windspeed_10m"
         }).Result;
         
-        Assert.AreEqual(HttpStatusCode.OK, weatherResult.HttpResponseMessage.StatusCode);
+        Assert.AreEqual(HttpStatusCode.OK, weatherResult.HttpResponseMessage!.StatusCode);
     }
 }
