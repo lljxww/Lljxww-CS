@@ -1,8 +1,8 @@
-﻿using Lljxww.ApiCaller.Diagnosis;
+﻿using System.Net;
+using Lljxww.ApiCaller.Diagnosis;
 using Lljxww.ApiCaller.Models;
 using Lljxww.ApiCaller.Models.Config;
 using Microsoft.Extensions.Options;
-using System.Net;
 
 namespace Lljxww.ApiCaller;
 

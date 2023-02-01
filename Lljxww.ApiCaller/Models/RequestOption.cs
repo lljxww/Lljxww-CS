@@ -36,7 +36,7 @@ public class RequestOption
     /// 超时时长（ms），超过此时间的请求将取消
     /// </summary>
     public int Timeout { get; set; } = -1;
-    
+
     /// <summary>
     /// 自定义对象, 可用于将请求时的一些细节传递到各类事件处理程序中使用
     /// </summary>

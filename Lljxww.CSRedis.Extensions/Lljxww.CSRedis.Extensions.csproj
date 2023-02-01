@@ -14,13 +14,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Caching.CSRedis" />
+        <None Remove="Caching.CSRedis"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Caching.CSRedis" Version="3.8.669" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Caching.CSRedis" Version="3.8.670"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Lljxww\Lljxww.csproj" />
+        <ProjectReference Include="..\Lljxww\Lljxww.csproj"/>
     </ItemGroup>
 </Project>

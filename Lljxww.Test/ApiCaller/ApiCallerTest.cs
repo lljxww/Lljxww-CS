@@ -1,9 +1,9 @@
-﻿using Lljxww.ApiCaller;
+﻿using System.Net;
+using Lljxww.ApiCaller;
 using Lljxww.ApiCaller.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
 
 namespace Lljxww.Test.ApiCaller;
 
@@ -45,7 +45,7 @@ public class ApiCallerTest
             longitude = 116.23,
             hourly = "temperature_2m,relativehumidity_2m,windspeed_10m"
         }).Result;
-        
+
         Assert.AreEqual(HttpStatusCode.OK, weatherResult.HttpResponseMessage!.StatusCode);
     }
 }

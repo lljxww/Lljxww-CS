@@ -9,6 +9,7 @@ public static class Logger
     {
         StringBuilder sb = new();
 
+        sb.Append($"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         sb.Append($"Method: {context.ApiName}{Environment.NewLine}");
         sb.Append($"Parameters: {JsonSerializer.Serialize(context.OriginParam)}{Environment.NewLine}");
         sb.Append($"Result: {context.ApiResult?.RawStr}");

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 
 namespace Lljxww.Utilities.Image;
+
 #pragma warning disable CA1416 // 验证平台兼容性
 public class VerificationCode
 {

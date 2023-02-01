@@ -25,10 +25,10 @@
     {
       "ApiName": "weather",
       "BaseUrl": "https://api.open-meteo.com",
-      "ApiItems":[
+      "ApiItems": [
         {
           "Method": "forecast",
-          "Url":"/v1/forecast",
+          "Url": "/v1/forecast",
           "HTTPMethod": "GET",
           "ParamType": "query",
           "EncodeUrl": false

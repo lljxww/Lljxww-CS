@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Test;
 
@@ -64,4 +64,3 @@ public class JsonNodeTest
         public IList<TestModel> OtherModels { get; set; }
     }
 }
-
