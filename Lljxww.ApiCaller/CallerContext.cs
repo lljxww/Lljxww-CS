@@ -16,9 +16,7 @@ public class CallerContext
 {
     private static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
 
-    private CallerContext()
-    {
-    }
+    private CallerContext() { }
 
     /// <summary>
     /// 注册授权操作
@@ -34,6 +32,7 @@ public class CallerContext
     /// 编辑请求体。若在RequestOption中设置了自定义请求，则此处不生效
     /// </summary>
     /// <param name="modifyParamFunc"></param>
+    /// <remarks>TODO: 何种场景有此需求？</remarks>
     public void ModifyRequestBody(Func<object, object> modifyParamFunc)
     {
         if (OriginParam == null)
@@ -76,8 +75,8 @@ public class CallerContext
     /// <param name="apiNameAndMethodName">服务名.方法名</param>
     /// <param name="config">配置对象</param>
     /// <param name="param">参数对象</param>
-    /// <param name="requestOption"></param>
-    /// <returns></returns>
+    /// <param name="requestOption">请求配置</param>
+    /// <returns>完成各种配置，可直接发起请求的请求上下文</returns>
     internal static CallerContext Build(string apiNameAndMethodName,
         ApiCallerConfig config,
         object? param,
@@ -131,6 +130,10 @@ public class CallerContext
         return context;
     }
 
+    /// <summary>
+    /// 使用当下的请求上下文发起请求
+    /// </summary>
+    /// <returns>附带请求结果的请求上下文</returns>
     internal async Task<CallerContext> RequestAsync()
     {
         ResultFrom = "Request";
@@ -165,6 +168,13 @@ public class CallerContext
 
     #region Private Configure Actions
 
+    /// <summary>
+    /// 找出给定的目标服务名的服务节点和接口节点配置
+    /// </summary>
+    /// <param name="apiNameAndMethodName">服务名和接口名</param>
+    /// <param name="config">接口调用配置</param>
+    /// <returns>服务节点，接口节点</returns>
+    /// <exception cref="ConfigurationErrorsException"></exception>
     private static (ServiceItem, ApiItem) ParseConfig(string apiNameAndMethodName, ApiCallerConfig config)
     {
         string serviceName = apiNameAndMethodName.Split('.')[0];
@@ -183,6 +193,13 @@ public class CallerContext
         return (serviceItem, apiItem);
     }
 
+    /// <summary>
+    /// 配置接口授权
+    /// </summary>
+    /// <param name="config">接口调用配置</param>
+    /// <param name="context">请求上下文</param>
+    /// <returns>配置好接口授权的请求上下文</returns>
+    /// <exception cref="CallerException"></exception>
     private static CallerContext ConfigureAuth(ApiCallerConfig config, CallerContext context)
     {
         // 授权
@@ -236,6 +253,11 @@ public class CallerContext
         return context;
     }
 
+    /// <summary>
+    /// 配置请求参数
+    /// </summary>
+    /// <param name="context">请求上下文</param>
+    /// <returns>配置好请求参数的请求上下文</returns>
     private static CallerContext ConfigureRequestParam(CallerContext context)
     {
         // 请求地址和请求头
@@ -244,72 +266,72 @@ public class CallerContext
         switch (context.ApiItem.ParamType)
         {
             case "query":
-            {
-                if (context.ParamDic?.Count > 0)
                 {
-                    if (!context.FinalUrl.Contains('?'))
+                    if (context.ParamDic?.Count > 0)
                     {
-                        context.FinalUrl += "?";
+                        if (!context.FinalUrl.Contains('?'))
+                        {
+                            context.FinalUrl += "?";
+                        }
+
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            if (context.ApiItem.EncodeUrl)
+                            {
+                                context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
+                            }
+                            else
+                            {
+                                context.FinalUrl += $"&{keyValuePair.Key}={keyValuePair.Value}";
+                            }
+                        }
+
+                        context.FinalUrl = context.FinalUrl.Replace("?&", "?");
                     }
 
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        if (context.ApiItem.EncodeUrl)
-                        {
-                            context.FinalUrl += $"&{keyValuePair.Key}={HttpUtility.UrlEncode(keyValuePair.Value)}";
-                        }
-                        else
-                        {
-                            context.FinalUrl += $"&{keyValuePair.Key}={keyValuePair.Value}";
-                        }
-                    }
-
-                    context.FinalUrl = context.FinalUrl.Replace("?&", "?");
+                    break;
                 }
-
-                break;
-            }
             case "path":
-            {
-                if (context.ParamDic != null)
-                {
-                    foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
-                    {
-                        context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}",
-                            context.ApiItem.EncodeUrl ? HttpUtility.UrlEncode(keyValuePair.Value) : keyValuePair.Value);
-                    }
-                }
-
-                break;
-            }
-            case "body":
-            {
-                if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
-                {
-                    break;
-                }
-
-                if (context.RequestOption?.CustomHttpContent != null)
-                {
-                    context.HttpContent = context.RequestOption.CustomHttpContent;
-                    break;
-                }
-
-                if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
-                {
-                    context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
-                    context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
-                }
-                else
                 {
                     if (context.ParamDic != null)
                     {
-                        context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        foreach (KeyValuePair<string, string> keyValuePair in context.ParamDic)
+                        {
+                            context.FinalUrl = context.FinalUrl.Replace($"{{{keyValuePair.Key}}}",
+                                context.ApiItem.EncodeUrl ? HttpUtility.UrlEncode(keyValuePair.Value) : keyValuePair.Value);
+                        }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
+            case "body":
+                {
+                    if (context.OriginParam == null && context.RequestOption?.CustomHttpContent == null)
+                    {
+                        break;
+                    }
+
+                    if (context.RequestOption?.CustomHttpContent != null)
+                    {
+                        context.HttpContent = context.RequestOption.CustomHttpContent;
+                        break;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(context.ApiItem.ContentType))
+                    {
+                        context.HttpContent = new StringContent(JsonSerializer.Serialize(context.OriginParam));
+                        context.HttpContent.Headers.ContentType = new MediaTypeHeaderValue(context.ApiItem.ContentType);
+                    }
+                    else
+                    {
+                        if (context.ParamDic != null)
+                        {
+                            context.HttpContent = new FormUrlEncodedContent(context.ParamDic!);
+                        }
+                    }
+
+                    break;
+                }
         }
 
         // 用户自定义的url
@@ -328,6 +350,11 @@ public class CallerContext
         return context;
     }
 
+    /// <summary>
+    /// 配置缓存
+    /// </summary>
+    /// <param name="context">请求上下文</param>
+    /// <returns>配置好缓存相关信息的请求上下文</returns>
     private static CallerContext ConfigureCache(CallerContext context)
     {
         if (!context.NeedCache)
@@ -338,6 +365,11 @@ public class CallerContext
         string keySource =
             $"{context.ApiName}+{(context.OriginParam == null ? "" : JsonSerializer.Serialize(context.OriginParam))}"
                 .ToLower();
+
+        if (!string.IsNullOrWhiteSpace(context.RequestOption.CustomCacheKeyPart))
+        {
+            keySource += context.RequestOption.CustomCacheKeyPart;
+        }
 
         using SHA1 sha = SHA1.Create();
         byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(keySource));
@@ -360,8 +392,14 @@ public class CallerContext
     /// </summary>
     public string ApiName { get; private set; }
 
+    /// <summary>
+    /// HTTP方法
+    /// </summary>
     public HttpMethod HttpMethod { get; private set; }
 
+    /// <summary>
+    /// 请求信息对象
+    /// </summary>
     public HttpRequestMessage RequestMessage { get; private set; }
 
     /// <summary>

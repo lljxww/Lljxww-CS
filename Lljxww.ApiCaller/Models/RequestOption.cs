@@ -43,6 +43,12 @@ public class RequestOption
     public object? CustomObject { get; set; }
 
     /// <summary>
+    /// 自定义参与计算缓存key的字符串
+    /// </summary>
+    /// <remarks>某些请求的业务参数依赖授权信息，如放到header中的某些字符串。默认的缓存key计算逻辑并不会读取到header中的信息，所以可通过此字段添加特定的业务参数来对不同的请求加以区分</remarks>
+    public string CustomCacheKeyPart { get; set; }
+
+    /// <summary>
     /// 获取自定义对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
