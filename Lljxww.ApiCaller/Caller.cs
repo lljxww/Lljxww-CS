@@ -1,7 +1,10 @@
 ﻿using System.Net;
+using System.Text.Json;
 using Lljxww.ApiCaller.Diagnosis;
+using Lljxww.ApiCaller.Exceptions;
 using Lljxww.ApiCaller.Models;
 using Lljxww.ApiCaller.Models.Config;
+using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Options;
 
 namespace Lljxww.ApiCaller;
@@ -109,5 +112,23 @@ public partial class Caller
     {
         _apiCallerConfig = apiCallerConfigOption.Value;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+    }
+
+    public Caller(string configFilePath)
+    {
+        if (!File.Exists(configFilePath))
+        {
+            throw new CallerException($"config not found: {configFilePath}");
+        }
+
+        try
+        {
+            var jsonText = File.ReadAllText(configFilePath);
+            _apiCallerConfig = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText) ?? throw new CallerException($"bad config: {configFilePath}");
+        }
+        catch (Exception ex)
+        {
+            throw new CallerException($"bad config: {ex.Message}");
+        }
     }
 }
