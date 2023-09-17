@@ -16,9 +16,4 @@ public class DbModel
     /// 静默模式，不输出过多信息
     /// </summary>
     public bool SilentMode { get; set; } = true;
-
-    /// <summary>
-    /// 其他自定义配置
-    /// </summary>
-    public Dictionary<string, string> Settings { get; set; }
 }

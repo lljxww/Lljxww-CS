@@ -3,53 +3,49 @@ using System.Text.Json;
 
 namespace Lljxww.ConsoleTool;
 
-public class LocalDBUtil
+public static partial class SystemManager
+{
+    static SystemManager()
+    {
+        dbModel = GetDbModelFromFile();
+    }
+
+    private static DbModel dbModel { get; set; }
+
+    public static ActionResult SetCallerConfigPath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return new ActionResult
+            {
+                Success = false,
+                Message = $"指定的路径不能为空: {path}"
+            };
+        }
+
+        if (!File.Exists(path))
+        {
+            return new ActionResult
+            {
+                Success = false,
+                Message = $"指定的文件不存在: {path}"
+            };
+        }
+
+        dbModel.CallerConfigPath = path;
+        Save2File(dbModel);
+
+        return new ActionResult
+        {
+            Success = true
+        };
+    }
+}
+
+public static partial class SystemManager
 {
     /// <summary>
-    /// 查询指定自定义信息的值
-    /// </summary>
-    /// <param name="key">键</param>
-    /// <returns></returns>
-    public static string Get(string key)
-    {
-        var dbModel = GetFileInstance();
-
-        if (dbModel.Settings.TryGetValue(key, out string value))
-        {
-            return value;
-        }
-
-        return default;
-    }
-
-    /// <summary>
-    /// 设置一个自定义信息
-    /// </summary>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    public static void Set(string key, string value)
-    {
-        var dbModel = GetFileInstance();
-
-        if (dbModel.Settings.ContainsKey(key))
-        {
-            dbModel.Settings[key] = value;
-        }
-        else
-        {
-            dbModel.Settings.Add(key, value);
-        }
-
-        Save(dbModel);
-    }
-
-    /// <summary>
-    /// 配置文件的路径
-    /// </summary>
-    public static string ConfigPath => GetFileInstance().CallerConfigPath;
-
-    /// <summary>
-    /// 程序数据文件的路名
+    /// 程序数据文件的路径
     /// </summary>
     private static string FileDirectory => Path.Combine(Environment.CurrentDirectory, "config");
 
@@ -62,7 +58,7 @@ public class LocalDBUtil
     /// 初始化本地文件
     /// </summary>
     /// <returns></returns>
-    public static DbModel GetFileInstance()
+    private static DbModel GetDbModelFromFile()
     {
         if (!Directory.Exists(FileDirectory))
         {
@@ -99,7 +95,7 @@ public class LocalDBUtil
     /// 存储配置文件
     /// </summary>
     /// <param name="dbModel"></param>
-    public static void Save(DbModel dbModel)
+    private static void Save2File(DbModel dbModel)
     {
         var jsonString = JsonSerializer.Serialize(dbModel);
         File.WriteAllText(FilePath, jsonString, Encoding.UTF8);
