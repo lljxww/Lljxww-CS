@@ -124,11 +124,36 @@ public partial class Caller
         try
         {
             var jsonText = File.ReadAllText(configFilePath);
-            _apiCallerConfig = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText) ?? throw new CallerException($"bad config: {configFilePath}");
+            _apiCallerConfig = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? throw new CallerException($"bad config: {configFilePath}");
         }
         catch (Exception ex)
         {
             throw new CallerException($"bad config: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// 检查指定的目标是否存在
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool HasTarget(string target)
+    {
+        var items = target.Split('.');
+        if (items.Length != 2)
+        {
+            return false;
+        }
+
+        if (!_apiCallerConfig.ServiceItems.Any(s => s.ApiName != items[0]))
+        {
+            return false;
+        }
+
+        return _apiCallerConfig.ServiceItems.Single(s => s.ApiName == items[0])
+            .ApiItems.Any(a => a.Method == items[1]);
     }
 }

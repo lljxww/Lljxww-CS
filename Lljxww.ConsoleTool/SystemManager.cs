@@ -40,6 +40,8 @@ public static partial class SystemManager
             Success = true
         };
     }
+
+    public static string GetCallerConfigPath() => dbModel.CallerConfigPath;
 }
 
 public static partial class SystemManager

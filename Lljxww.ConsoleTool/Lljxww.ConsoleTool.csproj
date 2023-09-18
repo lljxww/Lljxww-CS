@@ -11,4 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands/Config/" />
+    <Folder Include="Commands/Request/" />
+  </ItemGroup>
 </Project>

@@ -12,7 +12,6 @@
             "program": "${workspaceFolder}/Lljxww.ConsoleTool/bin/Debug/net7.0/Lljxww.ConsoleTool.dll",
             "args": [
                 "request",
-                "-k",
                 "weibo.hot"
             ],
             "cwd": "${workspaceFolder}/Lljxww.ConsoleTool",

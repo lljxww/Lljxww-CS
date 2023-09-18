@@ -25,16 +25,12 @@ public class ConfigCommand
             var actionResult = SystemManager.SetCallerConfigPath(Path);
             if (actionResult.Success)
             {
-                console.ForegroundColor = ConsoleColor.Green;
-                console.WriteLine("设置成功，后续将使用的配置文件为：");
-                console.ResetColor();
-                console.WriteLine(Path);
+                console.Success("设置成功，后续将使用的配置文件为：");
+                console.Success(Path);
             }
             else
             {
-                console.ForegroundColor = ConsoleColor.Red;
-                console.WriteLine(actionResult.Message);
-                console.ResetColor();
+                console.Error(actionResult.Message);
             }
         }
     }
