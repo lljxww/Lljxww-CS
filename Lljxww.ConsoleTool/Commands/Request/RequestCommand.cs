@@ -17,7 +17,13 @@ public class RequestCommand
 
     private async Task<int> OnExecuteAsync(CommandLineApplication app, IConsole console)
     {
-        var caller = new Caller(SystemManager.GetCallerConfigPath());
+        var path = SystemManager.GetCallerConfigPath();
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            console.Error("请先添加Caller使用的配置文件");
+        }
+
+        var caller = new Caller(path!);
 
         object? paramObj = null;
 

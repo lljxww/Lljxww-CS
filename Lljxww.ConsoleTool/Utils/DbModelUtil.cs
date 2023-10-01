@@ -3,9 +3,11 @@ using System.Text.Json;
 
 namespace Lljxww.ConsoleTool;
 
-public class DbModelUtil
+internal class DbModelUtil
 {
-    public static DbModel Instance { get; private set; }
+    private static string VERSION = "0.2";
+
+    internal static DbModel Instance { get; private set; }
 
     static DbModelUtil()
     {
@@ -25,25 +27,31 @@ public class DbModelUtil
 
         DbModel dbModel = new();
 
-        if (File.Exists(PathUtil.FilePath))
+        if (File.Exists(PathUtil.DbModelFilePath))
         {
-            var jsonString = File.ReadAllText(PathUtil.FilePath, Encoding.UTF8);
+            var jsonString = File.ReadAllText(PathUtil.DbModelFilePath, Encoding.UTF8);
             try
             {
                 dbModel = JsonSerializer.Deserialize<DbModel>(jsonString) ?? throw new JsonException();
+
+                // 验证版本
+                if (!string.Equals(VERSION, dbModel.Version))
+                {
+                    File.Delete(PathUtil.DbModelFilePath);
+                }
             }
             catch (JsonException)
             {
-                File.Delete(PathUtil.FilePath);
+                File.Delete(PathUtil.DbModelFilePath);
             }
 
             JsonSerializer.Deserialize<DbModel>(jsonString);
         }
 
-        if (!File.Exists(PathUtil.FilePath))
+        if (!File.Exists(PathUtil.DbModelFilePath))
         {
             string jsonString = JsonSerializer.Serialize(dbModel);
-            File.WriteAllText(PathUtil.FilePath, jsonString, Encoding.UTF8);
+            File.WriteAllText(PathUtil.DbModelFilePath, jsonString, Encoding.UTF8);
         }
 
         return dbModel;
@@ -62,6 +70,6 @@ public class DbModelUtil
 
         Instance = editAction.Invoke(Instance);
         var jsonString = JsonSerializer.Serialize(Instance);
-        File.WriteAllText(PathUtil.FilePath, jsonString, Encoding.UTF8);
+        File.WriteAllText(PathUtil.DbModelFilePath, jsonString, Encoding.UTF8);
     }
 }

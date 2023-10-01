@@ -11,8 +11,11 @@
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/Lljxww.ConsoleTool/bin/Debug/net7.0/Lljxww.ConsoleTool.dll",
             "args": [
-                "request",
-                "weibo.hot"
+                "config",
+                "add",
+                "/Users/liangjw/Code/Lljxww/Lljxww.Test/ApiCaller/apicaller.json",
+                "-t",
+                "v3"
             ],
             "cwd": "${workspaceFolder}/Lljxww.ConsoleTool",
             "console": "internalConsole",
