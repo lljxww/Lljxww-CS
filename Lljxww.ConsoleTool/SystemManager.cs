@@ -1,105 +1,110 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Lljxww.ApiCaller.Models.Config;
 
 namespace Lljxww.ConsoleTool;
 
 public static partial class SystemManager
 {
-    static SystemManager()
+    public static void InitDefaultCallerConfig()
     {
-        dbModel = GetDbModelFromFile();
+        var apiCallerConfig = new ApiCallerConfig
+        {
+            Diagnosis = new DiagnosisConfig()
+        };
+
+        var jsonText = JsonSerializer.Serialize(apiCallerConfig);
+        SaveCallerConfig(jsonText);
     }
 
-    private static DbModel dbModel { get; set; }
-
-    public static ActionResult SetCallerConfigPath(string path)
+    public static ActionResult SaveCallerConfigFromPath(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            return new ActionResult
-            {
-                Success = false,
-                Message = $"指定的路径不能为空: {path}"
-            };
-        }
-
         if (!File.Exists(path))
         {
             return new ActionResult
             {
                 Success = false,
-                Message = $"指定的文件不存在: {path}"
+                Message = $"找不到文件: {path}"
             };
         }
 
-        dbModel.CallerConfigPath = path;
-        Save2File(dbModel);
-
-        return new ActionResult
+        var jsonText = File.ReadAllText(path);
+        try
         {
-            Success = true
-        };
-    }
+            _ = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText)
+                ?? throw new JsonException();
 
-    public static string GetCallerConfigPath() => dbModel.CallerConfigPath;
-}
-
-public static partial class SystemManager
-{
-    /// <summary>
-    /// 程序数据文件的路径
-    /// </summary>
-    private static string FileDirectory => Path.Combine(Environment.CurrentDirectory, "config");
-
-    /// <summary>
-    /// 配置文件的目录路径
-    /// </summary>
-    private static string FilePath => Path.Combine(FileDirectory, "setting.json");
-
-    /// <summary>
-    /// 初始化本地文件
-    /// </summary>
-    /// <returns></returns>
-    private static DbModel GetDbModelFromFile()
-    {
-        if (!Directory.Exists(FileDirectory))
-        {
-            Directory.CreateDirectory(FileDirectory);
-        }
-
-        DbModel dbModel = new();
-
-        if (File.Exists(FilePath))
-        {
-            var jsonString = File.ReadAllText(FilePath, Encoding.UTF8);
-            try
+            SaveCallerConfig(jsonText);
+            return new ActionResult
             {
-                dbModel = JsonSerializer.Deserialize<DbModel>(jsonString) ?? throw new JsonException();
-            }
-            catch (JsonException)
-            {
-                File.Delete(FilePath);
-            }
-
-            JsonSerializer.Deserialize<DbModel>(jsonString);
+                Success = true
+            };
         }
-
-        if (!File.Exists(FilePath))
+        catch (JsonException)
         {
-            string jsonString = JsonSerializer.Serialize(dbModel);
-            File.WriteAllText(FilePath, jsonString, Encoding.UTF8);
+            return new ActionResult
+            {
+                Success = false,
+                Message = $"文件格式错误: {path}"
+            };
         }
-
-        return dbModel;
     }
 
     /// <summary>
-    /// 存储配置文件
+    /// 存储配置文件到系统中
     /// </summary>
-    /// <param name="dbModel"></param>
-    private static void Save2File(DbModel dbModel)
+    /// <param name="jsonText"></param>
+    public static void SaveCallerConfig(string jsonText)
     {
-        var jsonString = JsonSerializer.Serialize(dbModel);
-        File.WriteAllText(FilePath, jsonString, Encoding.UTF8);
+        var latestVersion = DbModelUtil.Instance.CallerConfigVersion;
+        var currentVersion = latestVersion + 1;
+
+        var savePath = GetCallerConfigPath(currentVersion);
+
+        if (!Directory.Exists(Path.Combine(PathUtil.CallerConfigFileDirectory, currentVersion.ToString())))
+        {
+            Directory.CreateDirectory(Path.Combine(PathUtil.CallerConfigFileDirectory, currentVersion.ToString()));
+        }
+
+        if (!File.Exists(savePath))
+        {
+            var fs = File.Create(savePath);
+            fs.Close();
+            fs.Dispose();
+        }
+
+        File.WriteAllText(savePath, jsonText);
+
+        // 更新dbModel中的版本号
+        DbModelUtil.Save2File(m =>
+        {
+            m.CallerConfigVersion += 1;
+            return m;
+        });
+
+        // 删除超过版本期限的数据
+        var directoriesToBeDeleted = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory);
+        foreach (var directoryName in directoriesToBeDeleted)
+        {
+            if (int.Parse(directoryName.Split(Path.DirectorySeparatorChar)[^1]) < (latestVersion - DbModelUtil.Instance.MaxCallerConfigVersion))
+            {
+                Directory.Delete(directoryName);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 当前使用的配置文件路径
+    /// </summary>
+    public static string GetCallerConfigPath(int version = 0)
+    {
+        var fileName = "caller.json";
+        if (version <= 0)
+        {
+            return Path.Combine(PathUtil.CallerConfigFileDirectory, DbModelUtil.Instance.CallerConfigVersion.ToString(), fileName);
+        }
+        else
+        {
+            return Path.Combine(PathUtil.CallerConfigFileDirectory, version.ToString(), fileName);
+        }
     }
 }

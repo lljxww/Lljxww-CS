@@ -8,12 +8,17 @@ public class DbModel
     public string Version { get; set; } = "0.1";
 
     /// <summary>
-    /// 外挂配置文件的路径
-    /// </summary>
-    public string CallerConfigPath { get; set; } = string.Empty;
-
-    /// <summary>
     /// 静默模式，不输出过多信息
     /// </summary>
     public bool SilentMode { get; set; } = true;
+
+    /// <summary>
+    /// Caller配置文件版本
+    /// </summary>
+    public int CallerConfigVersion { get; set; }
+
+    /// <summary>
+    /// 系统保存的最多的CallerConfigVersion数量
+    /// </summary>
+    public int MaxCallerConfigVersion { get; set; } = 10;
 }

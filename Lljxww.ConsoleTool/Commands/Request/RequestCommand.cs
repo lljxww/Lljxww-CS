@@ -3,33 +3,43 @@ using System.Text.Json;
 using Lljxww.ApiCaller;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Commands.Request;
 
-[Command("request", Description = "发送请求")]
+[Command("request", Description = "发送请求操作")]
 public class RequestCommand
 {
+    [Argument(0, Description = "请求的目标，使用\"服务名\".\"方法名\"的形式, 如: weibo.hot")]
     [Required(ErrorMessage = "请指定要调用的目标")]
-    [Argument(0, Description = "调用的目标")]
-    public string Target { get; }
+    public string Target { get; set; }
 
-    [Option("-p|--param", Description = "请求参数，使用Json格式")]
-    public string Param { get; }
+    [Option("-p|--param", Description = "调用服务时的参数, 使用Json文本形式")]
+    public string Param { get; set; }
 
     private async Task<int> OnExecuteAsync(CommandLineApplication app, IConsole console)
     {
         var caller = new Caller(SystemManager.GetCallerConfigPath());
 
-        if (!caller.HasTarget(Target))
+        object? paramObj = null;
+
+        if (!string.IsNullOrWhiteSpace(Param))
         {
-            console.Error($"找不到指定的目标: {Target}");
-            return -1;
+            try
+            {
+                paramObj = JsonSerializer.Deserialize<object>(Param);
+            }
+            catch (Exception ex)
+            {
+                console.ForegroundColor = ConsoleColor.Red;
+                console.WriteLine($"参数错误: {ex.Message}");
+                console.ResetColor();
+            }
         }
 
         try
         {
-            var result = await caller.InvokeAsync(Target, string.IsNullOrWhiteSpace(Param) ? null : JsonSerializer.Deserialize<object>(Param));
+            var result = await caller.InvokeAsync(Target, paramObj);
+            console.WriteLine(result.RawStr);
 
-            console.Success(JsonTextUtil.JsonPrettify(result.RawStr));
             return 1;
         }
         catch (Exception ex)

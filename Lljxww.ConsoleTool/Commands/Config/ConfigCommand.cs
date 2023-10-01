@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Commands.Config;
 
 [Command("config", Description = "配置文件操作"), Subcommand(typeof(Add))]
 public class ConfigCommand
@@ -22,11 +22,14 @@ public class ConfigCommand
 
         private void OnExecute(IConsole console)
         {
-            var actionResult = SystemManager.SetCallerConfigPath(Path);
+            var actionResult = SystemManager.SaveCallerConfigFromPath(Path);
             if (actionResult.Success)
             {
-                console.Success("设置成功，后续将使用的配置文件为：");
-                console.Success(Path);
+                console.Success("设置成功");
+                if (!DbModelUtil.Instance.SilentMode)
+                {
+                    console.WriteLine($"当前版本: {DbModelUtil.Instance.CallerConfigVersion}");
+                }
             }
             else
             {
