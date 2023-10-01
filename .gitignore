@@ -365,3 +365,6 @@ FodyWeavers.xsd
 .DS_Store
 .vs/
 .idea/
+
+# solution
+/Lljxww.ConsoleTool/config/
