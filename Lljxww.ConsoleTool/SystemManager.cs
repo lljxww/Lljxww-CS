@@ -28,10 +28,12 @@ internal static partial class SystemManager
             _ = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText)
                 ?? throw new JsonException();
 
+            tag ??= TimestampUtil.GetCurrent();
             SaveCallerConfig(jsonText, tag);
             return new ActionResult
             {
-                Success = true
+                Success = true,
+                Message = tag
             };
         }
         catch (JsonException)
@@ -45,17 +47,62 @@ internal static partial class SystemManager
     }
 
     /// <summary>
+    /// 当前使用的配置文件路径
+    /// </summary>
+    internal static string? GetCallerConfigPath()
+    {
+        var infos = DbModelUtil.Instance.CallerConfigInfos;
+        if (infos.Count == 0)
+        {
+            return null;
+        }
+
+        return infos.Single(i => i.Active).Path;
+    }
+
+    /// <summary>
+    /// 获取存储caller.json的路径
+    /// </summary>
+    /// <returns></returns>
+    internal static string GetCallerConfigPathToSave(string tag)
+    {
+        return Path.Combine(PathUtil.CallerConfigFileDirectory, tag, PathUtil.CALLER_CONFIG_FILE_NAME);
+    }
+
+    /// <summary>
+    /// 删除已不在配置文件中的Caller配置文件路径
+    /// </summary>
+    internal static void Cleanup()
+    {
+        var pathsToBeCleanup = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory)?.ToList();
+        if (pathsToBeCleanup?.Count == 0)
+        {
+            return;
+        }
+
+        pathsToBeCleanup = pathsToBeCleanup!.Except(DbModelUtil.Instance.CallerConfigInfos
+            .Select(i => i.Path))?.ToList();
+
+        if (pathsToBeCleanup?.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var path in pathsToBeCleanup!)
+        {
+            Directory.Delete(path, true);
+        }
+    }
+
+    /// <summary>
     /// 存储配置文件到系统中
     /// </summary>
     /// <param name="jsonText"></param>
     /// <param name="tag"></param>
-    private static void SaveCallerConfig(string jsonText, string? tag = null)
+    private static void SaveCallerConfig(string jsonText, string tag)
     {
-        var latestVersion = DbModelUtil.Instance.CallerConfigVersion;
-        var currentVersion = latestVersion + 1;
-
-        var saveDirectory = Path.Combine(PathUtil.CallerConfigFileDirectory, currentVersion.ToString());
-        var savePath = GetCallerConfigPathToSave();
+        var saveDirectory = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
+        var savePath = GetCallerConfigPathToSave(tag);
 
         if (!Directory.Exists(saveDirectory))
         {
@@ -72,12 +119,11 @@ internal static partial class SystemManager
         File.WriteAllText(savePath, jsonText);
 
         // 更新dbModel
-        DbModelUtil.Save2File(m =>
+        DbModelUtil.UpdateDbModel(m =>
         {
-            m.CallerConfigVersion += 1;
             m.CallerConfigInfos ??= new List<CallerConfigInfo>();
 
-            if (m.CallerConfigInfos?.Count != 0)
+            if (m.CallerConfigInfos.Count != 0)
             {
                 var activedInfo = m.CallerConfigInfos!.SingleOrDefault(i => i.Active);
                 if (activedInfo != default)
@@ -88,58 +134,15 @@ internal static partial class SystemManager
 
             var callerConfigInfo = new CallerConfigInfo
             {
+                Tag = tag,
                 Directory = saveDirectory,
                 Path = savePath,
-                Active = true,
-                Version = m.CallerConfigVersion
+                Active = true
             };
 
-            if (!string.IsNullOrWhiteSpace(tag))
-            {
-                callerConfigInfo.Tag = tag!;
-            }
-
-            m.CallerConfigInfos!.Add(callerConfigInfo);
-
-            m.CallerConfigInfos = m.CallerConfigInfos
-                .Where(i => i.Version > m.CallerConfigVersion - m.MaxCallerConfigVersion)
-                .ToList();
+            m.CallerConfigInfos.Add(callerConfigInfo);
 
             return m;
         });
-
-        // 删除超过版本期限的数据
-        var directoriesToBeDeleted = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory);
-        foreach (var directoryName in directoriesToBeDeleted)
-        {
-            if (int.Parse(directoryName.Split(Path.DirectorySeparatorChar)[^1]) < (latestVersion - DbModelUtil.Instance.MaxCallerConfigVersion))
-            {
-                Directory.Delete(directoryName);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 当前使用的配置文件路径
-    /// </summary>
-    internal static string? GetCallerConfigPath(int version = 0)
-    {
-        var infos = DbModelUtil.Instance.CallerConfigInfos;
-        if (infos.Count == 0)
-        {
-            return null;
-        }
-
-        return infos.Single(i => i.Active).Path;
-    }
-
-    /// <summary>
-    /// 获取存储caller.json的路径
-    /// </summary>
-    /// <returns></returns>
-    internal static string GetCallerConfigPathToSave()
-    {
-        int version = DbModelUtil.Instance.CallerConfigVersion + 1;
-        return Path.Combine(PathUtil.CallerConfigFileDirectory, version.ToString(), PathUtil.CALLER_CONFIG_FILE_NAME);
     }
 }

@@ -61,7 +61,7 @@ internal class DbModelUtil
     /// 存储配置文件
     /// </summary>
     /// <param name="dbModel"></param>
-    internal static void Save2File(Func<DbModel, DbModel> editAction)
+    internal static void UpdateDbModel(Func<DbModel, DbModel> editAction)
     {
         if (editAction == null)
         {

@@ -13,14 +13,9 @@ internal class DbModel
     public bool SilentMode { get; set; } = true;
 
     /// <summary>
-    /// Caller配置文件版本
-    /// </summary>
-    public int CallerConfigVersion { get; set; }
-
-    /// <summary>
     /// 系统保存的最多的CallerConfigVersion数量
     /// </summary>
-    public int MaxCallerConfigVersion { get; set; } = 10;
+    public int MaxCallerConfigCount { get; set; } = 10;
 
     /// <summary>
     /// 配置文件信息
@@ -33,7 +28,7 @@ internal class CallerConfigInfo
     /// <summary>
     /// 标签
     /// </summary>
-    public string Tag { get; set; } = Guid.NewGuid().ToString("n")[26..];
+    public string Tag { get; set; }
 
     /// <summary>
     /// 文件所在目录
@@ -54,9 +49,4 @@ internal class CallerConfigInfo
     /// 是否激活状态
     /// </summary>
     public bool Active { get; set; }
-
-    /// <summary>
-    /// 版本
-    /// </summary>
-    public int Version { get; set; }
 }
