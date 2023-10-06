@@ -7,7 +7,7 @@ namespace Lljxww.Test.Core;
 public class CryptographyUnitTest
 {
     const string source = "liangjw";
-    
+
     [TestMethod]
     void SHA1CalTestMethod()
     {

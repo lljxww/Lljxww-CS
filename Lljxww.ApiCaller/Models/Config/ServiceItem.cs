@@ -1,6 +1,6 @@
 ﻿namespace Lljxww.ApiCaller.Models.Config;
 
-public class ServiceItem
+public class ServiceItem : ICallerConfigNode
 {
     /// <summary>
     /// 接口名
@@ -26,4 +26,6 @@ public class ServiceItem
     /// 接口配置节
     /// </summary>
     public IList<ApiItem> ApiItems { get; set; }
+
+    public string Remark() => ApiName;
 }

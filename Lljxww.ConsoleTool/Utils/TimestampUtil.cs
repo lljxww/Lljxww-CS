@@ -10,6 +10,6 @@ public class TimestampUtil
     /// <returns></returns>
     internal static string GetCurrent()
     {
-        return (DateTime.Now - STADNARD).TotalSeconds.ToString();
+        return Math.Floor((DateTime.Now - STADNARD).TotalSeconds).ToString();
     }
 }

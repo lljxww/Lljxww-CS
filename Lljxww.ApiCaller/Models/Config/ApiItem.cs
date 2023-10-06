@@ -3,7 +3,7 @@
 /// <summary>
 /// 接口配置节
 /// </summary>
-public class ApiItem
+public class ApiItem : ICallerConfigNode
 {
     /// <summary>
     /// 方法名
@@ -59,4 +59,6 @@ public class ApiItem
     /// 是否对URL进行编码
     /// </summary>
     public bool EncodeUrl { get; set; } = true;
+
+    public string Remark() => Method;
 }

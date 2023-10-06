@@ -12,10 +12,7 @@
             "program": "${workspaceFolder}/Lljxww.ConsoleTool/bin/Debug/net7.0/Lljxww.ConsoleTool.dll",
             "args": [
                 "config",
-                "add",
-                "/Users/liangjw/Code/Lljxww/Lljxww.Test/ApiCaller/apicaller.json",
-                "-t",
-                "v3"
+                "cleanup"
             ],
             "cwd": "${workspaceFolder}/Lljxww.ConsoleTool",
             "console": "internalConsole",

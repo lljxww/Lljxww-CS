@@ -11,8 +11,8 @@ public class CacheUtil
     }
 
     public Func<string, object> getFromCache { private set; get; }
-    
-    public  Action<string, object> setToCache { private set; get; }
+
+    public Action<string, object> setToCache { private set; get; }
 
     public int cacheSeconds { private set; get; } = 300;
 
@@ -34,7 +34,7 @@ public class CacheUtil
         {
             this.cacheSeconds = cacheSeconds;
         }
-        
+
         return this;
     }
 
@@ -77,7 +77,7 @@ public class CacheUtil
             {
                 return;
             }
-            
+
             cache.Set(key, value, new DateTimeOffset(DateTime.Now.AddSeconds(cacheSeconds)));
         };
 

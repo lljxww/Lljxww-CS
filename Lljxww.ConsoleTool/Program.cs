@@ -10,7 +10,6 @@ public class Program
     public static int Main(string[] args)
     {
         _ = DbModelUtil.Init();
-        Console.InputEncoding = Encoding.Unicode;
         return CommandLineApplication.Execute<Program>(args);
     }
 

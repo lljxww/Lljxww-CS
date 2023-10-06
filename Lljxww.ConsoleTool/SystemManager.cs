@@ -61,6 +61,32 @@ internal static partial class SystemManager
     }
 
     /// <summary>
+    /// 使用tag查询指定的配置文件路径和内容
+    /// </summary>
+    /// <param name="tag">标签名</param>
+    /// <returns></returns>
+    internal static ActionResult<(string, string)> GetCallerConfig(string tag)
+    {
+        var targetDirectoryPath = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
+        var targetFilePath = Path.Combine(targetDirectoryPath, PathUtil.CALLER_CONFIG_FILE_NAME);
+        if (!Directory.Exists(targetDirectoryPath) || !File.Exists(targetFilePath))
+        {
+            return new ActionResult<(string, string)>
+            {
+                Success = false,
+                Message = $"不存在标签为`{tag}`的配置文件"
+            };
+        }
+
+        (string, string) resultTuple = new(targetFilePath, File.ReadAllText(targetFilePath));
+        return new ActionResult<(string, string)>
+        {
+            Success = true,
+            Content = resultTuple
+        };
+    }
+
+    /// <summary>
     /// 获取存储caller.json的路径
     /// </summary>
     /// <returns></returns>
@@ -71,7 +97,7 @@ internal static partial class SystemManager
 
     /// <summary>
     /// 删除已不在配置文件中的Caller配置文件路径
-    /// </summary>
+    /// </summary>config
     internal static void Cleanup()
     {
         var pathsToBeCleanup = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory)?.ToList();
@@ -81,7 +107,7 @@ internal static partial class SystemManager
         }
 
         pathsToBeCleanup = pathsToBeCleanup!.Except(DbModelUtil.Instance.CallerConfigInfos
-            .Select(i => i.Path))?.ToList();
+            .Select(i => i.Directory))?.ToList();
 
         if (pathsToBeCleanup?.Count == 0)
         {

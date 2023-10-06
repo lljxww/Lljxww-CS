@@ -20,9 +20,9 @@ internal class DbModelUtil
     /// <returns></returns>
     internal static DbModel Init()
     {
-        if (!Directory.Exists(PathUtil.FileDirectory))
+        if (!Directory.Exists(PathUtil.AppConfigFileDirectory))
         {
-            Directory.CreateDirectory(PathUtil.FileDirectory);
+            Directory.CreateDirectory(PathUtil.AppConfigFileDirectory);
         }
 
         DbModel dbModel = new();
