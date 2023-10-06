@@ -49,10 +49,7 @@ class EditSubCommand
             var current = apiItemResult.Content;
 
             // 处理节点编辑
-            console.Write(JsonSerializer.Serialize(current, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            }));
+            console.Write(JsonSerializer.Serialize(current, WriteIndentedJsonSerializerOptions.GetInstance));
 
             return 1;
         }

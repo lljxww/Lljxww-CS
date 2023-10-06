@@ -45,10 +45,7 @@ public class RequestCommand
         {
             var result = await caller.InvokeAsync(Target, paramObj);
             console.WriteLine(JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(result.RawStr),
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }
+                WriteIndentedJsonSerializerOptions.GetInstance
             ));
 
             return 1;
