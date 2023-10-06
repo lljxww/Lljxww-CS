@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <LangVersion>default</LangVersion>
         <Nullable>enable</Nullable>
@@ -13,22 +13,22 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Dapper" Version="2.0.123"/>
-        <PackageReference Include="Dapper.Contrib" Version="2.0.78"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
-        <PackageReference Include="MSTest.TestAdapter" Version="3.0.2"/>
-        <PackageReference Include="MSTest.TestFramework" Version="3.0.2"/>
-        <PackageReference Include="MySql.Data" Version="8.0.32"/>
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+        <PackageReference Include="MySql.Data" Version="8.0.32" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj"/>
-        <ProjectReference Include="..\Lljxww.CSRedis.Extensions\Lljxww.CSRedis.Extensions.csproj"/>
-        <ProjectReference Include="..\Lljxww\Lljxww.csproj"/>
+        <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj" />
+        <ProjectReference Include="..\Lljxww.CSRedis.Extensions\Lljxww.CSRedis.Extensions.csproj" />
+        <ProjectReference Include="..\Lljxww\Lljxww.csproj" />
     </ItemGroup>
 
     <ItemGroup>
