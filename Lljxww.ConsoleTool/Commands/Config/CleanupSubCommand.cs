@@ -1,9 +1,10 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+﻿using Lljxww.ConsoleTool.Utils;
+using McMaster.Extensions.CommandLineUtils;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Commands.Config;
 
 [Command("cleanup", Description = "删除未使用的配置文件")]
-class CleanupSubCommand
+internal class CleanupSubCommand
 {
     private void OnExecute(IConsole console)
     {
@@ -11,7 +12,7 @@ class CleanupSubCommand
         {
             DbModelUtil.UpdateDbModel(instance =>
             {
-                var info = instance.CallerConfigInfos.Single(i => i.Active);
+                CallerConfigInfo info = instance.CallerConfigInfos.Single(i => i.Active);
                 instance.CallerConfigInfos = new List<CallerConfigInfo> {
                         info
                 };

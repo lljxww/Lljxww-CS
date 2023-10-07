@@ -1,11 +1,10 @@
-﻿using System.Net;
-using System.Text.Json;
-using Lljxww.ApiCaller.Diagnosis;
+﻿using Lljxww.ApiCaller.Diagnosis;
 using Lljxww.ApiCaller.Exceptions;
 using Lljxww.ApiCaller.Models;
 using Lljxww.ApiCaller.Models.Config;
-using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Options;
+using System.Net;
+using System.Text.Json;
 
 namespace Lljxww.ApiCaller;
 
@@ -123,7 +122,7 @@ public partial class Caller
 
         try
         {
-            var jsonText = File.ReadAllText(configFilePath);
+            string jsonText = File.ReadAllText(configFilePath);
             _apiCallerConfig = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -142,18 +141,10 @@ public partial class Caller
     /// <returns></returns>
     public bool HasTarget(string target)
     {
-        var items = target.Split('.');
-        if (items.Length != 2)
-        {
-            return false;
-        }
-
-        if (!_apiCallerConfig.ServiceItems.Any(s => s.ApiName != items[0]))
-        {
-            return false;
-        }
-
-        return _apiCallerConfig.ServiceItems.Single(s => s.ApiName == items[0])
+        string[] items = target.Split('.');
+        return items.Length == 2
+&& _apiCallerConfig.ServiceItems.Any(s => s.ApiName != items[0])
+&& _apiCallerConfig.ServiceItems.Single(s => s.ApiName == items[0])
             .ApiItems.Any(a => a.Method == items[1]);
     }
 }

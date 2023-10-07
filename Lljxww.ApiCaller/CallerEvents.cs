@@ -54,7 +54,7 @@ public static class CallerEvents
 
         try
         {
-            Task.Run(() => SetCacheEvent.Invoke(context));
+            _ = Task.Run(() => SetCacheEvent.Invoke(context));
         }
         catch
         {
@@ -92,7 +92,7 @@ public static class CallerEvents
 
         try
         {
-            Task.Run(() => LogEvent(context));
+            _ = Task.Run(() => LogEvent(context));
         }
         catch
         {
@@ -111,7 +111,7 @@ public static class CallerEvents
 
         try
         {
-            Task.Run(() => OnExecuted.Invoke(context));
+            _ = Task.Run(() => OnExecuted.Invoke(context));
         }
         catch
         {
@@ -130,7 +130,7 @@ public static class CallerEvents
 
         try
         {
-            Task.Run(() => OnException.Invoke(context, ex));
+            _ = Task.Run(() => OnException.Invoke(context, ex));
         }
         catch
         {
@@ -149,7 +149,7 @@ public static class CallerEvents
 
         try
         {
-            Task.Run(() => OnRequestTimeout.Invoke(context));
+            _ = Task.Run(() => OnRequestTimeout.Invoke(context));
         }
         catch
         {

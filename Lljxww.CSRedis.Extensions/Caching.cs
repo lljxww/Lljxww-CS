@@ -133,7 +133,7 @@ public class Caching
             T? match = resultList.SingleOrDefault(predicate);
             if (match != null)
             {
-                resultList.Remove(match);
+                _ = resultList.Remove(match);
             }
 
             Set(key, resultList, expire);
@@ -242,7 +242,7 @@ public class Caching
         }
         finally
         {
-            redisLock?.Unlock();
+            _ = (redisLock?.Unlock());
         }
     }
 
@@ -301,7 +301,7 @@ public class Caching
         }
         finally
         {
-            redisLock?.Unlock();
+            _ = (redisLock?.Unlock());
         }
     }
 }

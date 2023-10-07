@@ -1,4 +1,4 @@
-﻿namespace Lljxww.ApiCaller;
+﻿namespace Lljxww.ApiCaller.Models.Config;
 
 public interface ICallerConfigNode
 {

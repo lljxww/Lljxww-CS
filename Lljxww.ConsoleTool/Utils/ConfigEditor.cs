@@ -1,9 +1,8 @@
-﻿using Lljxww.ApiCaller;
-using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Models.Config;
 using McMaster.Extensions.CommandLineUtils;
 using Result = (System.Type, object);
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Utils;
 
 internal class ConfigEditor
 {
@@ -20,15 +19,15 @@ internal class ConfigEditor
     {
         if (nodes == null || nodes.Count == 0)
         {
-            console.WriteLine("当前配置中的节点配置为空");
+            _ = console.WriteLine("当前配置中的节点配置为空");
         }
 
         int i = 0;
-        var dic = new Dictionary<int, T>();
-        foreach (var node in nodes!)
+        Dictionary<int, T> dic = [];
+        foreach (T node in nodes!)
         {
             dic.Add(++i, node);
-            console.WriteLine($"{i} {node.Remark()}");
+            _ = console.WriteLine($"{i} {node.Remark()}");
         }
 
         T? current = default;
@@ -49,7 +48,7 @@ internal class ConfigEditor
                 current = dic[index];
                 if (current == null)
                 {
-                    console.WriteLine("当前配置中的节点配置为空");
+                    _ = console.WriteLine("当前配置中的节点配置为空");
                     return new ActionResult<T>
                     {
                         Success = false
@@ -59,7 +58,7 @@ internal class ConfigEditor
                 {
                     if (serviceItem.ApiItems?.Count == 0)
                     {
-                        console.WriteLine("当前配置中的节点配置为空");
+                        _ = console.WriteLine("当前配置中的节点配置为空");
                         return new ActionResult<T>
                         {
                             Success = false
@@ -75,19 +74,16 @@ internal class ConfigEditor
             }
         }
 
-        if (times == RETRY_TIMES)
-        {
-            return new ActionResult<T>
+        return times == RETRY_TIMES
+            ? new ActionResult<T>
             {
                 Success = false
+            }
+            : new ActionResult<T>
+            {
+                Success = true,
+                Content = current!
             };
-        }
-
-        return new ActionResult<T>
-        {
-            Success = true,
-            Content = current!
-        };
     }
 
     /// <summary>
@@ -107,12 +103,12 @@ internal class ConfigEditor
             };
         }
 
-        var properties = typeof(T).GetProperties();
+        System.Reflection.PropertyInfo[] properties = typeof(T).GetProperties();
 
-        foreach (var prop in properties)
+        foreach (System.Reflection.PropertyInfo prop in properties)
         {
-            var currentValue = prop.GetValue(node);
-            console.WriteLine($"节点名: {prop.Name}, 当前值: {currentValue}");
+            object? currentValue = prop.GetValue(node);
+            _ = console.WriteLine($"节点名: {prop.Name}, 当前值: {currentValue}");
 
             string message = "请输入新的值";
             Result result = default;
@@ -120,28 +116,28 @@ internal class ConfigEditor
             {
                 case TypeCode.String:
                     {
-                        var value = Prompt.GetString(message, currentValue?.ToString());
+                        string? value = Prompt.GetString(message, currentValue?.ToString());
                         result = (typeof(string), value)!;
                         break;
                     }
                 case TypeCode.Int32:
                     {
-                        if (int.TryParse(currentValue?.ToString(), out var defaultValue))
+                        if (int.TryParse(currentValue?.ToString(), out int defaultValue))
                         {
-                            var value = Prompt.GetInt(message, defaultValue);
+                            int value = Prompt.GetInt(message, defaultValue);
                             result = (typeof(int), value)!;
                         }
                         else
                         {
-                            var value = Prompt.GetInt(message);
+                            int value = Prompt.GetInt(message);
                             result = (typeof(int), value)!;
                         }
                         break;
                     }
                 case TypeCode.Boolean:
                     {
-                        _ = bool.TryParse(currentValue?.ToString(), out var defaultValue);
-                        var value = Prompt.GetYesNo(message, defaultValue);
+                        _ = bool.TryParse(currentValue?.ToString(), out bool defaultValue);
+                        bool value = Prompt.GetYesNo(message, defaultValue);
                         result = (typeof(bool), value);
                         break;
                     }

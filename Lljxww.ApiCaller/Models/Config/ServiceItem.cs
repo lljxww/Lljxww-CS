@@ -27,5 +27,8 @@ public class ServiceItem : ICallerConfigNode
     /// </summary>
     public IList<ApiItem> ApiItems { get; set; }
 
-    public string Remark() => ApiName;
+    public string Remark()
+    {
+        return ApiName;
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace Lljxww.ConsoleTool;
+﻿namespace Lljxww.ConsoleTool.Utils;
 
 internal class PathUtil
 {

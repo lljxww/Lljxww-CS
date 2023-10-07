@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Test;
 
@@ -18,27 +18,24 @@ public class JsonNodeTest
         {
             PropertyNameCaseInsensitive = true
         })!;
-
-        JsonObject jsonObject = jsonNode.AsObject();
+        _ = jsonNode.AsObject();
         JsonArray jsonArray = jsonNode["othermodels"]!.AsArray();
-        JsonValue jsonValue = jsonNode["name"]!.AsValue();
-
-        JsonDocument? jsonDoc = JsonDocument.Parse(jsonStr);
-
-        IList<Dictionary<string, JsonNode>>? dic = jsonArray.Deserialize<IList<Dictionary<string, JsonNode>>>();
+        _ = jsonNode["name"]!.AsValue();
+        _ = JsonDocument.Parse(jsonStr);
+        _ = jsonArray.Deserialize<IList<Dictionary<string, JsonNode>>>();
     }
 
     public TestModel TestModelGen(int bookCount = 5, int otherModelCount = 0)
     {
         Random random = new();
 
-        List<string>? books = new();
+        List<string>? books = [];
         for (int i = 0; i < bookCount; i++)
         {
             books.Add(Guid.NewGuid().ToString().Replace("-", ""));
         }
 
-        List<TestModel>? otherModels = new();
+        List<TestModel>? otherModels = [];
         for (int j = 0; j < otherModelCount; j++)
         {
             otherModels.Add(TestModelGen());

@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
-using Lljxww.ApiCaller;
+﻿using Lljxww.ApiCaller;
+using Lljxww.ConsoleTool.Utils;
 using McMaster.Extensions.CommandLineUtils;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace Lljxww.ConsoleTool.Commands.Request;
 
@@ -17,13 +18,13 @@ public class RequestCommand
 
     private async Task<int> OnExecuteAsync(CommandLineApplication app, IConsole console)
     {
-        var path = SystemManager.GetCallerConfigPath();
+        string? path = SystemManager.GetCallerConfigPath();
         if (string.IsNullOrWhiteSpace(path))
         {
             console.Error("请先添加Caller使用的配置文件");
         }
 
-        var caller = new Caller(path!);
+        Caller caller = new(path!);
 
         object? paramObj = null;
 
@@ -36,15 +37,15 @@ public class RequestCommand
             catch (Exception ex)
             {
                 console.ForegroundColor = ConsoleColor.Red;
-                console.WriteLine($"参数错误: {ex.Message}");
+                _ = console.WriteLine($"参数错误: {ex.Message}");
                 console.ResetColor();
             }
         }
 
         try
         {
-            var result = await caller.InvokeAsync(Target, paramObj);
-            console.WriteLine(JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(result.RawStr),
+            ApiCaller.Models.ApiResult result = await caller.InvokeAsync(Target, paramObj);
+            _ = console.WriteLine(JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(result.RawStr),
                 WriteIndentedJsonSerializerOptions.GetInstance
             ));
 

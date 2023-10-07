@@ -1,8 +1,7 @@
-﻿using System;
-using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Models.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lljxww.Test;
+namespace Lljxww.Test.ConsoleTool;
 
 [TestClass]
 public class Test
@@ -10,10 +9,10 @@ public class Test
     [TestMethod]
     public void PropertyTest()
     {
-        var props = typeof(ApiCallerConfig).GetProperties();
-        foreach (var prop in props)
+        System.Reflection.PropertyInfo[] props = typeof(ApiCallerConfig).GetProperties();
+        foreach (System.Reflection.PropertyInfo prop in props)
         {
-            var a = prop.DeclaringType;
+            _ = prop.DeclaringType;
         }
     }
 }

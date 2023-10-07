@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace Lljxww.Utilities.Cache;
 
@@ -38,7 +38,7 @@ public class CacheUtil
         return this;
     }
 
-    public T GetOrStore<T>(string key, Func<T> howToGetTheValue)
+    public T? GetOrStore<T>(string key, Func<T> howToGetTheValue)
     {
         object value = getFromCache(key);
 
@@ -59,10 +59,7 @@ public class CacheUtil
             return result;
         }
 
-        if (setToCache != null)
-        {
-            setToCache(key, result);
-        }
+        setToCache?.Invoke(key, result);
 
         return result;
     }
@@ -78,7 +75,7 @@ public class CacheUtil
                 return;
             }
 
-            cache.Set(key, value, new DateTimeOffset(DateTime.Now.AddSeconds(cacheSeconds)));
+            _ = cache.Set(key, value, new DateTimeOffset(DateTime.Now.AddSeconds(cacheSeconds)));
         };
 
         getFromCache = key => string.IsNullOrWhiteSpace(key) ? null : cache.Get(key);

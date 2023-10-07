@@ -18,7 +18,7 @@ public static class DictionaryExtension
         predicate ??= (key1, key2)
             => string.Equals(key1?.ToString(), key2?.ToString(), StringComparison.OrdinalIgnoreCase);
 
-        Dictionary<T, U> newDic = new();
+        Dictionary<T, U> newDic = [];
 
         foreach (KeyValuePair<T, U> item in dic)
         {

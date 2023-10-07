@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities.Encoders;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Lljxww.Utilities.Cryptography;
 
@@ -211,7 +211,7 @@ internal class Sm4
 
     private long GetUlongBE(byte[] b, int i)
     {
-        long n = ((long)(b[i] & 0xff) << 24) | ((b[i + 1] & 0xff) << 16) | (b[i + 2] & 0xff) << 8 |
+        long n = ((long)(b[i] & 0xff) << 24) | ((b[i + 1] & 0xff) << 16) | ((b[i + 2] & 0xff) << 8) |
                  (b[i + 3] & 0xff & 0xffffffffL);
         return n;
     }
@@ -319,7 +319,7 @@ internal class Sm4
         PutUlongBE(ulBuf[32], output, 12);
     }
 
-    private byte[] Padding(byte[] input, int mode)
+    private byte[]? Padding(byte[] input, int mode)
     {
         if (input == null)
         {
@@ -329,7 +329,7 @@ internal class Sm4
         byte[] ret;
         if (mode == SM4_ENCRYPT)
         {
-            int p = 16 - input.Length % 16;
+            int p = 16 - (input.Length % 16);
             ret = new byte[input.Length + p];
             Array.Copy(input, 0, ret, 0, input.Length);
             for (int i = 0; i < p; i++)
@@ -403,7 +403,7 @@ internal class Sm4
         int length = input.Length;
         byte[] bins = new byte[length];
         Array.Copy(input, 0, bins, 0, length);
-        List<byte> bousList = new();
+        List<byte> bousList = [];
         if (ctx.Mode == SM4_ENCRYPT)
         {
             for (int j = 0; length > 0; length -= 16, j++)

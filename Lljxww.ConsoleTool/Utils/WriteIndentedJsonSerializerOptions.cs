@@ -1,13 +1,11 @@
 ﻿using System.Text.Json;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Utils;
 
 public class WriteIndentedJsonSerializerOptions
 {
-    readonly static JsonSerializerOptions instance = new()
+    public static JsonSerializerOptions GetInstance { get; } = new()
     {
         WriteIndented = true
     };
-
-    public static JsonSerializerOptions GetInstance => instance;
 }

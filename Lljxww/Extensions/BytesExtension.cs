@@ -16,11 +16,6 @@ public static class BytesExtension
     /// <returns></returns>
     public static T? ToObject<T>(this byte[]? bytes)
     {
-        if (bytes == null || bytes.Length == 0)
-        {
-            return default;
-        }
-
-        return JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(bytes));
+        return bytes == null || bytes.Length == 0 ? default : JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(bytes));
     }
 }

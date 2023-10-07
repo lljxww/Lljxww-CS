@@ -1,5 +1,6 @@
-﻿using System.Text.Json;
-using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Models.Config;
+using Lljxww.ConsoleTool.Utils;
+using System.Text.Json;
 
 namespace Lljxww.ConsoleTool;
 
@@ -22,7 +23,7 @@ internal static partial class SystemManager
             };
         }
 
-        var jsonText = File.ReadAllText(path);
+        string jsonText = File.ReadAllText(path);
         try
         {
             _ = JsonSerializer.Deserialize<ApiCallerConfig>(jsonText)
@@ -51,13 +52,8 @@ internal static partial class SystemManager
     /// </summary>
     internal static string? GetCallerConfigPath()
     {
-        var infos = DbModelUtil.Instance.CallerConfigInfos;
-        if (infos.Count == 0)
-        {
-            return null;
-        }
-
-        return infos.Single(i => i.Active).Path;
+        IList<CallerConfigInfo> infos = DbModelUtil.Instance.CallerConfigInfos;
+        return infos.Count == 0 ? null : infos.Single(i => i.Active).Path;
     }
 
     /// <summary>
@@ -67,8 +63,8 @@ internal static partial class SystemManager
     /// <returns></returns>
     internal static ActionResult<(string, string)> GetCallerConfig(string tag)
     {
-        var targetDirectoryPath = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
-        var targetFilePath = Path.Combine(targetDirectoryPath, PathUtil.CALLER_CONFIG_FILE_NAME);
+        string targetDirectoryPath = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
+        string targetFilePath = Path.Combine(targetDirectoryPath, PathUtil.CALLER_CONFIG_FILE_NAME);
         if (!Directory.Exists(targetDirectoryPath) || !File.Exists(targetFilePath))
         {
             return new ActionResult<(string, string)>
@@ -100,7 +96,7 @@ internal static partial class SystemManager
     /// </summary>config
     internal static void Cleanup()
     {
-        var pathsToBeCleanup = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory)?.ToList();
+        List<string>? pathsToBeCleanup = Directory.GetDirectories(PathUtil.CallerConfigFileDirectory)?.ToList();
         if (pathsToBeCleanup?.Count == 0)
         {
             return;
@@ -114,7 +110,7 @@ internal static partial class SystemManager
             return;
         }
 
-        foreach (var path in pathsToBeCleanup!)
+        foreach (string? path in pathsToBeCleanup!)
         {
             Directory.Delete(path, true);
         }
@@ -127,17 +123,17 @@ internal static partial class SystemManager
     /// <param name="tag"></param>
     private static void SaveCallerConfig(string jsonText, string tag)
     {
-        var saveDirectory = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
-        var savePath = GetCallerConfigPathToSave(tag);
+        string saveDirectory = Path.Combine(PathUtil.CallerConfigFileDirectory, tag);
+        string savePath = GetCallerConfigPathToSave(tag);
 
         if (!Directory.Exists(saveDirectory))
         {
-            Directory.CreateDirectory(saveDirectory);
+            _ = Directory.CreateDirectory(saveDirectory);
         }
 
         if (!File.Exists(savePath))
         {
-            var fs = File.Create(savePath);
+            FileStream fs = File.Create(savePath);
             fs.Close();
             fs.Dispose();
         }
@@ -151,14 +147,14 @@ internal static partial class SystemManager
 
             if (m.CallerConfigInfos.Count != 0)
             {
-                var activedInfo = m.CallerConfigInfos!.SingleOrDefault(i => i.Active);
+                CallerConfigInfo? activedInfo = m.CallerConfigInfos!.SingleOrDefault(i => i.Active);
                 if (activedInfo != default)
                 {
                     m.CallerConfigInfos!.Single(i => i.Tag == activedInfo.Tag).Active = false;
                 }
             }
 
-            var callerConfigInfo = new CallerConfigInfo
+            CallerConfigInfo callerConfigInfo = new()
             {
                 Tag = tag,
                 Directory = saveDirectory,

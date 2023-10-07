@@ -60,5 +60,8 @@ public class ApiItem : ICallerConfigNode
     /// </summary>
     public bool EncodeUrl { get; set; } = true;
 
-    public string Remark() => Method;
+    public string Remark()
+    {
+        return Method;
+    }
 }

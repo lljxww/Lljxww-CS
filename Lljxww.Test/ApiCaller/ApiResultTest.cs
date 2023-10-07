@@ -1,9 +1,9 @@
-﻿using System.Text.Json.Nodes;
-using Lljxww.ApiCaller;
+﻿using Lljxww.ApiCaller;
 using Lljxww.ApiCaller.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text.Json.Nodes;
 
 namespace Lljxww.Test.ApiCaller;
 
@@ -18,7 +18,7 @@ public class ApiResultTest
             .AddJsonFile("./ApiCaller/apicaller.json")
             .Build();
 
-        _services.ConfigureCaller(config);
+        _ = _services.ConfigureCaller(config);
     }
 
     [TestMethod]

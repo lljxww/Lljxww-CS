@@ -29,7 +29,7 @@ public static class ObjectExtension
     /// <returns></returns>
     public static Dictionary<string, string> ToDictionaryWithoutNullProperties(this object obj)
     {
-        Dictionary<string, string> result = new();
+        Dictionary<string, string> result = [];
 
         foreach (PropertyInfo? property in obj.GetType().GetProperties())
         {

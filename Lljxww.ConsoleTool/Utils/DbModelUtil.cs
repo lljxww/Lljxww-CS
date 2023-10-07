@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Utils;
 
 internal class DbModelUtil
 {
-    private static string VERSION = "0.2";
+    private static readonly string VERSION = "0.2";
 
     internal static DbModel Instance { get; private set; }
 
@@ -22,14 +22,14 @@ internal class DbModelUtil
     {
         if (!Directory.Exists(PathUtil.AppConfigFileDirectory))
         {
-            Directory.CreateDirectory(PathUtil.AppConfigFileDirectory);
+            _ = Directory.CreateDirectory(PathUtil.AppConfigFileDirectory);
         }
 
         DbModel dbModel = new();
 
         if (File.Exists(PathUtil.DbModelFilePath))
         {
-            var jsonString = File.ReadAllText(PathUtil.DbModelFilePath, Encoding.UTF8);
+            string jsonString = File.ReadAllText(PathUtil.DbModelFilePath, Encoding.UTF8);
             try
             {
                 dbModel = JsonSerializer.Deserialize<DbModel>(jsonString) ?? throw new JsonException();
@@ -45,7 +45,7 @@ internal class DbModelUtil
                 File.Delete(PathUtil.DbModelFilePath);
             }
 
-            JsonSerializer.Deserialize<DbModel>(jsonString);
+            _ = JsonSerializer.Deserialize<DbModel>(jsonString);
         }
 
         if (!File.Exists(PathUtil.DbModelFilePath))
@@ -69,7 +69,7 @@ internal class DbModelUtil
         }
 
         Instance = editAction.Invoke(Instance);
-        var jsonString = JsonSerializer.Serialize(Instance);
+        string jsonString = JsonSerializer.Serialize(Instance);
         File.WriteAllText(PathUtil.DbModelFilePath, jsonString, Encoding.UTF8);
     }
 }

@@ -11,8 +11,8 @@ public static class IServiceCollectionExtension
     {
         CSRedisClient csredis = new(redisConnectionString);
         RedisHelper.Initialization(csredis);
-        services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
-        services.AddSingleton<Caching>();
+        _ = services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
+        _ = services.AddSingleton<Caching>();
 
         return services;
     }

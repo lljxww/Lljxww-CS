@@ -90,7 +90,7 @@ public static class StringExtension
             sum += int.Parse(wi[i]) * int.Parse(ai[i].ToString());
         }
 
-        Math.DivRem(sum, 11, out int y);
+        _ = Math.DivRem(sum, 11, out int y);
         return arrVerifyCode[y] == id.Substring(17, 1).ToLower();
     }
 
@@ -102,17 +102,7 @@ public static class StringExtension
     /// <returns></returns>
     public static string GetLeft(this string source, int count)
     {
-        if (string.IsNullOrWhiteSpace(source))
-        {
-            return source;
-        }
-
-        if (count <= 0)
-        {
-            return "";
-        }
-
-        return source.Length <= count ? source : source[..count];
+        return string.IsNullOrWhiteSpace(source) ? source : count <= 0 ? "" : source.Length <= count ? source : source[..count];
     }
 
     /// <summary>
@@ -123,16 +113,8 @@ public static class StringExtension
     /// <returns></returns>
     public static string GetRight(this string source, int count)
     {
-        if (string.IsNullOrWhiteSpace(source))
-        {
-            return source;
-        }
-
-        if (count <= 0)
-        {
-            return "";
-        }
-
-        return source.Length <= count ? source : source.Substring(source.Length - count, count);
+        return string.IsNullOrWhiteSpace(source)
+            ? source
+            : count <= 0 ? "" : source.Length <= count ? source : source.Substring(source.Length - count, count);
     }
 }

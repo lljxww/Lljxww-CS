@@ -179,12 +179,7 @@ public class ApiResult
                 JsonNode? result = default;
                 bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
 
-                if (!success.HasValue || !success.Value)
-                {
-                    return null;
-                }
-
-                return result?.ToJsonString(_jsOption);
+                return !success.HasValue || !success.Value ? null : (result?.ToJsonString(_jsOption));
             }
             catch (NullReferenceException)
             {
@@ -194,12 +189,7 @@ public class ApiResult
                     JsonNode? result = default;
                     bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
 
-                    if (success.HasValue && success.Value)
-                    {
-                        return result?.ToJsonString(_jsOption);
-                    }
-
-                    return null;
+                    return success.HasValue && success.Value ? (result?.ToJsonString(_jsOption)) : null;
                 }
                 catch
                 {

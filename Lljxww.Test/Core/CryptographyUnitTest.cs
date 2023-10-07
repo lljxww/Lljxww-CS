@@ -6,10 +6,10 @@ namespace Lljxww.Test.Core;
 [TestClass]
 public class CryptographyUnitTest
 {
-    const string source = "liangjw";
+    private const string source = "liangjw";
 
     [TestMethod]
-    void SHA1CalTestMethod()
+    private void SHA1CalTestMethod()
     {
         string target = "bc9a767ffd41098041cdec50424a5f4dae9c23b0";
         Assert.AreEqual(target, SHA1.Calculate(source));

@@ -9,20 +9,20 @@ public static class Logger
     {
         StringBuilder sb = new();
 
-        sb.Append($"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-        sb.Append($"Method: {context.ApiName}{Environment.NewLine}");
-        sb.Append($"Parameters: {JsonSerializer.Serialize(context.OriginParam)}{Environment.NewLine}");
-        sb.Append($"Result: {context.ApiResult?.RawStr}");
-        sb.Append($"RunTime: {context.Runtime}{Environment.NewLine}");
-        sb.Append($"Authorization: {context.Authorization?.Name}{Environment.NewLine}");
-        sb.Append($"Authorization Info: {context.Authorization?.AuthorizationInfo}{Environment.NewLine}");
-        sb.Append($"Result From: {context.ResultFrom}{Environment.NewLine}");
-        sb.Append($"Url: {context.FinalUrl}");
+        _ = sb.Append($"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        _ = sb.Append($"Method: {context.ApiName}{Environment.NewLine}");
+        _ = sb.Append($"Parameters: {JsonSerializer.Serialize(context.OriginParam)}{Environment.NewLine}");
+        _ = sb.Append($"Result: {context.ApiResult?.RawStr}");
+        _ = sb.Append($"RunTime: {context.Runtime}{Environment.NewLine}");
+        _ = sb.Append($"Authorization: {context.Authorization?.Name}{Environment.NewLine}");
+        _ = sb.Append($"Authorization Info: {context.Authorization?.AuthorizationInfo}{Environment.NewLine}");
+        _ = sb.Append($"Result From: {context.ResultFrom}{Environment.NewLine}");
+        _ = sb.Append($"Url: {context.FinalUrl}");
         //TODO Event Results
 
-        sb.Append(Environment.NewLine);
+        _ = sb.Append(Environment.NewLine);
 
-        Task.Run(() => LogAsync(sb.ToString()));
+        _ = Task.Run(() => LogAsync(sb.ToString()));
     }
 
     private static async Task LogAsync(string content)
@@ -47,7 +47,7 @@ public static class Logger
         string directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Diagnosis");
         if (!Directory.Exists(directoryPath))
         {
-            Directory.CreateDirectory(directoryPath);
+            _ = Directory.CreateDirectory(directoryPath);
         }
 
         return directoryPath;

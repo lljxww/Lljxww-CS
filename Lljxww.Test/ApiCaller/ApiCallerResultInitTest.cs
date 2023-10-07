@@ -17,7 +17,7 @@ public class ApiCallerResultInitTest
             .AddJsonFile("./ApiCaller/apicaller.json")
             .Build();
 
-        services.ConfigureCaller(config);
+        _ = services.ConfigureCaller(config);
     }
 
     [TestMethod]

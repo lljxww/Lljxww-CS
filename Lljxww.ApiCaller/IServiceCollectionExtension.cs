@@ -14,9 +14,9 @@ public static class ServiceCollectionExtension
     /// <returns></returns>
     public static IServiceCollection ConfigureCaller(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<ApiCallerConfig>(configuration);
-        services.AddHttpClient();
-        services.AddSingleton<Caller>();
+        _ = services.Configure<ApiCallerConfig>(configuration);
+        _ = services.AddHttpClient();
+        _ = services.AddSingleton<Caller>();
 
         return services;
     }

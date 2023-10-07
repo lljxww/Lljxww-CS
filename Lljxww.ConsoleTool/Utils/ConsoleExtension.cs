@@ -1,7 +1,7 @@
-﻿using System.Text.Json;
-using McMaster.Extensions.CommandLineUtils;
+﻿using McMaster.Extensions.CommandLineUtils;
+using System.Text.Json;
 
-namespace Lljxww.ConsoleTool;
+namespace Lljxww.ConsoleTool.Utils;
 
 public static class ConsoleExtension
 {
@@ -18,28 +18,28 @@ public static class ConsoleExtension
             console.BackgroundColor = backgroundColor.Value;
         }
 
-        console.WriteLine(message);
+        _ = console.WriteLine(message);
         console.ResetColor();
     }
 
     public static void Error(this IConsole console, string errMessage)
     {
-        PrintLn(console, errMessage, ConsoleColor.Red);
+        console.PrintLn(errMessage, ConsoleColor.Red);
     }
 
     public static void Success(this IConsole console, string successMessage)
     {
-        PrintLn(console, successMessage, ConsoleColor.Green);
+        console.PrintLn(successMessage, ConsoleColor.Green);
     }
 
     public static void IndentPrint(this IConsole console, object? value)
     {
         if (value == null)
         {
-            PrintLn(console, "[null]");
+            console.PrintLn("[null]");
             return;
         }
 
-        PrintLn(console, JsonSerializer.Serialize(value, WriteIndentedJsonSerializerOptions.GetInstance));
+        console.PrintLn(JsonSerializer.Serialize(value, WriteIndentedJsonSerializerOptions.GetInstance));
     }
 }
