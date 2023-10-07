@@ -1,5 +1,8 @@
-﻿using Lljxww.ApiCaller.Models.Config;
+﻿using System.Reflection;
+using Lljxww.ApiCaller.Models.Config;
+using Lljxww.ConsoleTool.Models;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.DependencyInjection;
 using Result = (System.Type, object);
 
 namespace Lljxww.ConsoleTool.Utils;
@@ -15,7 +18,8 @@ internal class ConfigEditor
     /// <param name="console"></param>
     /// <param name="nodes"></param>
     /// <returns></returns>
-    internal static ActionResult<T> NodeSelecter<T>(IConsole console, IList<T>? nodes) where T : ICallerConfigNode
+    internal static ActionResult<T> NodeSelecter<T>(IConsole console, IList<T>? nodes)
+        where T : ICallerConfigNode
     {
         if (nodes == null || nodes.Count == 0)
         {
@@ -37,7 +41,7 @@ internal class ConfigEditor
         {
             int index = Prompt.GetInt("请输入要编辑的节点序号：");
 
-            if (index <= 0 || !dic.ContainsKey(index))
+            if (index <= 0 || !dic.TryGetValue(index, out current))
             {
                 console.Error($"请输入正确的索引");
                 times++;
@@ -45,7 +49,6 @@ internal class ConfigEditor
             }
             else
             {
-                current = dic[index];
                 if (current == null)
                 {
                     _ = console.WriteLine("当前配置中的节点配置为空");
@@ -103,42 +106,38 @@ internal class ConfigEditor
             };
         }
 
-        System.Reflection.PropertyInfo[] properties = typeof(T).GetProperties();
+        PropertyInfo[] properties = typeof(T).GetProperties();
 
-        foreach (System.Reflection.PropertyInfo prop in properties)
+        for (int i = 0; i < properties.Length; i++)
         {
-            object? currentValue = prop.GetValue(node);
-            _ = console.WriteLine($"节点名: {prop.Name}, 当前值: {currentValue}");
+            object? currentValue = properties[i].GetValue(node);
+            _ = console.WriteLine($"节点名: {properties[i].Name}, 当前值: {currentValue ?? "(null)"}");
 
             string message = "请输入新的值";
-            Result result = default;
-            switch (Type.GetTypeCode(prop.DeclaringType))
+            object? result = default;
+            switch (properties[i].PropertyType.Name)
             {
-                case TypeCode.String:
+                case nameof(TypeCode.String):
                     {
-                        string? value = Prompt.GetString(message, currentValue?.ToString());
-                        result = (typeof(string), value)!;
+                        result = Prompt.GetString(message, currentValue?.ToString());
                         break;
                     }
-                case TypeCode.Int32:
+                case nameof(TypeCode.Int32):
                     {
                         if (int.TryParse(currentValue?.ToString(), out int defaultValue))
                         {
-                            int value = Prompt.GetInt(message, defaultValue);
-                            result = (typeof(int), value)!;
+                            result = Prompt.GetInt(message, defaultValue);
                         }
                         else
                         {
-                            int value = Prompt.GetInt(message);
-                            result = (typeof(int), value)!;
+                            result = Prompt.GetInt(message);
                         }
                         break;
                     }
-                case TypeCode.Boolean:
+                case nameof(TypeCode.Boolean):
                     {
                         _ = bool.TryParse(currentValue?.ToString(), out bool defaultValue);
-                        bool value = Prompt.GetYesNo(message, defaultValue);
-                        result = (typeof(bool), value);
+                        result = Prompt.GetYesNo(message, defaultValue);
                         break;
                     }
                 default:
@@ -148,13 +147,13 @@ internal class ConfigEditor
                     }
             }
 
-            if (result.Item1 == null)
+            if (result == default)
             {
                 continue;
             }
 
             // 设定值
-            prop.SetValue(node, Convert.ChangeType(result.Item2, result.Item1!));
+            properties[i].SetValue(node, result);
         }
 
         console.IndentPrint(node);
@@ -164,5 +163,78 @@ internal class ConfigEditor
             Success = true,
             Content = node
         };
+    }
+
+    /// <summary>
+    /// 从给定的配置文件中，找到VID为指定值的节点
+    /// </summary>
+    /// <param name="config"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    private static NodeEditModel? GetNode(ApiCallerConfig config, Guid id)
+    {
+        if (config == null || config.ServiceItems?.Count == 0)
+        {
+            return default;
+        }
+
+        var serviceItemResult = config.ServiceItems!.SingleOrDefault(s => s.ID == id);
+        if (serviceItemResult != null)
+        {
+            return new NodeEditModel
+            {
+                Node = serviceItemResult,
+                Index = config.ServiceItems!.IndexOf(serviceItemResult),
+                Type = typeof(ServiceItem)
+            };
+        }
+
+        foreach (var service in config.ServiceItems!)
+        {
+            if (service.ApiItems?.Count == 0)
+            {
+                continue;
+            }
+
+            var apiItemResult = service.ApiItems!.SingleOrDefault(a => a.ID == id);
+            if (apiItemResult != null)
+            {
+                return new NodeEditModel
+                {
+                    Node = apiItemResult,
+                    ParentIndex = config.ServiceItems.IndexOf(service),
+                    Index = service.ApiItems!.IndexOf(apiItemResult),
+                    Type = typeof(ApiItem)
+                };
+            }
+        }
+
+        return default;
+    }
+
+    /// <summary>
+    /// 更新CallerCongig
+    /// </summary>
+    /// <param name="config"></param>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public static ApiCallerConfig? UpdateApiCallerConfig(ApiCallerConfig config, ICallerConfigNode node)
+    {
+        var nodeEditModel = GetNode(config, node.GetID());
+        if (nodeEditModel == default)
+        {
+            return config;
+        }
+
+        if (nodeEditModel.Type == typeof(ServiceItem))
+        {
+            config.ServiceItems[nodeEditModel.Index] = (ServiceItem)node;
+        }
+        else
+        {
+            config.ServiceItems[nodeEditModel.ParentIndex].ApiItems[nodeEditModel.Index] = (ApiItem)node;
+        }
+
+        return config;
     }
 }

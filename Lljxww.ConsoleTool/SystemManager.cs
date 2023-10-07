@@ -117,6 +117,35 @@ internal static partial class SystemManager
     }
 
     /// <summary>
+    /// 保存配置文件(更新)
+    /// </summary>
+    /// <param name="config"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    internal static ActionResult SaveUpdatedCallerConfig(ApiCallerConfig config, string path)
+    {
+        var jsonText = JsonSerializer.Serialize(config);
+        if (!File.Exists(path))
+        {
+            return new ActionResult
+            {
+                Success = false,
+                Message = $"指定的文件不存在: {path}"
+            };
+        }
+
+        // 清空文件
+        File.WriteAllText(path, string.Empty);
+
+        File.WriteAllText(path, jsonText);
+
+        return new ActionResult
+        {
+            Success = true
+        };
+    }
+
+    /// <summary>
     /// 存储配置文件到系统中
     /// </summary>
     /// <param name="jsonText"></param>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
 
 namespace Lljxww.ApiCaller.Models.Config;
 
@@ -21,5 +22,6 @@ public class ApiCallerConfig : IOptions<ApiCallerConfig>
 
     public string UserAgent { get; set; } = "Lljxww.WebApiCaller";
 
+    [JsonIgnore]
     public ApiCallerConfig Value => this;
 }

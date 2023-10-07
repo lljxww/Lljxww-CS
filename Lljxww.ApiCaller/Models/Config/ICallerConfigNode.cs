@@ -2,5 +2,7 @@
 
 public interface ICallerConfigNode
 {
-    public string Remark();
+    string Remark();
+
+    Guid GetID();
 }

@@ -1,10 +1,15 @@
-﻿namespace Lljxww.ApiCaller.Models.Config;
+﻿using System.Text.Json.Serialization;
+
+namespace Lljxww.ApiCaller.Models.Config;
 
 /// <summary>
 /// 接口配置节
 /// </summary>
 public class ApiItem : ICallerConfigNode
 {
+    [JsonIgnore]
+    public Guid ID { get; private set; } = Guid.NewGuid();
+
     /// <summary>
     /// 方法名
     /// </summary>
@@ -59,6 +64,11 @@ public class ApiItem : ICallerConfigNode
     /// 是否对URL进行编码
     /// </summary>
     public bool EncodeUrl { get; set; } = true;
+
+    public Guid GetID()
+    {
+        return ID;
+    }
 
     public string Remark()
     {

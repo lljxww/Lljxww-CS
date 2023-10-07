@@ -22,7 +22,7 @@ internal class EditSubCommand
             return -1;
         }
 
-        (_, string fileContent) = actionResult.Content;
+        (string path, string fileContent) = actionResult.Content;
         try
         {
             ApiCallerConfig? apiCallerConfig = JsonSerializer.Deserialize<ApiCallerConfig>(fileContent);
@@ -50,9 +50,29 @@ internal class EditSubCommand
             ApiItem current = apiItemResult.Content;
 
             // 处理节点编辑
-            _ = ConfigEditor.Edit(console, current);
+            var editActionResult = ConfigEditor.Edit(console, current);
 
-            return 1;
+            if (!editActionResult.Success)
+            {
+                console.Error(editActionResult.Message);
+                return -1;
+            }
+
+            apiCallerConfig = ConfigEditor.UpdateApiCallerConfig(apiCallerConfig, editActionResult.Content);
+
+            // 保存修改的信息
+            var udpateActionResult = SystemManager.SaveUpdatedCallerConfig(apiCallerConfig!, path);
+
+            if (udpateActionResult.Success)
+            {
+                console.Success("更新成功");
+                return 1;
+            }
+            else
+            {
+                console.Error(udpateActionResult.Message);
+                return -1;
+            }
         }
         catch (Exception ex)
         {

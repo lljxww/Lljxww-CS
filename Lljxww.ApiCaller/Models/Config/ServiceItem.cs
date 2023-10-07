@@ -1,7 +1,12 @@
-﻿namespace Lljxww.ApiCaller.Models.Config;
+﻿using System.Text.Json.Serialization;
+
+namespace Lljxww.ApiCaller.Models.Config;
 
 public class ServiceItem : ICallerConfigNode
 {
+    [JsonIgnore]
+    public Guid ID { get; private set; } = Guid.NewGuid();
+
     /// <summary>
     /// 接口名
     /// </summary>
@@ -26,6 +31,11 @@ public class ServiceItem : ICallerConfigNode
     /// 接口配置节
     /// </summary>
     public IList<ApiItem> ApiItems { get; set; }
+
+    public Guid GetID()
+    {
+        return ID;
+    }
 
     public string Remark()
     {

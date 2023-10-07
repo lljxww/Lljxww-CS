@@ -9,14 +9,14 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Lljxww.ConsoleTool/bin/Debug/net7.0/Lljxww.ConsoleTool.dll",
+            "program": "${workspaceFolder}/Lljxww.ConsoleTool/bin/Debug/net8.0/Lljxww.ConsoleTool.dll",
             "args": [
                 "config",
                 "edit",
                 "test"
             ],
             "cwd": "${workspaceFolder}/Lljxww.ConsoleTool",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         },
         {
