@@ -107,7 +107,7 @@ public class CallerContext
             ApiItem = apiItem,
             HttpMethod = new HttpMethod(apiItem.HttpMethod),
             NeedCache = apiItem.NeedCache,
-            CacheMinuties = apiItem.CacheTime,
+            CacheMinutes = apiItem.CacheTime,
             RequestOption = requestOption,
             Timeout = requestOption.Timeout != 0
                 ? requestOption.Timeout
@@ -485,7 +485,7 @@ public class CallerContext
     /// <summary>
     /// 缓存时间(分, 计算后)
     /// </summary>
-    public int CacheMinuties { get; private set; }
+    public int CacheMinutes { get; private set; }
 
     #endregion
 }

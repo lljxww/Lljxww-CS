@@ -9,7 +9,13 @@ public class SourceGeneratorTest
     [EnumExtensions]
     public enum TestEnum
     {
+        BN,
+        YH,
+        ZP,
+        JH,
+        LJ,
         HJ,
+        LM,
         WY,
         HY,
     }
