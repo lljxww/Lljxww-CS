@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.CSRedis.Extensions",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ApiCaller", "Lljxww.ApiCaller\Lljxww.ApiCaller.csproj", "{D5D5397C-C246-4B3C-B221-F1D96063B501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.ConsoleTool", "Lljxww.ConsoleTool\Lljxww.ConsoleTool.csproj", "{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ConsoleTool", "Lljxww.ConsoleTool\Lljxww.ConsoleTool.csproj", "{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lljxww.SourceGenerator", "Lljxww.SourceGenerator\Lljxww.SourceGenerator.csproj", "{1CA746CC-EC52-492B-80D9-F7F4E58A6048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CA746CC-EC52-492B-80D9-F7F4E58A6048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CA746CC-EC52-492B-80D9-F7F4E58A6048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CA746CC-EC52-492B-80D9-F7F4E58A6048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CA746CC-EC52-492B-80D9-F7F4E58A6048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
