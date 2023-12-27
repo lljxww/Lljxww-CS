@@ -34,14 +34,14 @@ internal class EditSubCommand
             }
 
             // ServiceItem
-            ActionResult<ServiceItem> serviceItemResult = ConfigEditor.NodeSelecter(console, apiCallerConfig.ServiceItems);
+            ActionResult<ServiceItem> serviceItemResult = ConfigEditor.NodeSelector(console, apiCallerConfig.ServiceItems);
             if (!serviceItemResult.Success)
             {
                 return -1;
             }
 
             // ApiItem
-            ActionResult<ApiItem> apiItemResult = ConfigEditor.NodeSelecter(console, serviceItemResult.Content.ApiItems);
+            ActionResult<ApiItem> apiItemResult = ConfigEditor.NodeSelector(console, serviceItemResult.Content.ApiItems);
             if (!apiItemResult.Success)
             {
                 return -1;
@@ -50,7 +50,7 @@ internal class EditSubCommand
             ApiItem current = apiItemResult.Content;
 
             // 处理节点编辑
-            var editActionResult = ConfigEditor.Edit(console, current);
+            ActionResult<ApiItem> editActionResult = ConfigEditor.Edit(console, current);
 
             if (!editActionResult.Success)
             {
@@ -61,7 +61,7 @@ internal class EditSubCommand
             apiCallerConfig = ConfigEditor.UpdateApiCallerConfig(apiCallerConfig, editActionResult.Content);
 
             // 保存修改的信息
-            var udpateActionResult = SystemManager.SaveUpdatedCallerConfig(apiCallerConfig!, path);
+            ActionResult udpateActionResult = SystemManager.SaveUpdatedCallerConfig(apiCallerConfig!, path);
 
             if (udpateActionResult.Success)
             {

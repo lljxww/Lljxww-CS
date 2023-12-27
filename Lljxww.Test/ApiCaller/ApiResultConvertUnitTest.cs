@@ -92,7 +92,7 @@ public class ApiResultConvertUnitTest
         /// 从kbase中查询出来的字段名及其值
         /// </summary>
         [DataMember]
-        public Dictionary<string, string> FieldValuePairs { get; set; } = new();
+        public Dictionary<string, string> FieldValuePairs { get; set; } = [];
     }
 
     [Serializable]

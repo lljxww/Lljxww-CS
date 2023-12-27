@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Models.Config;
 using Lljxww.ConsoleTool.Models;
 using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Extensions.DependencyInjection;
-using Result = (System.Type, object);
+using System.Reflection;
 
 namespace Lljxww.ConsoleTool.Utils;
 
@@ -18,7 +16,7 @@ internal class ConfigEditor
     /// <param name="console"></param>
     /// <param name="nodes"></param>
     /// <returns></returns>
-    internal static ActionResult<T> NodeSelecter<T>(IConsole console, IList<T>? nodes)
+    internal static ActionResult<T> NodeSelector<T>(IConsole console, IList<T>? nodes)
         where T : ICallerConfigNode
     {
         if (nodes == null || nodes.Count == 0)
@@ -124,14 +122,7 @@ internal class ConfigEditor
                     }
                 case nameof(TypeCode.Int32):
                     {
-                        if (int.TryParse(currentValue?.ToString(), out int defaultValue))
-                        {
-                            result = Prompt.GetInt(message, defaultValue);
-                        }
-                        else
-                        {
-                            result = Prompt.GetInt(message);
-                        }
+                        result = int.TryParse(currentValue?.ToString(), out int defaultValue) ? Prompt.GetInt(message, defaultValue) : (object)Prompt.GetInt(message);
                         break;
                     }
                 case nameof(TypeCode.Boolean):
@@ -178,7 +169,7 @@ internal class ConfigEditor
             return default;
         }
 
-        var serviceItemResult = config.ServiceItems!.SingleOrDefault(s => s.ID == id);
+        ServiceItem? serviceItemResult = config.ServiceItems!.SingleOrDefault(s => s.ID == id);
         if (serviceItemResult != null)
         {
             return new NodeEditModel
@@ -189,14 +180,14 @@ internal class ConfigEditor
             };
         }
 
-        foreach (var service in config.ServiceItems!)
+        foreach (ServiceItem service in config.ServiceItems!)
         {
             if (service.ApiItems?.Count == 0)
             {
                 continue;
             }
 
-            var apiItemResult = service.ApiItems!.SingleOrDefault(a => a.ID == id);
+            ApiItem? apiItemResult = service.ApiItems!.SingleOrDefault(a => a.ID == id);
             if (apiItemResult != null)
             {
                 return new NodeEditModel
@@ -220,7 +211,7 @@ internal class ConfigEditor
     /// <returns></returns>
     public static ApiCallerConfig? UpdateApiCallerConfig(ApiCallerConfig config, ICallerConfigNode node)
     {
-        var nodeEditModel = GetNode(config, node.GetID());
+        NodeEditModel? nodeEditModel = GetNode(config, node.GetID());
         if (nodeEditModel == default)
         {
             return config;

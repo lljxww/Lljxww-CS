@@ -12,7 +12,9 @@
   "ServiceItems": [
     {
       "ApiName": "weibo",
-      "BaseUrl": "https://weibo.com/ajax",
+      "BaseUrls": {
+        "Production": "https://weibo.com/ajax"
+      },
       "ApiItems": [
         {
           "Method": "hot",
@@ -24,7 +26,9 @@
     },
     {
       "ApiName": "weather",
-      "BaseUrl": "https://api.open-meteo.com",
+      "BaseUrls": {
+        "Production": "https://api.open-meteo.com"
+      },
       "ApiItems": [
         {
           "Method": "forecast",

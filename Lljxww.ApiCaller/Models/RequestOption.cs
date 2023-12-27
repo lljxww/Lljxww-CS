@@ -28,6 +28,11 @@ public class RequestOption
     public bool DontLog { get; set; } = false;
 
     /// <summary>
+    /// 当此predicate值为true时, 不将结果写入Cache
+    /// </summary>
+    public Predicate<CallerContext> WhenDontSaveRequestCache { get; set; } = _ => false;
+
+    /// <summary>
     /// 自定义认证信息
     /// </summary>
     public string CustomAuthorizeInfo { get; set; }

@@ -10,7 +10,8 @@ namespace Lljxww.ApiCaller;
 
 public partial class Caller
 {
-    public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName, object? requestParam = null,
+    public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName,
+        object? requestParam = null,
         RequestOption? requestOption = null)
     {
         requestOption ??= new RequestOption();
@@ -72,7 +73,7 @@ public partial class Caller
             }
 
             // 处理缓存
-            if (context.NeedCache)
+            if (context.NeedCache && !requestOption.WhenDontSaveRequestCache.Invoke(context))
             {
                 CallerEvents.SetCache(context);
             }
@@ -143,8 +144,8 @@ public partial class Caller
     {
         string[] items = target.Split('.');
         return items.Length == 2
-&& _apiCallerConfig.ServiceItems.Any(s => s.ApiName != items[0])
-&& _apiCallerConfig.ServiceItems.Single(s => s.ApiName == items[0])
-            .ApiItems.Any(a => a.Method == items[1]);
+            && _apiCallerConfig.ServiceItems.Any(s => s.ApiName != items[0])
+            && _apiCallerConfig.ServiceItems.Single(s => s.ApiName == items[0])
+                .ApiItems.Any(a => a.Method == items[1]);
     }
 }

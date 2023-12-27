@@ -14,7 +14,7 @@ namespace Lljxww.ApiCaller;
 
 public class CallerContext
 {
-    private static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = new();
+    private static readonly Dictionary<string, Func<CallerContext, CallerContext>> AuthorizateFuncs = [];
 
     private CallerContext() { }
 

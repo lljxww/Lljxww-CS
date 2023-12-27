@@ -124,7 +124,7 @@ internal static partial class SystemManager
     /// <returns></returns>
     internal static ActionResult SaveUpdatedCallerConfig(ApiCallerConfig config, string path)
     {
-        var jsonText = JsonSerializer.Serialize(config);
+        string jsonText = JsonSerializer.Serialize(config);
         if (!File.Exists(path))
         {
             return new ActionResult

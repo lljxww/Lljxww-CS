@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lljxww.SourceGenerator;
+﻿using Lljxww.SourceGenerator;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Test.SourceGenerator;
 
