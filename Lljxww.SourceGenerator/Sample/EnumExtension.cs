@@ -1,4 +1,4 @@
-﻿namespace Lljxww.SourceGenerator;
+﻿namespace Lljxww.SourceGenerator.Sample;
 
 public static class EnumExtension
 {

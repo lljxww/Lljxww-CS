@@ -29,22 +29,18 @@
         <None Remove="Microsoft.Extensions.Configuration.Json" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Configs\" />
-        <Folder Include="Extensions\" />
-        <Folder Include="Models\" />
-    </ItemGroup>
-    <ItemGroup>
         <None Include="..\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Lljxww.ApiCaller.Models\Lljxww.ApiCaller.Models.csproj" />
     </ItemGroup>
     <ProjectExtensions>
         <VisualStudio>

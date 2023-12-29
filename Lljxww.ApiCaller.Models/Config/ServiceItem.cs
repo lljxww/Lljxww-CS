@@ -1,4 +1,6 @@
-﻿using Lljxww.ApiCaller.Utils;
+﻿using Lljxww.ApiCaller.Models.Utils;
+using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Lljxww.ApiCaller.Models.Config;

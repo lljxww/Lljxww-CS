@@ -1,7 +1,7 @@
 ﻿using Lljxww.ApiCaller.Diagnosis;
-using Lljxww.ApiCaller.Exceptions;
 using Lljxww.ApiCaller.Models;
 using Lljxww.ApiCaller.Models.Config;
+using Lljxww.ApiCaller.Models.Exceptions;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Lljxww.SourceGenerator.Sample;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
@@ -11,6 +12,7 @@ public class EnumGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        // 将"常量"源注册到编译中.适用于始终需要的源, 无论生成的语法和输出如何.
         context.RegisterPostInitializationOutput(ctx => ctx.AddSource(
             "EnumExtensionsAttribute.g.cs",
             SourceText.From(SourceGenerationHelper.Attribute, Encoding.UTF8)
@@ -18,7 +20,9 @@ public class EnumGenerator : IIncrementalGenerator
 
         IncrementalValuesProvider<EnumDeclarationSyntax> enumDeclarations = context.SyntaxProvider
             .CreateSyntaxProvider(
+                // 挑选: 节点是一个枚举声明, 且该枚举声明被标记的特性数大于零
                 predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
+                // 
                 transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx))
             .Where(static m => m is not null)!;
 

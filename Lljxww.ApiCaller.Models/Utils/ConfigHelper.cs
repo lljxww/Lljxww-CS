@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Configuration;
 
-namespace Lljxww.ApiCaller.Utils;
+namespace Lljxww.ApiCaller.Models.Utils;
 
 internal class ConfigHelper
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Lljxww.SourceGenerator;
+namespace Lljxww.SourceGenerator.Sample;
 
 public static class SourceGenerationHelper
 {

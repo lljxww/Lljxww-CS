@@ -1,4 +1,7 @@
-﻿namespace Lljxww.ApiCaller.Models;
+﻿using System;
+using System.Net.Http;
+
+namespace Lljxww.ApiCaller.Models;
 
 public class RequestOption
 {
@@ -45,7 +48,7 @@ public class RequestOption
     /// <summary>
     /// 自定义对象, 可用于将请求时的一些细节传递到各类事件处理程序中使用
     /// </summary>
-    public object? CustomObject { get; set; }
+    public object CustomObject { get; set; }
 
     /// <summary>
     /// 自定义参与计算缓存key的字符串

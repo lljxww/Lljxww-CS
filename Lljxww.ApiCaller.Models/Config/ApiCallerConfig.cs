@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Lljxww.ApiCaller.Models.Config;
@@ -18,7 +19,7 @@ public class ApiCallerConfig : IOptions<ApiCallerConfig>
     /// </summary>
     public IList<ServiceItem> ServiceItems { get; set; }
 
-    public DiagnosisConfig? Diagnosis { get; set; }
+    public DiagnosisConfig Diagnosis { get; set; }
 
     public string UserAgent { get; set; } = "Lljxww.WebApiCaller";
 

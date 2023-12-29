@@ -1,4 +1,4 @@
-﻿namespace Lljxww.SourceGenerator;
+﻿namespace Lljxww.SourceGenerator.Sample;
 
 public readonly struct EnumToGenerate(string name, List<string> values)
 {

@@ -1,4 +1,4 @@
-﻿namespace Lljxww.SourceGenerator;
+﻿namespace Lljxww.SourceGenerator.Sample;
 
 public enum Color
 {

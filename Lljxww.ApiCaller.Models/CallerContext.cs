@@ -1,16 +1,20 @@
-﻿using Lljxww.ApiCaller.Exceptions;
-using Lljxww.ApiCaller.Extensions;
-using Lljxww.ApiCaller.Models;
-using Lljxww.ApiCaller.Models.Config;
-using System.Configuration;
+﻿using Lljxww.ApiCaller.Models.Config;
+using Lljxww.ApiCaller.Models.Exceptions;
+using Lljxww.ApiCaller.Models.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
-namespace Lljxww.ApiCaller;
+namespace Lljxww.ApiCaller.Models;
 
 public class CallerContext
 {
@@ -77,7 +81,7 @@ public class CallerContext
     /// <param name="param">参数对象</param>
     /// <param name="requestOption">请求配置</param>
     /// <returns>完成各种配置，可直接发起请求的请求上下文</returns>
-    internal static CallerContext Build(string apiNameAndMethodName,
+    public static CallerContext Build(string apiNameAndMethodName,
         ApiCallerConfig config,
         object? param,
         RequestOption requestOption)
@@ -134,7 +138,7 @@ public class CallerContext
     /// 使用当下的请求上下文发起请求
     /// </summary>
     /// <returns>附带请求结果的请求上下文</returns>
-    internal async Task<CallerContext> RequestAsync()
+    public async Task<CallerContext> RequestAsync()
     {
         ResultFrom = "Request";
 
@@ -182,7 +186,7 @@ public class CallerContext
 
         if (config.ServiceItems.All(i => i.ApiName.ToLower().Trim() != serviceName.ToLower().Trim()))
         {
-            throw new ConfigurationErrorsException($"未找到指定的方法: {serviceName}");
+            throw new Exception($"未找到指定的方法: {serviceName}");
         }
 
         ServiceItem serviceItem = config.ServiceItems
@@ -410,7 +414,7 @@ public class CallerContext
     /// <summary>
     /// 超时时间(计算后)
     /// </summary>
-    public int Timeout { get; internal set; } = 20000;
+    public int Timeout { get; set; } = 20000;
 
     /// <summary>
     /// 服务配置节
@@ -465,7 +469,7 @@ public class CallerContext
     /// <summary>
     /// 请求结果来源
     /// </summary>
-    public string ResultFrom { get; internal set; } = "Request";
+    public string ResultFrom { get; set; } = "Request";
 
     /// <summary>
     /// 缓存Key
@@ -475,7 +479,7 @@ public class CallerContext
     /// <summary>
     /// 请求结果对象
     /// </summary>
-    public ApiResult? ApiResult { get; internal set; }
+    public ApiResult? ApiResult { get; set; }
 
     /// <summary>
     /// 请求体
