@@ -4,23 +4,18 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Lljxww.CSRedis.Extensions;
 
-public class Caching
+public class Caching(IDistributedCache redis)
 {
     /// <summary>
     /// 对象锁
     /// </summary>
     private static readonly object ObjLock = new();
 
-    private readonly IDistributedCache _redis;
+    private readonly IDistributedCache _redis = redis;
 
     // 分布式锁
     private readonly int LOCK_SECONDS = 20;
     private readonly int RETRY_TIMES = 10;
-
-    public Caching(IDistributedCache redis)
-    {
-        _redis = redis;
-    }
 
     /// <summary>
     /// 从缓存中读取数据, 如果数据不存在与缓存中, 则使用给定的方法查询数据, 并保存到缓存中.
@@ -87,7 +82,7 @@ public class Caching
                         return result;
                     }
 
-                    resultList ??= new List<T>();
+                    resultList ??= [];
 
                     resultList.Add(item);
                     result = item;
@@ -159,7 +154,7 @@ public class Caching
 
         TimeSpan timespan = expire.HasValue ? expire.Value - DateTime.Now : new TimeSpan(0, 10, 0);
 
-        _redis.Set(key, value?.ToBytes(), new DistributedCacheEntryOptions
+        _redis.Set(key, value.ToBytes(), new DistributedCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = timespan
         });

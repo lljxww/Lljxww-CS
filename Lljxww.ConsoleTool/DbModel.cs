@@ -20,7 +20,7 @@ internal class DbModel
     /// <summary>
     /// 配置文件信息
     /// </summary>
-    public IList<CallerConfigInfo> CallerConfigInfos { get; set; } = new List<CallerConfigInfo>();
+    public IList<CallerConfigInfo> CallerConfigInfos { get; set; } = [];
 }
 
 internal class CallerConfigInfo

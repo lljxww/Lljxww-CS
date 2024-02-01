@@ -13,9 +13,9 @@ internal class CleanupSubCommand
             DbModelUtil.UpdateDbModel(instance =>
             {
                 CallerConfigInfo info = instance.CallerConfigInfos.Single(i => i.Active);
-                instance.CallerConfigInfos = new List<CallerConfigInfo> {
+                instance.CallerConfigInfos = [
                         info
-                };
+                ];
                 return instance;
             });
         }

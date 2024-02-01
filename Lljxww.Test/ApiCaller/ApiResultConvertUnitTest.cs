@@ -69,8 +69,8 @@ public class ApiResultConvertUnitTest
         /// 查询权限需要的kbase字段名
         /// </summary>
         [DataMember]
-        public IList<string> Fields { get; set; } = new List<string>
-        {
+        public IList<string> Fields { get; set; } =
+        [
             "文件名",
             "题名",
             "年",
@@ -86,7 +86,7 @@ public class ApiResultConvertUnitTest
             "来源",
             "发表时间",
             "光盘号"
-        };
+        ];
 
         /// <summary>
         /// 从kbase中查询出来的字段名及其值

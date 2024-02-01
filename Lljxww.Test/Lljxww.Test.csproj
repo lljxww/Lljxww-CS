@@ -13,25 +13,22 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Dapper" Version="2.1.24" />
+        <PackageReference Include="Dapper" Version="2.1.28" />
         <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
-        <PackageReference Include="MySql.Data" Version="8.2.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.2.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.2.0" />
+        <PackageReference Include="MySql.Data" Version="8.3.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Lljxww.ApiCaller\Lljxww.ApiCaller.csproj" />
         <ProjectReference Include="..\Lljxww.CSRedis.Extensions\Lljxww.CSRedis.Extensions.csproj" />
 		<ProjectReference Include="..\Lljxww\Lljxww.csproj" />
-		<ProjectReference Include="..\Lljxww.SourceGenerator\Lljxww.SourceGenerator.csproj"
-						  OutputItemType="Analyzer"
-						  ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>

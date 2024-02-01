@@ -172,7 +172,7 @@ internal static partial class SystemManager
         // 更新dbModel
         DbModelUtil.UpdateDbModel(m =>
         {
-            m.CallerConfigInfos ??= new List<CallerConfigInfo>();
+            m.CallerConfigInfos ??= [];
 
             if (m.CallerConfigInfos.Count != 0)
             {
