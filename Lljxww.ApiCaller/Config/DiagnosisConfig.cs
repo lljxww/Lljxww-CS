@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Lljxww.ApiCaller.Models.Config;
+namespace Lljxww.ApiCaller.Config;
 
 public class DiagnosisConfig
 {

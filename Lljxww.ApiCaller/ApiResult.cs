@@ -1,11 +1,10 @@
-using System;
-using System.Net.Http;
+using Lljxww.ApiCaller.Models.Context;
 using System.Runtime.Serialization;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Lljxww.ApiCaller.Models;
+namespace Lljxww.ApiCaller;
 
 /// <summary>
 /// ApiCaller接口返回结果包装类

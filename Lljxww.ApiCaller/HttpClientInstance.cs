@@ -1,6 +1,6 @@
-﻿using System.Net.Http;
+﻿using Lljxww.ApiCaller.Models.Context;
 
-namespace Lljxww.ApiCaller.Models;
+namespace Lljxww.ApiCaller;
 
 internal static class HttpClientInstance
 {
@@ -10,7 +10,7 @@ internal static class HttpClientInstance
     {
         client ??= new HttpClient();
 
-        client.DefaultRequestHeaders.Add("User-Agent", context.Config.UserAgent);
+        client.DefaultRequestHeaders.Add("User-Agent", CallerOption.UserAgent);
         client.DefaultRequestHeaders.Connection.Add("keep-alive");
 
         return client;

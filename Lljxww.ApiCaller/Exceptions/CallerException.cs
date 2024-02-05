@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lljxww.ApiCaller.Models.Exceptions;
+﻿namespace Lljxww.ApiCaller.Exceptions;
 
 public class CallerException : Exception
 {

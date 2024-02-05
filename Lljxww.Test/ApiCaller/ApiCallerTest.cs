@@ -1,5 +1,4 @@
 ﻿using Lljxww.ApiCaller;
-using Lljxww.ApiCaller.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +17,7 @@ public class ApiCallerTest
             .AddJsonFile("./ApiCaller/apicaller.json")
             .Build();
 
-        _ = _services.ConfigureCaller(config);
+        _ = _services.ConfigureCallerWithConfigFile(config);
 
         CallerEvents.OnExecuted += context =>
         {

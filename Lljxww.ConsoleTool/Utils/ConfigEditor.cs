@@ -1,4 +1,4 @@
-﻿using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Config;
 using Lljxww.ConsoleTool.Models;
 using McMaster.Extensions.CommandLineUtils;
 using System.Reflection;

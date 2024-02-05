@@ -1,4 +1,4 @@
-﻿using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lljxww.Test.ConsoleTool;

@@ -44,7 +44,7 @@ public class RequestCommand
 
         try
         {
-            ApiCaller.Models.ApiResult result = await caller.InvokeAsync(Target, paramObj);
+            ApiResult result = await caller.InvokeAsync(Target, paramObj);
             _ = console.WriteLine(JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(result.RawStr),
                 WriteIndentedJsonSerializerOptions.GetInstance
             ));

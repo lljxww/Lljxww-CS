@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Lljxww.ApiCaller.Models.Extensions;
+﻿namespace Lljxww.ApiCaller.Extensions;
 
 public static class ObjectExtension
 {

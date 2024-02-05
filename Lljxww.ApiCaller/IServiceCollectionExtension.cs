@@ -1,4 +1,4 @@
-﻿using Lljxww.ApiCaller.Models.Config;
+﻿using Lljxww.ApiCaller.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,13 +6,9 @@ namespace Lljxww.ApiCaller;
 
 public static class ServiceCollectionExtension
 {
-    /// <summary>
-    /// 使用指定的配置节初始化Caller配置
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    /// <returns></returns>
-    public static IServiceCollection ConfigureCaller(this IServiceCollection services, IConfiguration configuration)
+    #region ConfigFile
+
+    public static IServiceCollection ConfigureCallerWithConfigFile(this IServiceCollection services, IConfiguration configuration)
     {
         _ = services.Configure<ApiCallerConfig>(configuration);
         _ = services.AddHttpClient();
@@ -27,13 +23,13 @@ public static class ServiceCollectionExtension
     /// <param name="services"></param>
     /// <param name="jsonFileName"></param>
     /// <returns></returns>
-    public static IServiceCollection ConfigureCaller(this IServiceCollection services, string jsonFileName)
+    public static IServiceCollection ConfigureCallerWithConfigFile(this IServiceCollection services, string jsonFileName)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile(jsonFileName)
             .Build();
 
-        return ConfigureCaller(services, configuration);
+        return ConfigureCallerWithConfigFile(services, configuration);
     }
 
     /// <summary>
@@ -41,8 +37,10 @@ public static class ServiceCollectionExtension
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection ConfigureCaller(this IServiceCollection services)
+    public static IServiceCollection ConfigureCallerWithConfigFile(this IServiceCollection services)
     {
-        return ConfigureCaller(services, "caller.json");
+        return ConfigureCallerWithConfigFile(services, "caller.json");
     }
+
+    #endregion
 }

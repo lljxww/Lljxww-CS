@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Lljxww.ApiCaller.Models.Config;
+namespace Lljxww.ApiCaller.Config;
 
 /// <summary>
 /// 接口配置文件
@@ -20,8 +19,6 @@ public class ApiCallerConfig : IOptions<ApiCallerConfig>
     public IList<ServiceItem> ServiceItems { get; set; }
 
     public DiagnosisConfig Diagnosis { get; set; }
-
-    public string UserAgent { get; set; } = "Lljxww.WebApiCaller";
 
     [JsonIgnore]
     public ApiCallerConfig Value => this;

@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ApiCaller", "Lljxww.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ConsoleTool", "Lljxww.ConsoleTool\Lljxww.ConsoleTool.csproj", "{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lljxww.ApiCaller.Models", "Lljxww.ApiCaller.Models\Lljxww.ApiCaller.Models.csproj", "{50CC5287-2C2B-494D-8355-9C0E00295988}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7B42D93-2C00-4D62-80F5-ECA84B8BC1F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50CC5287-2C2B-494D-8355-9C0E00295988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50CC5287-2C2B-494D-8355-9C0E00295988}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50CC5287-2C2B-494D-8355-9C0E00295988}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50CC5287-2C2B-494D-8355-9C0E00295988}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

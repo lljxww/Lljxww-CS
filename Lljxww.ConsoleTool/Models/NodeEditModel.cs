@@ -1,4 +1,4 @@
-using Lljxww.ApiCaller.Models.Config;
+using Lljxww.ApiCaller.Config;
 
 namespace Lljxww.ConsoleTool.Models;
 

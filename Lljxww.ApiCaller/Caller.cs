@@ -1,7 +1,8 @@
-﻿using Lljxww.ApiCaller.Diagnosis;
-using Lljxww.ApiCaller.Models;
-using Lljxww.ApiCaller.Models.Config;
-using Lljxww.ApiCaller.Models.Exceptions;
+﻿using Lljxww.ApiCaller.Config;
+using Lljxww.ApiCaller.Context;
+using Lljxww.ApiCaller.Diagnosis;
+using Lljxww.ApiCaller.Exceptions;
+using Lljxww.ApiCaller.Models.Context;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
@@ -10,18 +11,19 @@ namespace Lljxww.ApiCaller;
 
 public partial class Caller
 {
-    public async Task<ApiResult> InvokeAsync(string apiNameAndMethodName,
-        object? requestParam = null,
-        RequestOption? requestOption = null)
+    public async Task<ApiResult> InvokeAsync(string apiName, object? param = null, RequestOption? requestOption = null)
     {
-        requestOption ??= new RequestOption();
+        RequestContext requestContext = new()
+        {
+            ApiName = apiName.Trim(),
+            Param = param
+        };
 
         // 创建请求对象
-        CallerContext context =
-            CallerContext.Build(apiNameAndMethodName, _apiCallerConfig, requestParam, requestOption);
+        CallerContext context = CallerContext.Build(requestContext);
 
         // 尝试从缓存读取结果
-        if (context.NeedCache && requestOption.IsFromCache)
+        if (context.RequestContext.NeedCache && context.RequestContext.IsFromCache)
         {
             ApiResult? tempApiResult = CallerEvents.GetCache(context);
 
@@ -37,12 +39,6 @@ public partial class Caller
         {
             try
             {
-                // 设置本次请求的超时时间（如果有）
-                if (requestOption.Timeout > 0)
-                {
-                    context.Timeout = requestOption.Timeout;
-                }
-
                 // 执行请求
                 context = await context.RequestAsync();
             }
@@ -73,20 +69,20 @@ public partial class Caller
             }
 
             // 处理缓存
-            if (context.NeedCache && !requestOption.WhenDontSaveRequestCache.Invoke(context))
+            if (context.RequestContext.NeedCache && !context.RequestContext.WhenDontSaveRequestCache.Invoke(context))
             {
                 CallerEvents.SetCache(context);
             }
         }
 
         // 记录日志事件
-        if (!requestOption.DontLog)
+        if (!context.RequestContext.DontLog)
         {
             CallerEvents.Log(context);
         }
 
         // 执行后事件
-        if (requestOption.IsTriggerOnExecuted)
+        if (context.RequestContext.IsTriggerOnExecuted)
         {
             CallerEvents.Executed(context);
         }

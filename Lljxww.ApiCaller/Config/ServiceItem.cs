@@ -1,9 +1,6 @@
-﻿using Lljxww.ApiCaller.Models.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Lljxww.ApiCaller.Models.Config;
+namespace Lljxww.ApiCaller.Config;
 
 public class ServiceItem : ICallerConfigNode
 {
@@ -21,17 +18,9 @@ public class ServiceItem : ICallerConfigNode
     public string AuthorizationType { get; set; }
 
     /// <summary>
-    /// 接口地址集合
-    /// </summary>
-    public Dictionary<string, string> BaseUrls { get; set; } = [];
-
-    /// <summary>
     /// 接口地址
     /// </summary>
-    [JsonIgnore]
-    public string BaseUrl => BaseUrls.ContainsKey(ConfigHelper.CallerEnv)
-        ? BaseUrls[ConfigHelper.CallerEnv]
-        : string.Empty;
+    public string BaseUrl { get; set; }
 
     /// <summary>
     /// 超时时间

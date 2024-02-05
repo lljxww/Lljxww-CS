@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net.Http;
+﻿using Lljxww.ApiCaller.Models.Context;
 
-namespace Lljxww.ApiCaller.Models;
+namespace Lljxww.ApiCaller;
 
 public class RequestOption
 {

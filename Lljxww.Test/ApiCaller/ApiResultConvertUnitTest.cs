@@ -1,4 +1,4 @@
-﻿using Lljxww.ApiCaller.Models;
+﻿using Lljxww.ApiCaller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

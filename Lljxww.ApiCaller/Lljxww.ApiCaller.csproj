@@ -39,9 +39,6 @@
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\Lljxww.ApiCaller.Models\Lljxww.ApiCaller.Models.csproj" />
-    </ItemGroup>
     <ProjectExtensions>
         <VisualStudio>
             <UserProperties configs_4caller_1sample_1json__JsonSchema="https://raw.githubusercontent.com/liang1224/Lljxww/main/Lljxww.ApiCaller/Configs/caller.schema.json" />
