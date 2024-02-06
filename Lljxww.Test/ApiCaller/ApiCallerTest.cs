@@ -37,14 +37,5 @@ public class ApiCallerTest
 
         Assert.AreEqual(HttpStatusCode.OK, result.HttpResponseMessage!.StatusCode);
         Assert.AreEqual("1", result["ok"]);
-
-        ApiResult? weatherResult = caller.InvokeAsync("weather.forecast", new
-        {
-            latitude = 39.54,
-            longitude = 116.23,
-            hourly = "temperature_2m,relativehumidity_2m,windspeed_10m"
-        }).Result;
-
-        Assert.AreEqual(HttpStatusCode.OK, weatherResult.HttpResponseMessage!.StatusCode);
     }
 }

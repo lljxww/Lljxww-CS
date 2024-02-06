@@ -73,7 +73,7 @@ public class ApiResult
 
     #region Message
 
-    public delegate string GetMessageHandler(ApiResult apiResult, Func<ApiResult, string> defaultFunc);
+    public delegate string? GetMessageHandler(ApiResult apiResult, Func<ApiResult, string?> defaultFunc);
 
     public static event GetMessageHandler GetMessage;
 
@@ -171,7 +171,7 @@ public class ApiResult
     /// </summary>
     /// <param name="propertyName">键名</param>
     /// <returns>返回值</returns>
-    public string this[string propertyName]
+    public string? this[string propertyName]
     {
         get
         {

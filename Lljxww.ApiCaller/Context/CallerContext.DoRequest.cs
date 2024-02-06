@@ -12,6 +12,11 @@ public partial class CallerContext
     {
         ResultFrom = "Request";
 
+        if (RequestContext.Timeout <= 0)
+        {
+            RequestContext.Timeout = 40000;
+        }
+
         CancellationTokenSource cancellationTokenSource = new();
         cancellationTokenSource.CancelAfter(RequestContext.Timeout);
 

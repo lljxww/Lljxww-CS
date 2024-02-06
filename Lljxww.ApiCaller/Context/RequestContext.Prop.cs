@@ -61,7 +61,7 @@ public partial class RequestContext
     /// <summary>
     /// 超时时间(毫秒)
     /// </summary>
-    public int Timeout { get; set; } = 40000;
+    public int Timeout { get; set; }
 
     /// <summary>
     /// 是否需要缓存

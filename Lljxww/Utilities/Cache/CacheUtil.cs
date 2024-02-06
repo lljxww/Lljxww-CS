@@ -10,21 +10,21 @@ public class CacheUtil
         Init();
     }
 
-    public Func<string, object> getFromCache { private set; get; }
+    public Func<string, object?> GetFromCache { private set; get; }
 
-    public Action<string, object> setToCache { private set; get; }
+    public Action<string, object> SetToCache { private set; get; }
 
-    public int cacheSeconds { private set; get; } = 300;
+    public int CacheSeconds { private set; get; } = 300;
 
     public CacheUtil WithCacheGet(Func<string, object> getFromCache)
     {
-        this.getFromCache = getFromCache;
+        GetFromCache = getFromCache;
         return this;
     }
 
     public CacheUtil WithCacheSet(Action<string, object> setToCache)
     {
-        this.setToCache = setToCache;
+        SetToCache = setToCache;
         return this;
     }
 
@@ -32,7 +32,7 @@ public class CacheUtil
     {
         if (cacheSeconds > 0)
         {
-            this.cacheSeconds = cacheSeconds;
+            CacheSeconds = cacheSeconds;
         }
 
         return this;
@@ -40,7 +40,7 @@ public class CacheUtil
 
     public T? GetOrStore<T>(string key, Func<T> howToGetTheValue)
     {
-        object value = getFromCache(key);
+        object? value = GetFromCache(key);
 
         if (value != null)
         {
@@ -59,7 +59,7 @@ public class CacheUtil
             return result;
         }
 
-        setToCache?.Invoke(key, result);
+        SetToCache?.Invoke(key, result);
 
         return result;
     }
@@ -68,16 +68,16 @@ public class CacheUtil
     {
         IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
 
-        setToCache = (key, value) =>
+        SetToCache = (key, value) =>
         {
             if (string.IsNullOrWhiteSpace(key) || value == null)
             {
                 return;
             }
 
-            _ = cache.Set(key, value, new DateTimeOffset(DateTime.Now.AddSeconds(cacheSeconds)));
+            _ = cache.Set(key, value, new DateTimeOffset(DateTime.Now.AddSeconds(CacheSeconds)));
         };
 
-        getFromCache = key => string.IsNullOrWhiteSpace(key) ? null : cache.Get(key);
+        GetFromCache = key => string.IsNullOrWhiteSpace(key) ? default : cache.Get(key);
     }
 }
