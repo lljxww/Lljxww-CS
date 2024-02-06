@@ -1,4 +1,6 @@
 ﻿using Lljxww.ApiCaller.Config;
+using Lljxww.ApiCaller.RequestContextLoader;
+using Lljxww.ApiCaller.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,13 @@ public static class ServiceCollectionExtension
         _ = services.Configure<ApiCallerConfig>(configuration);
         _ = services.AddHttpClient();
         _ = services.AddSingleton<Caller>();
+
+        _ = services.AddKeyedSingleton<IRequestContextLoader, ConfigRequestContextLoader>("config");
+        _ = services.AddKeyedSingleton<IRequestContextLoader, SwaggerJsonFileRequestContextLoader>("swagger-json-file");
+        _ = services.AddKeyedSingleton<IRequestContextLoader, SwaggerWebRequestContextLoader>("swagger-web");
+        _ = services.AddKeyedSingleton<IRequestContextLoader, StandaloneRequestContextLoader>("standalone");
+
+        _ = services.AddSingleton<RequestContextUtil>();
 
         return services;
     }

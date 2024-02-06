@@ -12,30 +12,13 @@
   "ServiceItems": [
     {
       "ApiName": "weibo",
-      "BaseUrls": {
-        "Production": "https://weibo.com/ajax"
-      },
+      "BaseUrl": "https://weibo.com/ajax",
       "ApiItems": [
         {
           "Method": "hot",
           "Url": "/side/hotSearch",
           "HTTPMethod": "GET",
           "ParamType": "query"
-        }
-      ]
-    },
-    {
-      "ApiName": "weather",
-      "BaseUrls": {
-        "Production": "https://api.open-meteo.com"
-      },
-      "ApiItems": [
-        {
-          "Method": "forecast",
-          "Url": "/v1/forecast",
-          "HTTPMethod": "GET",
-          "ParamType": "query",
-          "EncodeUrl": false
         }
       ]
     }

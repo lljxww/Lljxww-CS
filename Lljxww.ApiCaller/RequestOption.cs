@@ -22,7 +22,7 @@ public class RequestOption
     /// <summary>
     /// 自定义请求体
     /// </summary>
-    public HttpContent CustomHttpContent { get; set; }
+    public Func<HttpContent, HttpContent> CustomHttpContentHandler { get; set; }
 
     /// <summary>
     /// 不记录日志
@@ -42,7 +42,7 @@ public class RequestOption
     /// <summary>
     /// 超时时长（ms），超过此时间的请求将取消
     /// </summary>
-    public int Timeout { get; set; } = -1;
+    public int Timeout { get; set; } = 40000;
 
     /// <summary>
     /// 自定义对象, 可用于将请求时的一些细节传递到各类事件处理程序中使用

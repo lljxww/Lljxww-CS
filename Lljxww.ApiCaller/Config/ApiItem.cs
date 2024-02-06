@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Lljxww.ApiCaller.Context;
+using System.Text.Json.Serialization;
 
 namespace Lljxww.ApiCaller.Config;
 
@@ -23,7 +24,7 @@ public class ApiItem : ICallerConfigNode
     /// <summary>
     /// 方法的Http谓词
     /// </summary>
-    public HttpMethod HttpMethod { get; set; }
+    public EHttpMethod HttpMethod { get; private set; }
 
     /// <summary>
     /// 方法参数类型

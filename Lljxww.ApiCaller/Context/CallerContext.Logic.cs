@@ -1,6 +1,7 @@
 ﻿using Lljxww.ApiCaller.Config;
 using Lljxww.ApiCaller.Context;
 using Lljxww.ApiCaller.Exceptions;
+using Lljxww.ApiCaller.Utils;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,31 +12,6 @@ namespace Lljxww.ApiCaller.Models.Context;
 
 public partial class CallerContext
 {
-    /// <summary>
-    /// 找出给定的目标服务名的服务节点和接口节点配置
-    /// </summary>
-    /// <param name="apiNameAndMethodName">服务名和接口名</param>
-    /// <param name="config">接口调用配置</param>
-    /// <returns>服务节点，接口节点</returns>
-    /// <exception cref="ConfigurationErrorsException"></exception>
-    private static (ServiceItem, ApiItem) ParseConfig(string apiNameAndMethodName, ApiCallerConfig config)
-    {
-        string serviceName = apiNameAndMethodName.Split('.')[0];
-        string methodName = apiNameAndMethodName.Split('.')[1];
-
-        if (config.ServiceItems.All(i => i.ApiName.ToLower().Trim() != serviceName.ToLower().Trim()))
-        {
-            throw new Exception($"未找到指定的方法: {serviceName}");
-        }
-
-        ServiceItem serviceItem = config.ServiceItems
-            .Single(a => a.ApiName.ToLower().Trim() == serviceName.ToLower().Trim());
-        ApiItem apiItem = serviceItem.ApiItems
-            .Single(c => c.Method.ToLower().Trim() == methodName.ToLower().Trim());
-
-        return (serviceItem, apiItem);
-    }
-
     /// <summary>
     /// 配置缓存
     /// </summary>
@@ -82,7 +58,7 @@ public partial class CallerContext
 
         context.RequestMessage = new HttpRequestMessage
         {
-            Method = context.RequestContext.HttpMethod,
+            Method = HttpMethodUtil.GetHttpMethod(context.RequestContext.HttpMethod),
             RequestUri = new Uri(context.FinalUrl),
             Content = context.HttpContent
         };
@@ -174,13 +150,14 @@ public partial class CallerContext
     /// <exception cref="CallerException"></exception>
     private static CallerContext ConfigureAuth(CallerContext context)
     {
-        // 认证
-        if (!string.IsNullOrWhiteSpace(context.RequestContext.AuthorizationName))
+        if (string.IsNullOrWhiteSpace(context.RequestContext.AuthorizationName))
         {
-            if (!AuthenticationsStore.ContainsKey(context.RequestContext.AuthorizationName))
-            {
-                throw new CallerException($"找不到认证配置：{context.RequestContext.AuthorizationName}");
-            }
+            return context;
+        }
+
+        if (!AuthenticationsStore.ContainsKey(context.RequestContext.AuthorizationName))
+        {
+            throw new CallerException($"找不到认证配置：{context.RequestContext.AuthorizationName}");
         }
 
         return AuthenticationsStore.Execute(context.RequestContext.AuthorizationName, context);

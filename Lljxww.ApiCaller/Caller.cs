@@ -3,6 +3,7 @@ using Lljxww.ApiCaller.Context;
 using Lljxww.ApiCaller.Diagnosis;
 using Lljxww.ApiCaller.Exceptions;
 using Lljxww.ApiCaller.Models.Context;
+using Lljxww.ApiCaller.Utils;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
@@ -11,13 +12,14 @@ namespace Lljxww.ApiCaller;
 
 public partial class Caller
 {
-    public async Task<ApiResult> InvokeAsync(string apiName, object? param = null, RequestOption? requestOption = null)
+    public async Task<ApiResult> InvokeAsync(string name, object? param = null, RequestOption? requestOption = null)
     {
-        RequestContext requestContext = new()
+        RequestContext requestContext = _requestContextUtil.BuildRequestContext(name, param, requestOption);
+
+        if (requestOption != null)
         {
-            ApiName = apiName.Trim(),
-            Param = param
-        };
+            requestContext.MergeRequestOption(requestOption);
+        }
 
         // 创建请求对象
         CallerContext context = CallerContext.Build(requestContext);
@@ -104,10 +106,14 @@ public partial class Caller
 {
     private readonly ApiCallerConfig _apiCallerConfig;
 
-    public Caller(IOptions<ApiCallerConfig> apiCallerConfigOption)
+    private readonly RequestContextUtil _requestContextUtil;
+
+    public Caller(IOptions<ApiCallerConfig> apiCallerConfigOption, RequestContextUtil requestContextUtil)
     {
         _apiCallerConfig = apiCallerConfigOption.Value;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+        _requestContextUtil = requestContextUtil;
     }
 
     public Caller(string configFilePath)

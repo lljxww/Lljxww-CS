@@ -7,8 +7,9 @@ public interface IRequestContextLoader
     /// <summary>
     /// 加载RequestContext
     /// </summary>
-    /// <param name="apiName"></param>
+    /// <param name="name"></param>
     /// <param name="param"></param>
+    /// <param name="requestOption"></param>
     /// <returns></returns>
-    RequestContext LoadAsRequestContext(string apiName, object? param = null);
+    RequestContext LoadAsRequestContext(string name, object? param = null, RequestOption? requestOption = null);
 }
