@@ -4,23 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lljxww.ApiCaller.Utils;
 
-public class RequestContextUtil
+public class RequestContextUtil([FromKeyedServices("config")] IRequestContextLoader configRequestContextLoader,
+    [FromKeyedServices("swagger-json-file")] IRequestContextLoader swaggerJsonFileRequestContextLoader,
+    [FromKeyedServices("swagger-web")] IRequestContextLoader swaggerWebRequestContextLoader,
+    [FromKeyedServices("standalone")] IRequestContextLoader standaloneRequestContextLoader)
 {
-    private readonly IRequestContextLoader _configRequestContextLoader;
-    private readonly IRequestContextLoader _swaggerJsonFileRequestContextLoader;
-    private readonly IRequestContextLoader _swaggerWebRequestContextLoader;
-    private readonly IRequestContextLoader _standaloneRequestContextLoader;
-
-    public RequestContextUtil([FromKeyedServices("config")] IRequestContextLoader configRequestContextLoader,
-        [FromKeyedServices("swagger-json-file")] IRequestContextLoader swaggerJsonFileRequestContextLoader,
-        [FromKeyedServices("swagger-web")] IRequestContextLoader swaggerWebRequestContextLoader,
-        [FromKeyedServices("standalone")] IRequestContextLoader standaloneRequestContextLoader)
-    {
-        _configRequestContextLoader = configRequestContextLoader;
-        _swaggerJsonFileRequestContextLoader = swaggerJsonFileRequestContextLoader;
-        _swaggerWebRequestContextLoader = swaggerWebRequestContextLoader;
-        _standaloneRequestContextLoader = standaloneRequestContextLoader;
-    }
+    private readonly IRequestContextLoader _configRequestContextLoader = configRequestContextLoader;
+    private readonly IRequestContextLoader _swaggerJsonFileRequestContextLoader = swaggerJsonFileRequestContextLoader;
+    private readonly IRequestContextLoader _swaggerWebRequestContextLoader = swaggerWebRequestContextLoader;
+    private readonly IRequestContextLoader _standaloneRequestContextLoader = standaloneRequestContextLoader;
 
     public RequestContext BuildRequestContext(string name, object? param = null, RequestOption? requestOption = null,
         RequestContextSource source = RequestContextSource.CONFIG_FILE)

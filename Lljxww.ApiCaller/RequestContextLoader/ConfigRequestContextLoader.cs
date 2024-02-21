@@ -1,17 +1,13 @@
 ﻿using Lljxww.ApiCaller.Config;
 using Lljxww.ApiCaller.Context;
+using Lljxww.ApiCaller.Exceptions;
 using Microsoft.Extensions.Options;
 
 namespace Lljxww.ApiCaller.RequestContextLoader;
 
-public class ConfigRequestContextLoader : IRequestContextLoader
+public class ConfigRequestContextLoader(IOptions<ApiCallerConfig> options) : IRequestContextLoader
 {
-    public ConfigRequestContextLoader(IOptions<ApiCallerConfig> options)
-    {
-        apiCallerConfig = options.Value;
-    }
-
-    private ApiCallerConfig apiCallerConfig;
+    private readonly ApiCallerConfig apiCallerConfig = options.Value;
 
     public RequestContext LoadAsRequestContext(string name, object? param = null, RequestOption? requestOption = null)
     {
@@ -26,14 +22,6 @@ public class ConfigRequestContextLoader : IRequestContextLoader
             Url = serviceItem.BaseUrl + apiItem.Url,
             HttpMethod = apiItem.HttpMethod,
             Param = param,
-            ParamType = apiItem.ParamType.ToLower() switch
-            {
-                "query" => ParamPosition.QueryString,
-                "body" => ParamPosition.Body,
-                "path" => ParamPosition.Path,
-                "header" => ParamPosition.Header,
-                _ => ParamPosition.None
-            },
             ContentType = apiItem.ContentType,
             Timeout = apiItem.Timeout,
             NeedCache = apiItem.NeedCache,
@@ -49,6 +37,18 @@ public class ConfigRequestContextLoader : IRequestContextLoader
             CustomCacheKeyPart = requestOption?.CustomCacheKeyPart,
             CustomObject = requestOption?.CustomObject
         };
+
+        if (apiItem.ParamType != default)
+        {
+            requestContext.ParamType = apiItem.ParamType.ToLower() switch
+            {
+                "query" => ParamPosition.QueryString,
+                "body" => ParamPosition.Body,
+                "path" => ParamPosition.Path,
+                "header" => ParamPosition.Header,
+                _ => ParamPosition.None
+            };
+        }
 
         return requestContext;
     }
@@ -67,7 +67,7 @@ public class ConfigRequestContextLoader : IRequestContextLoader
 
         if (config.ServiceItems.All(i => i.ApiName.ToLower().Trim() != serviceName.ToLower().Trim()))
         {
-            throw new Exception($"未找到指定的方法: {serviceName}");
+            throw new ItemNotFoundException($"未找到指定的方法: {serviceName}");
         }
 
         ServiceItem serviceItem = config.ServiceItems

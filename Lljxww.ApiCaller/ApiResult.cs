@@ -12,7 +12,11 @@ namespace Lljxww.ApiCaller;
 [Serializable]
 public class ApiResult
 {
-    [IgnoreDataMember] public HttpResponseMessage? HttpResponseMessage { get; private set; }
+    [IgnoreDataMember]
+    public HttpResponseMessage? HttpResponseMessage { get; private set; }
+
+    [IgnoreDataMember]
+    public CallerContext? CallerContext { get; private set; }
 
     #region Success
 
@@ -129,6 +133,7 @@ public class ApiResult
     {
         RawStr = resultStr;
         HttpResponseMessage = response;
+        CallerContext = context;
 
         try
         {
@@ -142,6 +147,8 @@ public class ApiResult
 
     public ApiResult(object result, HttpResponseMessage? response = null, CallerContext? context = null)
     {
+        CallerContext = context;
+
         try
         {
             JsonObject = JsonSerializer.SerializeToNode(result, _jsOption)?.AsObject() ?? new JsonObject(_jnOption);
@@ -175,26 +182,28 @@ public class ApiResult
     {
         get
         {
+            JsonObject ??= JsonNode.Parse(_rawStr, _jnOption)?.AsObject() ?? new JsonObject(_jnOption);
+
             try
             {
-                JsonNode? result = default;
-                bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
+                if (propertyName.Contains('.'))
+                {
+                    string[] keys = propertyName.Split('.');
 
-                return !success.HasValue || !success.Value ? null : (result?.ToJsonString(_jsOption));
-            }
-            catch (NullReferenceException)
-            {
-                JsonObject = JsonNode.Parse(_rawStr, _jnOption)?.AsObject() ?? new JsonObject(_jnOption);
-                try
+                    JsonNode? source = JsonObject;
+                    foreach (string item in keys)
+                    {
+                        source = source?[item];
+                    }
+
+                    return source?.ToJsonString(_jsOption)?.TrimStart('"')?.TrimEnd('"');
+                }
+                else
                 {
                     JsonNode? result = default;
                     bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
 
-                    return success.HasValue && success.Value ? (result?.ToJsonString(_jsOption)) : null;
-                }
-                catch
-                {
-                    return null;
+                    return !success.HasValue || !success.Value ? null : (result?.ToJsonString(_jsOption)?.TrimStart('"')?.TrimEnd('"'));
                 }
             }
             catch

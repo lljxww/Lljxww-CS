@@ -13,7 +13,7 @@ public class ServiceItem : ICallerConfigNode
     public string ApiName { get; set; }
 
     /// <summary>
-    /// 接口授权类型, 目前支持ecp, sign; multisign; accesstoken四种
+    /// 接口授权类型
     /// </summary>
     public string AuthorizationType { get; set; }
 

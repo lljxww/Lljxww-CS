@@ -1,5 +1,4 @@
-﻿using Lljxww.ApiCaller.Config;
-using Lljxww.ApiCaller.Context;
+﻿using Lljxww.ApiCaller.Context;
 using Lljxww.ApiCaller.Exceptions;
 using Lljxww.ApiCaller.Utils;
 using System.Net.Http.Headers;
@@ -55,13 +54,6 @@ public partial class CallerContext
         {
             context.FinalUrl = context.RequestContext!.CustomFinalUrlHandler.Invoke(context.FinalUrl);
         }
-
-        context.RequestMessage = new HttpRequestMessage
-        {
-            Method = HttpMethodUtil.GetHttpMethod(context.RequestContext.HttpMethod),
-            RequestUri = new Uri(context.FinalUrl),
-            Content = context.HttpContent
-        };
 
         switch (context.RequestContext.ParamType)
         {
@@ -138,6 +130,13 @@ public partial class CallerContext
                 }
         }
 
+        context.RequestMessage = new HttpRequestMessage
+        {
+            Method = HttpMethodUtil.GetHttpMethod(context.RequestContext.HttpMethod),
+            RequestUri = new Uri(context.FinalUrl),
+            Content = context.HttpContent
+        };
+
         return context;
     }
 
@@ -150,16 +149,11 @@ public partial class CallerContext
     /// <exception cref="CallerException"></exception>
     private static CallerContext ConfigureAuth(CallerContext context)
     {
-        if (string.IsNullOrWhiteSpace(context.RequestContext.AuthorizationName))
-        {
-            return context;
-        }
-
-        if (!AuthenticationsStore.ContainsKey(context.RequestContext.AuthorizationName))
-        {
-            throw new CallerException($"找不到认证配置：{context.RequestContext.AuthorizationName}");
-        }
-
-        return AuthenticationsStore.Execute(context.RequestContext.AuthorizationName, context);
+        return string.IsNullOrWhiteSpace(context.RequestContext.AuthorizationName)
+            || string.Equals("none", context.RequestContext.AuthorizationName, StringComparison.OrdinalIgnoreCase)
+            ? context
+            : !AuthenticationsStore.ContainsKey(context.RequestContext.AuthorizationName)
+                ? throw new UnknownAuthorizationException($"找不到授权配置：{context.RequestContext.AuthorizationName}")
+                : AuthenticationsStore.Execute(context.RequestContext.AuthorizationName, context);
     }
 }

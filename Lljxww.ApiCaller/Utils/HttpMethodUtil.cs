@@ -1,26 +1,24 @@
-﻿using Lljxww.ApiCaller.Context;
-
-namespace Lljxww.ApiCaller.Utils;
+﻿namespace Lljxww.ApiCaller.Utils;
 
 internal class HttpMethodUtil
 {
-    public static HttpMethod GetHttpMethod(EHttpMethod method)
+    public static HttpMethod GetHttpMethod(string method)
     {
-        switch (method)
+        switch (method.Trim().ToUpper())
         {
-            case EHttpMethod.GET:
+            case "GET":
                 {
                     return HttpMethod.Get;
                 }
-            case EHttpMethod.POST:
+            case "POST":
                 {
                     return HttpMethod.Post;
                 }
-            case EHttpMethod.PUT:
+            case "PUT":
                 {
                     return HttpMethod.Put;
                 }
-            case EHttpMethod.DELETE:
+            case "DELETE":
                 {
                     return HttpMethod.Delete;
                 }

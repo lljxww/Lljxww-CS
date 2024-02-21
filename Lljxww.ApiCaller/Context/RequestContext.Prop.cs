@@ -41,7 +41,7 @@ public partial class RequestContext
     /// <summary>
     /// 请求方式
     /// </summary>
-    public EHttpMethod HttpMethod { get; set; }
+    public string HttpMethod { get; set; }
 
     /// <summary>
     /// 请求参数, 建议使用字典或对象/匿名对象
@@ -159,15 +159,4 @@ public enum ParamPosition
     /// 请求头
     /// </summary>
     Header
-}
-
-/// <summary>
-/// HTTP谓词
-/// </summary>
-public enum EHttpMethod
-{
-    GET,
-    POST,
-    PUT,
-    DELETE
 }

@@ -1,8 +1,5 @@
 ﻿namespace Lljxww.ApiCaller.Exceptions;
 
-public class CallerException : Exception
+public class CallerException(string message) : Exception(message)
 {
-    public CallerException(string message) : base(message)
-    {
-    }
 }

@@ -6,7 +6,7 @@
   },
   "Authorizations": [
     {
-      "Name": "Jwt"
+      "Name": "ecsp-jwt"
     }
   ],
   "ServiceItems": [
@@ -17,8 +17,41 @@
         {
           "Method": "hot",
           "Url": "/side/hotSearch",
-          "HTTPMethod": "GET",
+          "HttpMethod": "GET",
           "ParamType": "query"
+        }
+      ]
+    },
+    {
+      "ApiName": "ecsp",
+      "BaseUrl": "https://xtest.cnki.net/api",
+      "AuthorizationType": "ecsp-jwt",
+      "ApiItems": [
+        {
+          "Method": "no-authorization",
+          "Url": "/api/tools/timestamp",
+          "HttpMethod": "GET",
+          "AuthorizationType": "test-auth"
+        },
+        {
+          "Method": "timestamp",
+          "Url": "/api/tools/timestamp",
+          "HttpMethod": "GET"
+        },
+        {
+          "Method": "get-jwt",
+          "Url": "/api/jwttoken/sign",
+          "HttpMethod": "POST",
+          "ParamType": "body",
+          "AuthorizationType": "none",
+          "ContentType": "application/json"
+        },
+        {
+          "Method": "validate-jwt",
+          "Url": "/api/jwttoken/status",
+          "HttpMethod": "GET",
+          "ParamType": "query",
+          "AuthorizationType": "none"
         }
       ]
     }
