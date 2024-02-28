@@ -132,7 +132,7 @@ public partial class CallerContext
 
         context.RequestMessage = new HttpRequestMessage
         {
-            Method = HttpMethodUtil.GetHttpMethod(context.RequestContext.HttpMethod),
+            Method = HttpMethodUtil.GetHttpMethod(context.RequestContext!.HttpMethod),
             RequestUri = new Uri(context.FinalUrl),
             Content = context.HttpContent
         };

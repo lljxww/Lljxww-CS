@@ -202,7 +202,6 @@ public class ApiResult
                 {
                     JsonNode? result = default;
                     bool? success = JsonObject?.TryGetPropertyValue(propertyName, out result);
-
                     return !success.HasValue || !success.Value ? null : (result?.ToJsonString(_jsOption)?.TrimStart('"')?.TrimEnd('"'));
                 }
             }
