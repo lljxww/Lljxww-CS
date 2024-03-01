@@ -4,10 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>Lljxww</PackageId>
-        <Version>1.5.1</Version>
+        <Version>1.6</Version>
         <Authors>liangjw</Authors>
         <Description>常用代码合集</Description>
-        <PackageReleaseNotes>添加SqlGenerator</PackageReleaseNotes>
+        <PackageReleaseNotes>添加SM4加密功能</PackageReleaseNotes>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
 
